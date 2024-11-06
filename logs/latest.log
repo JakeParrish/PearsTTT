@@ -1,0 +1,60 @@
+[01:42:59] [Server thread/INFO]: [ProtocolLib] The updater found an update: 5.3.0 (Running 5.2.0-SNAPSHOT-679). Download at https://www.spigotmc.org/resources/protocollib.1997/
+[13:43:00] [Server thread/INFO]: [ProtocolLib] The updater found an update: 5.3.0 (Running 5.2.0-SNAPSHOT-679). Download at https://www.spigotmc.org/resources/protocollib.1997/
+[22:03:15] [Server thread/INFO]: Stopping the server
+[22:03:15] [Server thread/INFO]: Stopping server
+[22:03:15] [Server thread/INFO]: [OldCombatMechanics] Disabling OldCombatMechanics v2.0.3-beta
+[22:03:15] [Server thread/INFO]: [OldCombatMechanics] OldCombatMechanics v2.0.3-beta has been disabled
+[22:03:15] [Server thread/INFO]: [ViaRewind] Disabling ViaRewind v4.0.2
+[22:03:15] [Server thread/INFO]: [WorldEdit] Disabling WorldEdit v7.3.0+6678-55745ad
+[22:03:15] [Server thread/INFO]: Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[22:03:15] [Server thread/INFO]: [skript-yaml] Disabling skript-yaml v1.5
+[22:03:15] [Server thread/INFO]: [WorldBorder] Disabling WorldBorder v1.2
+[22:03:15] [Server thread/INFO]: [UnsignedMessages] Disabling UnsignedMessages v1.0.1
+[22:03:15] [Server thread/INFO]: [ProtocolLib] Disabling ProtocolLib v5.2.0-SNAPSHOT-679
+[22:03:15] [Server thread/INFO]: [ViaBackwards] Disabling ViaBackwards v5.0.3
+[22:03:15] [Server thread/INFO]: [Skript] Disabling Skript v2.9.2
+[22:03:15] [Server thread/INFO]: [Multiverse-Core] Disabling Multiverse-Core v4.3.12
+[22:03:15] [Server thread/INFO]: [ViaVersion] Disabling ViaVersion v5.0.3
+[22:03:15] [Server thread/INFO]: [ViaVersion] ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[22:03:15] [Server thread/INFO]: Saving players
+[22:03:15] [Server thread/INFO]: Saving worlds
+[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Lobby]'/minecraft:overworld
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'Lobby'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'Lobby'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'Lobby'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 1 block chunks, 26 entity chunks, 0 poi chunks in world 'Lobby' in 0.01s
+[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (Lobby): All chunks are saved
+[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Lobby_the_end]'/minecraft:the_end
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'Lobby_the_end'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'Lobby_the_end'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'Lobby_the_end'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'Lobby_the_end' in 0.00s
+[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SurvivalGames4TEMPLATE]'/minecraft:map_survivalgames4template
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SurvivalGames4TEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SurvivalGames4TEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SurvivalGames4TEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'map_SurvivalGames4TEMPLATE' in 0.00s
+[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SurvivalGames4TEMPLATE): All chunks are saved
+[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_BreezeIslandTEMPLATE]'/minecraft:map_breezeislandtemplate
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_BreezeIslandTEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_BreezeIslandTEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_BreezeIslandTEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 2 entity chunks, 0 poi chunks in world 'map_BreezeIslandTEMPLATE' in 0.00s
+[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_BreezeIslandTEMPLATE): All chunks are saved
+[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SurvivalGames2TEMPLATE]'/minecraft:map_survivalgames2template
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SurvivalGames2TEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SurvivalGames2TEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SurvivalGames2TEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 6 entity chunks, 0 poi chunks in world 'map_SurvivalGames2TEMPLATE' in 0.00s
+[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SurvivalGames2TEMPLATE): All chunks are saved
+[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SolarFrostTEMPLATE]'/minecraft:map_solarfrosttemplate
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SolarFrostTEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SolarFrostTEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SolarFrostTEMPLATE'
+[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 5 entity chunks, 0 poi chunks in world 'map_SolarFrostTEMPLATE' in 0.00s
+[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SolarFrostTEMPLATE): All chunks are saved
+[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:03:15] [Server thread/INFO]: Flushing Chunk IO
+[22:03:15] [Server thread/INFO]: Closing Thread Pool
+[22:03:15] [Server thread/INFO]: Closing Server

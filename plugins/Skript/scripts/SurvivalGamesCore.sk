@@ -1,0 +1,1073 @@
+options:
+#Core options go here
+#Teleport players to spawn whenever they join
+	TPJoin: true
+#Announce the new players when they join for the first time
+	FirstJoin: true
+#Hide join Messages
+	JoinMessage: true
+#Hide quit Messages
+	QuitMessage: true
+
+
+
+variables:
+#Core Perm Variables go here
+	{MinMaxPlayers} = 22
+	{MaxPlayers} = 24
+	{MinPoints} = 13
+	{MaxPoints} = 25
+
+
+	# MAP SPECIFIC VARIABLES
+# SURVIVAL GAMES 2
+	{SurvivalGames.map_SurvivalGames2.MidX} = 0
+	{SurvivalGames.map_SurvivalGames2.MidZ} = 0
+# SURVIVAL GAMES 4
+	{SurvivalGames.map_SurvivalGames4.MidX} = 0
+	{SurvivalGames.map_SurvivalGames4.MidZ} = -2
+# SolarFrost
+	{SurvivalGames.map_SolarFrost.MidX} = -397
+	{SurvivalGames.map_SolarFrost.MidZ} = -1326
+# BreezeIsland
+	{SurvivalGames.map_BreezeIsland.MidX} = 15
+	{SurvivalGames.map_BreezeIsland.MidZ} = 24
+
+
+
+every 3 minutes:
+	loop {SurvivalGames::*}:
+		if {SurvivalGames.MatchStatus::%loop-value%} is "Pregame":
+			if size of {SurvivalGames::%loop-value%::PlayerList::*} is less than {MaxPlayers}:
+				set {_game} to loop-value
+				replace "SGid" with "" in {_game}
+				loop all players:
+					if {SurvivalGames.inGame::%uuid of loop-player%} is false:
+						send "&6SurvivalGames &8> &aThere is currently a game available. Do &c/SG JOIN %{_game}% &a to join &8(&c%{SurvivalGames.PlayerCount::%loop-value-1%}%&6/24 - &a%{SurvivalGames.MatchStatus::%loop-value-1%}%&8)" to loop-player
+					else if {SurvivalGames.inGame::%uuid of loop-player%} is not set:
+						send "&6SurvivalGames &8> &aThere is currently a game available. Do &c/SG JOIN %{_game}% &a to join &8(&c%{SurvivalGames.PlayerCount::%loop-value-1%}%&6/24 - &a%{SurvivalGames.MatchStatus::%loop-value-1%}%&8)" to loop-player
+			
+
+on burn of any wood:
+	cancel the event
+
+on damage:
+	if world is "Lobby":
+		cancel event
+
+on quit:
+	if {@QuitMessage} is true:
+		set leave message to ""
+	set {_LobbyID} to {SurvivalGames.CurrentMatchId::%uuid of player%}
+	if {SurvivalGames.inGame::%uuid of player%} is true:
+		if {SurvivalGames.MatchStatus::%{_LobbyID}%} is not "Active":
+			if {SurvivalGames.MatchStatus::%{_LobbyID}%} is not "Deathmatch":
+				stop
+		set {SurvivalGames.inGame::%uuid of player%} to false
+		loop {SurvivalGames::*}:
+			if {SurvivalGames::%loop-value%::PlayerList::*} contains "%player%":
+				remove "%player%" from {PlayersAlive.%loop-value%::*}
+				loop {SurvivalGames::%loop-value-1%::PlayerList::*}:
+					send "&6SurvivalGames &8> &6%player% &2has been killed! &c%size of {PlayersAlive.%{_LobbyID}%::*}% &2players remaining!" to loop-value-2 parsed as player
+				if size of {PlayersAlive.%{_LobbyID}%::*} is 1:
+					endMatch("%loop-value%", "%{SurvivalGames.worldMap::%loop-value%}%")
+				delete {SurvivalGames.CurrentMatchId::%uuid of player%}
+
+
+on load:
+    # Check if the file exists by trying to load it
+	load yaml "plugins/ParrySurvivalGames/Maps.yml" as "Maps"
+	load yaml "plugins/ParrySurvivalGames/Players.yml" as "Players"
+	load yaml "plugins/ParrySurvivalGames/LootTables.yml" as "LootTables"
+
+	set the gamerule doDaylightCycle of world "Lobby" to false 
+	set the gamerule doFireTick of world "Lobby" to false 
+	set the gamerule doMobSpawning of world "Lobby" to false 
+	set the gamerule announceAdvancements of world "Lobby" to false 
+	set the gamerule doVinesSpread of world "Lobby" to false 
+
+on join:
+	if yaml value "Players.%player%.Kills" from "Players" is not set:
+		set yaml value "Players.%player%.Kills" from "Players" to "0"
+		set yaml value "Players.%player%.Deaths" from "Players" to "0"
+		set yaml value "Players.%player%.Wins" from "Players" to "0"
+		set yaml value "Players.%player%.RD" from "Players" to 40
+		save yaml "Players"
+	if yaml value "Players.%player%.Points" from "Players" is not set:
+		set yaml value "Players.%player%.Points" from "Players" to "1000"
+		save yaml "Players"
+
+on damage:
+	if world is "Lobby":
+		cancel event
+        
+on block place:
+	if player doesn't have the permission "SurvivalGames.admin":
+		cancel event
+
+on block break:
+	if player doesn't have permission "SurvivalGames.admin":
+		if player's world is "Lobby":
+			cancel event
+		if event-block is not minecraft:grass or minecraft:oak_leaves or minecraft:spruce_leaves or minecraft:birch_leaves or minecraft:jungle_leaves or minecraft:acacia_leaves or minecraft:dark_oak_leaves or minecraft:cobweb:
+			cancel event
+		
+on block place:
+	if player doesn't have permission "SurvivalGames.admin":
+		cancel event
+
+on chat:
+	cancel event
+	if {DeathStatus::%player%} is "Dead":#Dead,Alive,Pregame
+		loop all players:
+			if {DeathStatus::%loop-player%} is "Dead":
+				if {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of loop-player%}%::PlayerList::*} contains "%loop-player%":
+					send "&8[&9%{_Kills}%&8]&7 (Dead) &6%player%&8: &7%message%" to loop-player
+					stop
+	set {_Kills} to yaml value "Players.%player%.Kills" from "Players"
+	send "&8[&9%{_Kills}%&8]&6 %player%&8: &7%message%" to all players
+
+
+on death:
+	set the death message to ""
+	set {_LobbyID} to {SurvivalGames.CurrentMatchId::%uuid of victim%}
+	set {_worldName} to {SurvivalGames.worldMap::%{_LobbyID}%}
+	if {SurvivalGames.inGame::%uuid of victim%} is true:
+		set {DeathStatus::%victim%} to "Dead"
+		
+		if attacker is a player:
+			set {_Kills} to yaml value "Players.%attacker%.Kills" from "Players"
+			add 1 to {_Kills}
+			set yaml value "Players.%attacker%.Kills" from "Players" to {_Kills}
+			set {_Deaths} to yaml value "Players.%victim%.Deaths" from "Players"
+			add 1 to {_Deaths}
+			set yaml value "Players.%victim%.Deaths" from "Players" to {_Deaths}
+			save yaml "Players"
+			send "&6SurvivalGames &8> &7You have been killed by &c%attacker%." to the victim
+			send "&6SurvivalGames &8> &7You have killed by &c%victim%." to the attacker
+		else:
+			send "&6SurvivalGames &8> &7You have been killed." to the victim
+			set {_Deaths} to yaml value "Players.%victim%.Deaths" from "Players"
+			add 1 to {_Deaths}
+			save yaml "Players"
+		
+		set {SurvivalGames.inGame::%uuid of victim%} to false
+
+		set victim's gamemode to Spectator
+
+		if {PlayersAlive.%{_LobbyID}%::*} is set:
+			set {_tempAlive::*} to {PlayersAlive.%{_LobbyID}%::*}
+			remove "%victim%" from {PlayersAlive.%{_LobbyID}%::*}
+
+			if size of {PlayersAlive.%{_LobbyID}%::*} is greater than 1:
+            
+				if size of {PlayersAlive.%{_LobbyID}%::*} is 10:
+					loop all players:
+						if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains loop-player:
+							send "&6SurvivalGames &8> &aChests have been refilled." to loop-player
+					set {_worldName} to the victim's world
+					delete {chestOpened.%{_worldName}%::*}
+					set time of world "%{_worldName}%" to day
+
+				loop all players:
+					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains loop-player:
+						send "&6SurvivalGames &8> &6%victim% &2has been killed by &c%attacker%&2! &c%size of {PlayersAlive.%{_LobbyID}%::*}% &2players remaining!" to loop-player
+						play sound "entity.lightning_bolt.impact" at volume 1 at pitch 2 to victim
+				if size of {PlayersAlive.%{_LobbyID}%::*} is 3:
+					if size of {PlayersAlive.%{_LobbyID}%::*} is 3:
+					loop all players:
+						if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+							send "&6SurvivalGames &8> &aDeathmatch will begin in one minute" to loop-player
+					wait 45 seconds
+					deathMatch("%{_LobbyID}%", "%{_worldName}%")
+					stop
+
+			else:
+				loop all players:
+					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains loop-player:
+						send "&6SurvivalGames &8> &6%victim% &2has been killed! &c%size of {PlayersAlive.%{_LobbyID}%::*}% &2players remaining!" to loop-player
+						play sound "entity.lightning_bolt.impact" at volume 1 at pitch 2 to victim
+			if size of {PlayersAlive.%{_LobbyID}%::*} is 1:
+				endMatch("%{_LobbyID}%", "%{_worldName}%")
+			
+
+on rightclick on chest:
+	if player's gamemode is Creative or Survival:
+		set {_LobbyID} to {SurvivalGames.CurrentMatchId::%uuid of player%}
+		set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
+		replace "%{_LobbyID}%" with "" in {_tempMap}
+		set {_worldName} to the player's world
+		if player's world is "Lobby":
+			stop
+		set {_totalCrates} to 1
+		set {_target} to "%block's x-coordinate%,%block's y-coordinate%,%block's z-coordinate%"
+		set {_loc} to location of event-block
+		loop yaml node keys "Maps.%{_tempMap}%.Crates" from "Maps":
+			set {_totalCrates} to {_totalCrates} + 1
+			set {_crates} to yaml value "%loop-node%" from "%loop-id%"
+			if "%{_target}%" is "%{_crates}%":
+				if {chestOpened.%{_worldName}%::%location of event-block%} is not set:
+					set {_loc} to location of event-block
+					loop all blocks in radius 1 of {_loc}:
+						if loop-block is chest or trapped chest:
+							if location of loop-block is not {_loc}:
+								if loop-block is not block above block at {_loc}:
+									if loop-block is not block under block at {_loc}:
+										# CONFIRMED DOUBLE CHEST
+										set {chestOpened.%{_worldName}%::%location of event-block%} to true
+										# IF NEITHER SIDE HAS BEEN OPENED
+										if {chestOpened.%{_worldName}%::%location of loop-block%} is not set:
+											clear all items in event-inventory
+											set {_randomNumber} to a random number between 6 and 8
+											loop {_randomNumber} times:
+												set {_randomSlot} to a random number between 0 and 40
+												set {_randomRarity} to a random number between 1 and 100
+												if {_randomRarity} is less than 5:
+													if {_randomRarity} is 1:
+														set {_Size} to size of list "LootTables.UltraRareItems" from "LootTables"
+														set {_RandomNum} to random number between 1 and {_Size}
+														set {_RandomNum} to round({_RandomNum})
+														set {_Item} to yaml index {_RandomNum} in list "LootTables.UltraRareItems" from "LootTables" parsed as item
+														set {_randomSlot} to round({_randomSlot})
+														set slot {_randomSlot} of event-inventory to {_Item}
+													else:
+														set {_Size} to size of list "LootTables.RareItems" from "LootTables"
+														set {_RandomNum} to random number between 1 and {_Size}
+														set {_RandomNum} to round({_RandomNum})
+														set {_Item} to yaml index {_RandomNum} in list "LootTables.RareItems" from "LootTables" parsed as item
+														set {_randomSlot} to round({_randomSlot})
+														set slot {_randomSlot} of event-inventory to {_Item}
+												else if {_randomRarity} is between 5 and 30:
+													set {_Size} to size of list "LootTables.UncommonItems" from "LootTables"
+													set {_RandomNum} to random number between 1 and {_Size}
+													set {_RandomNum} to round({_RandomNum})
+													set {_Item} to yaml index {_RandomNum} in list "LootTables.UncommonItems" from "LootTables" parsed as item
+													set {_randomSlot} to round({_randomSlot})
+													set slot {_randomSlot} of event-inventory to {_Item}
+												else:
+													set {_Size} to size of list "LootTables.CommonItems" from "LootTables"
+													set {_RandomNum} to random number between 1 and {_Size}
+													set {_RandomNum} to round({_RandomNum})
+													set {_Item} to yaml index {_RandomNum} in list "LootTables.CommonItems" from "LootTables" parsed as item
+													set {_randomSlot} to round({_randomSlot})
+													set slot {_randomSlot} of event-inventory to {_Item}
+
+											play mob spawner flames at the targeted block to the player
+											wait 1 ticks
+											play sound "block.note_block.pling" with volume 0.25 to the player
+										stop
+						
+# INADVERTENT ELSE STATEMENT - THE ABOVE CODE HITS IF DOUBLE CHEST, BELOW IS IF SINGLE CHEST
+					set {chestOpened.%{_worldName}%::%location of event-block%} to true
+					clear all items in event-inventory
+
+					set {_randomNumber} to a random number between 3 and 5
+					set {_randomSlot} to a random number between 0 and 26
+					loop {_randomNumber} times:
+						set {_randomSlot} to a random number between 0 and 26
+						set {_randomRarity} to a random number between 1 and 100
+						if {_randomRarity} is less than 5:
+							set {_Size} to size of list "LootTables.RareItems" from "LootTables"
+							set {_RandomNum} to random number between 1 and {_Size}
+							set {_RandomNum} to round({_RandomNum})
+							set {_Item} to yaml index {_RandomNum} in list "LootTables.RareItems" from "LootTables" parsed as item
+							set {_randomSlot} to round({_randomSlot})
+							set slot {_randomSlot} of event-inventory to {_Item}
+						else if {_randomRarity} is between 5 and 30:
+							set {_Size} to size of list "LootTables.UncommonItems" from "LootTables"
+							set {_RandomNum} to random number between 1 and {_Size}
+							set {_RandomNum} to round({_RandomNum})
+							set {_Item} to yaml index {_RandomNum} in list "LootTables.UncommonItems" from "LootTables" parsed as item
+							set {_randomSlot} to round({_randomSlot})
+							set slot {_randomSlot} of event-inventory to {_Item}
+						else:
+							set {_Size} to size of list "LootTables.CommonItems" from "LootTables"
+							set {_RandomNum} to random number between 1 and {_Size}
+							set {_RandomNum} to round({_RandomNum})
+							set {_Item} to yaml index {_RandomNum} in list "LootTables.CommonItems" from "LootTables" parsed as item
+							set {_randomSlot} to round({_randomSlot})
+							set slot {_randomSlot} of event-inventory to {_Item}
+					play mob spawner flames at the targeted block to the player
+					wait 1 ticks
+					play sound "block.note_block.pling" with volume 0.25 to the player
+				else:
+					play smoke at the targeted block to the player
+				wait 1 ticks
+				stop
+		set yaml value "Maps.%{_tempMap}%.Crates.id%{_totalCrates}%" from "Maps" to "%{_target}%"
+		save yaml "Maps"
+		if {chestOpened.%{_worldName}%::%location of event-block%} is not set:
+			set {_loc} to location of event-block
+			loop all blocks in radius 1 of {_loc}:
+				if loop-block is chest or trapped chest:
+					if location of loop-block is not {_loc}:
+						if loop-block is not block above block at {_loc}:
+							if loop-block is not block under block at {_loc}:
+								# CONFIRMED DOUBLE CHEST
+								set {chestOpened.%{_worldName}%::%location of event-block%} to true
+								# IF NEITHER SIDE HAS BEEN OPENED
+								if {chestOpened.%{_worldName}%::%location of loop-block%} is not set:
+									clear all items in event-inventory
+									set {_randomNumber} to a random number between 6 and 8
+									loop {_randomNumber} times:
+										set {_randomSlot} to a random number between 0 and 40
+										set {_randomRarity} to a random number between 1 and 100
+										if {_randomRarity} is less than 5:
+											if {_randomRarity} is 1:
+												set {_Size} to size of list "LootTables.UltraRareItems" from "LootTables"
+												set {_RandomNum} to random number between 1 and {_Size}
+												set {_RandomNum} to round({_RandomNum})
+												set {_Item} to yaml index {_RandomNum} in list "LootTables.UltraRareItems" from "LootTables" parsed as item
+												set {_randomSlot} to round({_randomSlot})
+												set slot {_randomSlot} of event-inventory to {_Item}
+											else:
+												set {_Size} to size of list "LootTables.RareItems" from "LootTables"
+												set {_RandomNum} to random number between 1 and {_Size}
+												set {_RandomNum} to round({_RandomNum})
+												set {_Item} to yaml index {_RandomNum} in list "LootTables.RareItems" from "LootTables" parsed as item
+												set {_randomSlot} to round({_randomSlot})
+												set slot {_randomSlot} of event-inventory to {_Item}
+										else if {_randomRarity} is between 5 and 30:
+											set {_Size} to size of list "LootTables.UncommonItems" from "LootTables"
+											set {_RandomNum} to random number between 1 and {_Size}
+											set {_RandomNum} to round({_RandomNum})
+											set {_Item} to yaml index {_RandomNum} in list "LootTables.UncommonItems" from "LootTables" parsed as item
+											set {_randomSlot} to round({_randomSlot})
+											set slot {_randomSlot} of event-inventory to {_Item}
+										else:
+											set {_Size} to size of list "LootTables.CommonItems" from "LootTables"
+											set {_RandomNum} to random number between 1 and {_Size}
+											set {_RandomNum} to round({_RandomNum})
+											set {_Item} to yaml index {_RandomNum} in list "LootTables.CommonItems" from "LootTables" parsed as item
+											set {_randomSlot} to round({_randomSlot})
+											set slot {_randomSlot} of event-inventory to {_Item}
+
+									play mob spawner flames at the targeted block to the player
+									wait 1 ticks
+									play sound "block.note_block.pling" with volume 0.25 to the player
+								stop
+				
+# INADVERTENT ELSE STATEMENT - THE ABOVE CODE HITS IF DOUBLE CHEST, BELOW IS IF SINGLE CHEST
+			set {chestOpened.%{_worldName}%::%location of event-block%} to true
+			clear all items in event-inventory
+
+			set {_randomNumber} to a random number between 3 and 5
+			set {_randomSlot} to a random number between 0 and 26
+			loop {_randomNumber} times:
+				set {_randomSlot} to a random number between 0 and 26
+				set {_randomRarity} to a random number between 1 and 100
+				if {_randomRarity} is less than 5:
+					set {_Size} to size of list "LootTables.RareItems" from "LootTables"
+					set {_RandomNum} to random number between 1 and {_Size}
+					set {_RandomNum} to round({_RandomNum})
+					set {_Item} to yaml index {_RandomNum} in list "LootTables.RareItems" from "LootTables" parsed as item
+					set {_randomSlot} to round({_randomSlot})
+					set slot {_randomSlot} of event-inventory to {_Item}
+				else if {_randomRarity} is between 5 and 30:
+					set {_Size} to size of list "LootTables.UncommonItems" from "LootTables"
+					set {_RandomNum} to random number between 1 and {_Size}
+					set {_RandomNum} to round({_RandomNum})
+					set {_Item} to yaml index {_RandomNum} in list "LootTables.UncommonItems" from "LootTables" parsed as item
+					set {_randomSlot} to round({_randomSlot})
+					set slot {_randomSlot} of event-inventory to {_Item}
+				else:
+					set {_Size} to size of list "LootTables.CommonItems" from "LootTables"
+					set {_RandomNum} to random number between 1 and {_Size}
+					set {_RandomNum} to round({_RandomNum})
+					set {_Item} to yaml index {_RandomNum} in list "LootTables.CommonItems" from "LootTables" parsed as item
+					set {_randomSlot} to round({_randomSlot})
+					set slot {_randomSlot} of event-inventory to {_Item}
+			play mob spawner flames at the targeted block to the player
+			wait 1 ticks
+			play sound "block.note_block.pling" with volume 0.25 to the player
+		else:
+			play smoke at the targeted block to the player
+		wait 1 ticks
+		stop
+
+on item damage:
+	if item is flint and steel:
+		if item's durability is greater than 3:
+			set the item's durability to 3
+
+on player move:
+	if {freeze.%player%} is true:
+		cancel event
+	if {DeathStatus::%player%} is "Dead":
+		if player doesn't have permission "SurvivalGames.admin":
+			set player's gamemode to spectator
+	set {_y} to player's y coordinate
+	if player's world is "Lobby":
+		if {_y} is less than 0:
+			execute console command "spawn %player%"
+		if player doesn't have permission "SurvivalGames.admin":
+			if player's gamemode is not spectator:
+				sg_clear_player(player)
+
+
+function worldSetup(Map: text, LobbyID: text):
+	set {_MapTemplate} to {_Map}
+	replace "%{_LobbyID}%" with "" in {_MapTemplate}
+	execute console command "mv clone %{_MapTemplate}%TEMPLATE %{_Map}%"
+	send "&6SurvivalGames &8> &aSetting up the world %{_Map}%..." to console
+	set the gamerule doDaylightCycle of world "%{_Map}%" to false 
+	set the gamerule doFireTick of world "%{_Map}%" to false 
+	set the gamerule doMobSpawning of world "%{_Map}%" to false 
+	set the gamerule announceAdvancements of world "%{_Map}%" to false 
+	set the gamerule doVinesSpread of world "%{_Map}%" to false 
+	wait 5 ticks
+
+function worldCleanup(Map: text):
+	execute console command "mv delete %{_Map}%"
+	execute console command "mv confirm"
+	wait 5 ticks
+	send "&cWorld Cleanup Complete - &7%{_Map}% &cdeleted" to console
+
+function startVoting(LobbyID: text):
+	set {SurvivalGames.votingPeriod::%{_LobbyID}%} to true
+	set {SurvivalGames::%{_LobbyID}%::Votes::1} to 0
+	set {SurvivalGames::%{_LobbyID}%::Votes::2} to 0
+	set {SurvivalGames::%{_LobbyID}%::Votes::3} to 0
+	set {SurvivalGames::%{_LobbyID}%::Votes::4} to 0
+
+	set {SurvivalGames.votingActive::%{_LobbyID}%} to true
+
+	loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+		send "&8&l-------------------" to loop-value parsed as player
+		send "&6SurvivalGames &8> &aVoting has begun for the next map!" to loop-value parsed as player
+		send "&6SurvivalGames &8> &aPlease vote for the map you would like to play on." to loop-value parsed as player
+		send "&6SurvivalGames &8> &aUse &c/SG VOTE [MAP NUMBER] &ato vote." to loop-value parsed as player
+		send "&6SurvivalGames &8> &aThe maps are:" to loop-value parsed as player
+		send "&6SurvivalGames &8> &8&l1 &a- &cSurvival Games 2" to loop-value parsed as player
+		send "&6SurvivalGames &8> &8&l2 &a- &cSurvival Games 4" to loop-value parsed as player
+		send "&6SurvivalGames &8> &8&l3 &a- &cSolar Frost" to loop-value parsed as player
+		send "&6SurvivalGames &8> &8&l4 &a- &cBreeze Island" to loop-value parsed as player
+		send "&8&l-------------------" to loop-value parsed as player
+	wait 30 seconds
+	set {SurvivalGames.votingActive::%{_LobbyID}%} to false
+	loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+		send "&8&l-------------------" to loop-value parsed as player
+		send "&6SurvivalGames &8> &aVoting has ended!" to loop-value parsed as player
+		send "&6SurvivalGames &8> &aCalculating the results..." to loop-value parsed as player
+		send "&8&l-------------------" to loop-value parsed as player
+	wait 2 seconds
+	set {_votes.%{_LobbyID}%::map_SurvivalGames2} to {SurvivalGames::%{_LobbyID}%::Votes::1}
+	set {_votes.%{_LobbyID}%::map_SurvivalGames4} to {SurvivalGames::%{_LobbyID}%::Votes::2}
+	set {_votes.%{_LobbyID}%::map_SolarFrost} to {SurvivalGames::%{_LobbyID}%::Votes::3}
+	set {_votes.%{_LobbyID}%::map_BreezeIsland} to {SurvivalGames::%{_LobbyID}%::Votes::4}
+
+	set {_highest} to 0
+	loop yaml node keys "Maps" from "Maps":
+		if {_votes.%{_LobbyID}%::%loop-value%} is greater than {_highest}:
+			set {_highest} to {_votes.%{_LobbyID}%::%loop-value%}
+			set {SurvivalGames.worldMap::%{_LobbyID}%} to "%loop-value%%{_LobbyID}%"
+		else if {_votes.%{_LobbyID}%::%loop-value%} is equal to {_highest}:
+			if random number between 1 and 2 is 1:
+				set {_highest} to {_votes.%{_LobbyID}%::%loop-value%}
+				set {SurvivalGames.worldMap::%{_LobbyID}%} to "%loop-value%%{_LobbyID}%"
+	wait 2 seconds
+
+
+
+
+	loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+		set {_p} to loop-value parsed as player
+		set {SurvivalGames.hasVoted::%{_p}%} to false
+		set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
+		replace "%{_LobbyID}%" with "" in {_tempMap}
+		send "&8&l-------------------" to {_p}
+		send "&6SurvivalGames &8> &aThe winning map is: &c%{_tempMap}%" to {_p}
+		send "" to {_p}
+		send "&6SurvivalGames &8> &aThe votes were:" to {_p}
+		send "&6SurvivalGames &8> &aSurvival Games 2: &c%{_votes.%{_LobbyID}%::map_SurvivalGames2}%" to {_p}
+		send "&6SurvivalGames &8> &aSurvival Games 4: &c%{_votes.%{_LobbyID}%::map_SurvivalGames4}%" to {_p}
+		send "&6SurvivalGames &8> &aSolar Frost: &c%{_votes.%{_LobbyID}%::map_SolarFrost}%" to {_p}
+		send "&6SurvivalGames &8> &aBreeze Island: &c%{_votes.%{_LobbyID}%::map_BreezeIsland}%" to {_p}
+		send "&8&l-------------------" to {_p}
+	set {SurvivalGames.votingPeriod::%{_LobbyID}%} to false
+
+
+
+
+function startMatch(LobbyID: text):
+	# Voting
+	startVoting("%{_LobbyID}%")
+	wait 10 seconds
+	while {SurvivalGames.votingPeriod::%{_LobbyID}%} is true:
+		wait 1 second
+
+	# Map selected
+	worldSetup("%{SurvivalGames.worldMap::%{_LobbyID}%}%", "%{_LobbyID}%") # Change to voting result once voting is working.
+	wait 1 second
+	# Set match status to active and start match countdown
+	set {SurvivalGames.MatchStatus::%{_LobbyID}%} to "Active"
+	wait 2 seconds
+	set {_copyPlayers::*} to {SurvivalGames::%{_LobbyID}%::PlayerList::*}
+	set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
+	replace "%{_LobbyID}%" with "" in {_tempMap}
+	
+	loop all players:
+		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+			send "&6SurvivalGames &8> &aThe map has been decided. Teleporting all players to... &c%{_tempMap}%" to loop-player
+			set {freeze.%loop-player%} to true
+			sg_clear_player(loop-player)
+	wait 1 second
+
+	execute console command "border set %{SurvivalGames.worldMap::%{_LobbyID}%}% 1000000 %{SurvivalGames.%{_tempMap}%.MidX}% %{SurvivalGames.%{_tempMap}%.MidZ}%"
+	loop yaml node keys "Maps.%{_tempMap}%.Spawns" from "Maps":
+		add "%loop-value%" to {_spawns::*}
+	loop the size of {_copyPlayers::*} times:
+		set {_obj} to a random object out of {_copyPlayers::*}
+		remove {_obj} from {_copyPlayers::*}
+		set {_spawnpoint} to a random object out of {_spawns::*}
+		remove {_spawnpoint} from {_spawns::*}
+		set {_x} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.X" from "Maps"
+		set {_y} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.Y" from "Maps"
+		set {_z} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.Z" from "Maps"
+		execute console command "mvtp %{_obj}% e:%{SurvivalGames.worldMap::%{_LobbyID}%}%:%{_x}%,%{_y}%,%{_z}%"
+
+	wait 3 second
+	loop all players:
+		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+			send "&6SurvivalGames &8> &aAll players teleported. The match will begin in &c15 &aseconds." to loop-player
+
+	delete {chestOpened.%{SurvivalGames.worldMap::%{_LobbyID}%}%::*}
+
+	wait 5 seconds
+	set {_timer} to 10
+	loop 10 times:
+		loop all players:
+			if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+				send "&6SurvivalGames &8> &a%{_timer}%" to loop-player
+		set {_timer} to {_timer} - 1
+		wait 1 second
+	execute console command "border set %{SurvivalGames.worldMap::%{_LobbyID}%}% 1000000 %{SurvivalGames.%{_tempMap}%.MidX}% %{SurvivalGames.%{_tempMap}%.MidZ}%"
+	loop all players:
+		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+			set loop-player's gamemode to Survival
+			set {freeze.%loop-player%} to false
+			sg_clear_player(loop-player)
+			send "&6SurvivalGames &8> &aGo! Go! Go!" to loop-player
+	loop all players:
+		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+			set {DeathStatus::%loop-player%} to "Alive"
+			play sound "block.note_block.pling" with volume 0.25 to loop-player
+
+	set time of world "%{SurvivalGames.worldMap::%{_LobbyID}%}%" to day
+	execute console command "weather clear"
+	
+	set {PlayersAlive.%{_LobbyID}%::*} to {SurvivalGames::%{_LobbyID}%::PlayerList::*}
+	
+	midMatch("%{_LobbyID}%", "%{_worldName}%")
+	
+
+function midMatch(LobbyID: text, Map: text):
+	set {_timer} to 15
+	execute console command "weather clear"
+	set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
+	replace "%{_LobbyID}%" with "" in {_tempMap}
+	while {_timer} is greater than 1:
+		set {_worldName} to {_Map}
+		if {SurvivalGames.MatchStatus::%{_LobbyID}%} is "Active":
+
+			if size of {PlayersAlive.%{_LobbyID}%::*} is less than 4:
+				loop all players:
+					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+						send "&6SurvivalGames &8> &aDeathmatch will begin in one minute" to loop-player
+				wait 45 seconds
+				deathMatch("%{_LobbyID}%", "%{_worldName}%")
+				stop
+			if ({_timer} / 5) is 1:
+				loop all players:
+					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+						send "&6SurvivalGames &8> &aThere are &c%{_timer}%&a minutes until all players are sent to deathmatch!" to loop-player
+						send "&6SurvivalGames &8> &dAll chests have been refilled!" to loop-player
+					delete {chestOpened.%{_worldName}%::*}
+			else if ({_timer} / 5) is 2:
+				loop all players:
+					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+						send "&6SurvivalGames &8> &aThere are &c%{_timer}%&a minutes until all players are sent to deathmatch!" to loop-player
+						send "&6SurvivalGames &8> &dAll chests have been refilled!" to loop-player
+					delete {chestOpened.%{_worldName}%::*}
+			else if ({_timer} / 5) is 3:
+				loop all players:
+					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+						send "&6SurvivalGames &8> &aThere are &c%{_timer}%&a minutes until all players are sent to deathmatch!" to loop-player
+			else if ({_timer} / 5) is 4:
+				loop all players:
+					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+						send "&6SurvivalGames &8> &aThere are &c%{_timer}%&a minutes until all players are sent to deathmatch!" to loop-player
+			wait 5 minute
+			set {_timer} to {_timer} - 1
+		else:
+			stop		
+	if {SurvivalGames.MatchStatus::%{_LobbyID}%} is "Active":
+		loop all players:
+			if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+				send "&6SurvivalGames &8> &aAll players are being teleported to the deathmatch arena in &c1&a minute!" to loop-player
+		wait 45 seconds
+		deathMatch("%{_LobbyID}%", "%{_worldName}%")
+	else:
+		stop
+	
+
+
+
+function deathMatch(LobbyID: text, Map: text):
+	set {_Map} to {SurvivalGames.worldMap::%{_LobbyID}%}
+	set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
+	replace "%{_LobbyID}%" with "" in {_tempMap}
+	if {SurvivalGames.MatchStatus::%{_LobbyID}%} is "Active":
+		set {_timer} to 15
+		while {_timer} is greater than 0:
+			if {SurvivalGames.MatchStatus::%{_LobbyID}%} is "Active":
+				loop all players:
+					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+						send "&6SurvivalGames &8> &aThere are &c%{_timer}%&a seconds until the deathmatch begins!"  to loop-player
+				wait 1 second
+				set {_timer} to {_timer} - 1
+			else:
+				send "GAME NOT ACTIVE ABORTING ACTION - DEATHMATCH" to console
+				stop
+		set {SurvivalGames.MatchStatus::%{_LobbyID}%} to "Deathmatch"
+		execute console command "border set %{_Map}% 75 %{SurvivalGames.%{_tempMap}%.MidX}% %{SurvivalGames.%{_tempMap}%.MidZ}%"
+		set {_copyPlayers.%{_LobbyID}%::*} to {PlayersAlive.%{_LobbyID}%::*}
+
+		
+		loop yaml node keys "Maps.%{_tempMap}%.Spawns" from "Maps":
+			add "%loop-value%" to {_spawns::*}
+
+		loop the size of {_copyPlayers.%{_LobbyID}%::*} times:
+			set {_obj} to a random object out of {_copyPlayers.%{_LobbyID}%::*}
+			remove {_obj} from {_copyPlayers.%{_LobbyID}%::*}
+			set {_spawnpoint} to a random object out of {_spawns::*}
+			remove {_spawnpoint} from {_spawns::*}
+			set {_x} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.X" from "Maps"
+			set {_y} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.Y" from "Maps"
+			set {_z} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.Z" from "Maps"
+			execute console command "mvtp %{_obj}% e:%{_Map}%:%{_x}%,%{_y}%,%{_z}%"
+			set {_spawnpoint} to {_spawnpoint} + 3
+		loop all players:
+			if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+				send "&6SurvivalGames &8> &aAll players teleported! Fight to the death!" to loop-player
+
+
+
+function endMatch(LobbyID: text, Map: text):
+	set {_Map} to {SurvivalGames.worldMap::%{_LobbyID}%}
+	set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
+	loop all players:
+		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+			send "&8&l-------------------" to loop-player
+			send "&6SurvivalGames &8> &aThe match has ended!" to loop-player
+			send "&6SurvivalGames &8> &aThe winner is &c%{PlayersAlive.%{_LobbyID}%::*}%" to loop-player
+			send "&8&l-------------------" to loop-player
+			loop 3 times:
+				play sound "entity.firework_rocket.launch" with volume 0.25 to loop-player
+				wait 0.5 seconds
+				loop 2 times:
+					play sound "entity.firework_rocket.twinkle" with volume 0.25 to loop-player
+					wait 0.2 seconds	
+					play sound "entity.firework_rocket.large_blast" with volume 0.25 to loop-player
+			send "&6SurvivalGames &8> &aTeleporting all players back to the lobby in &c3&a seconds..." to loop-player
+	wait 3 seconds
+
+	loop all players:
+		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+			execute console command "spawn %loop-player%"
+			clear loop-player's inventory
+			set loop-player's gamemode to Survival
+	
+	delete {chestOpened.%{_Map}%::*}
+	delete {PlayersAlive.%{_LobbyID}%::*}
+	loop all players:
+		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
+			set {DeathStatus::%loop-player%} to "Pregame"
+			set {SurvivalGames.inGame::%loop-player%} to false
+
+
+	delete {SurvivalGames::%{_LobbyID}%::*}
+	delete {SurvivalGames::%{_LobbyID}%}
+	delete {SurvivalGames.MatchStatus::%{_LobbyID}%}
+
+	set {SurvivalGames.MinMaxStarted::%{_LobbyID}%} to false
+	remove "%{_LobbyID}%" from {SurvivalGames::*}
+	execute console command "border set %{_Map}% 1000000 %{SurvivalGames.%{_tempMap}%.MidX}% %{SurvivalGames.%{_tempMap}%.MidZ}%"
+	set time of world "%{_Map}%" to day
+	execute console command "weather clear"
+	worldCleanup("%{_Map}%")
+	wait 3 seconds
+	if the size of {SurvivalGames::*} is less than 2:
+		execute console command "sg create"
+		
+	
+
+
+
+
+function sg_clear_player(p: player):						
+	heal {_p}
+	extinguish {_p}
+	set {_p}'s food to 20	
+	set cursor slot of {_p} to air
+	set {_p}'s helmet to air	
+	set {_p}'s chestplate to air
+	set {_p}'s leggings to air
+	set {_p}'s boots to air		
+	close {_p}'s inventory
+	clear {_p}'s inventory	
+	clear {_p}'s level
+	set {_p}'s gamemode to survival
+    
+command /heal [<offline player>]:
+	permission: SurvivalGames.Heal
+	trigger:
+		if arg-1 is set:
+			set {_p} to arg-1
+			send "&cHealed %{_p}%"
+		else:
+			set {_p} to command sender
+			send "&cHealed %{_p}%"
+		heal {_p}
+		extinguish {_p}
+		set {_p}'s food to 20	
+
+command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
+	aliases: SG
+	description: Survival Games Core
+	trigger:
+		if arg 1 is not set:
+			send "&7-------------------"
+			send "&a/sg JOIN [Game Number]"
+			send "&a/sg LEAVE&7 - Leave current game or queue."
+			send "&7-------------------"
+			if player has permission "SurvivalGames.admin":
+				send "&a/sg CREATE &7- Create a new game"
+				send "&a/sg [MAP] [CREATE] <MAP NAME> &7- Create new map with <map name>"
+				send "&a/sg [SETSPAWN] &7- Set a new map spawn"
+		else if arg-1 is "create":
+			if player has permission "SurvivalGames.admin":
+				if size of {SurvivalGames::*} is less than 2:
+					set {_counterLoop} to 1
+					loop {SurvivalGames::*}:
+						if loop-value is "SGid%{_counterLoop}%":
+							set {_counterLoop} to {_counterLoop} + 1
+						else:
+							stop loop
+					set {_SGID} to "SGid%{_counterLoop}%"
+					add "%{_SGID}%" to {SurvivalGames::*}
+					if size of {SurvivalGames::%{_SGID}%::PlayerList::*} is less than 1:
+						set {SurvivalGames.PlayerCount::%{_SGID}%} to 0
+					else:
+						set {SurvivalGames.PlayerCount::%{_SGID}%} to size of {SurvivalGames::%{_SGID}%::PlayerList::*}
+					set {SurvivalGames.MatchStatus::%{_SGID}%} to "Pregame"
+					send "&6SurvivalGames &8> &aGame %{_SGID}% has been created."
+					set {_tempsgID} to {_SGID}
+					replace "SGid" with "" in {_tempsgID}
+					broadcast "&6SurvivalGames &8> &aA new game has been created. Type &c /sg join %{_tempsgID}% &ato join!"
+					stop
+				else:
+					send "&cCurrently, only two matches can run at a time!"
+					stop
+			else if command sender is console:
+				if size of {SurvivalGames::*} is less than 2:
+					set {_counterLoop} to 1
+					loop {SurvivalGames::*}:
+						if loop-value is "SGid%{_counterLoop}%":
+							set {_counterLoop} to {_counterLoop} + 1
+						else:
+							stop loop
+					set {_SGID} to "SGid%{_counterLoop}%"
+					add "%{_SGID}%" to {SurvivalGames::*}
+					if size of {SurvivalGames::%{_SGID}%::PlayerList::*} is less than 1:
+						set {SurvivalGames.PlayerCount::%{_SGID}%} to 0
+					else:
+						set {SurvivalGames.PlayerCount::%{_SGID}%} to size of {SurvivalGames::%{_SGID}%::PlayerList::*}
+					set {SurvivalGames.MatchStatus::%{_SGID}%} to "Pregame"
+					send "&6SurvivalGames &8> &aGame %{_SGID}% has been created."
+					set {_tempsgID} to {_SGID}
+					replace "SGid" with "" in {_tempsgID}
+					broadcast "&6SurvivalGames &8> &aA new game has been created. Type &c /sg join %{_tempsgID}% &ato join!"
+					stop
+				else:
+					send "&cCurrently, only two matches can run at a time!"
+					stop
+		else if arg 1 is "list":
+			send "&6SurvivalGames &8> &aCurrent games:"
+			loop {SurvivalGames::*}:
+				set {_tempID} to loop-value
+				replace "SGid" with "" in {_tempID}
+				send "&6SurvivalGames &8> &7Game %{_tempID}%: &8(&c%{SurvivalGames.PlayerCount::%loop-value%}%&6/24 - &a%{SurvivalGames.MatchStatus::%loop-value%}%&8)"
+		else if arg 1 is "join":
+			if arg 2 is set:
+				set {_SGID} to "SGid%arg 2%"
+				if {SurvivalGames.inGame::%uuid of command sender%} is not set:
+					set {SurvivalGames.inGame::%uuid of command sender%} to false
+				if {SurvivalGames.MatchStatus::%{_SGID}%} is "Pregame":
+					if {SurvivalGames.inGame::%uuid of command sender%} is false:
+						if {SurvivalGames::*} contains "%{_SGID}%":
+							if {SurvivalGames.PlayerCount::%{_SGID}%} is less than {MaxPlayers}:
+								set {SurvivalGames.inGame::%uuid of command sender%} to true
+								add "%player%" to {SurvivalGames::%{_SGID}%::PlayerList::*}
+								set {SurvivalGames.PlayerCount::%{_SGID}%} to size of {SurvivalGames::%{_SGID}%::PlayerList::*}
+
+								send "&7You have joined &6Game %arg 2%&8: &c%{SurvivalGames.PlayerCount::%{_SGID}%}%&8/&6%{MaxPlayers}%"
+								loop {SurvivalGames::%{_SGID}%::PlayerList::*}:
+									send "&c%player% &7has joined the game - &c%{SurvivalGames.PlayerCount::%{_SGID}%}%&8/&6%{MaxPlayers}%" to loop-value parsed as player
+								set {SurvivalGames.CurrentMatchId::%uuid of command sender%} to "%{_SGID}%"
+							else:
+								send "&cGame is full."
+								stop
+					else:
+						send "&cYou are already in a game. Do &7/SG LEAVE &cto leave."
+					if {SurvivalGames.PlayerCount::%{_SGID}%} is {MinMaxPlayers}:
+						if {SurvivalGames.MinMaxStarted::%{_SGID}%} is false:
+							set {SurvivalGames.MinMaxStarted::%{_SGID}%} to true
+							startMatch("%{_SGID}%")
+							stop
+				else:
+					send "&7Match already in progress."
+					stop
+			else:
+				send "&cPlease specify which game you would like to join."
+			stop
+		else if arg 1 is "leave":
+			if {SurvivalGames.inGame::%uuid of command sender%} is true:
+				set {SurvivalGames.inGame::%uuid of command sender%} to false
+				execute console command "spawn %player%"
+				loop {SurvivalGames::*}:
+					if {SurvivalGames::%loop-value%::PlayerList::*} contains "%player%":
+						remove "%player%" from {SurvivalGames::%loop-value%::PlayerList::*}
+						delete {SurvivalGames.CurrentMatchId::%uuid of command sender%}
+						send "&7You have left the game."
+						loop {SurvivalGames::%loop-value-1%::PlayerList::*}:
+							send "&c%player% &7has left the game." to loop-value-2 parsed as player
+			else:
+				send "&cYou are not in a game."
+		else if arg 1 is "playerlist" or "pl":
+			if {SurvivalGames.inGame::%uuid of command sender%} is true:
+				send "&7-------------------"
+				send "&6SurvivalGames &8> &aPlayers in the game:"
+				send "&7"
+				send "&7%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::PlayerList::*}%"
+				send "&7-------------------"
+			else:
+				send "&cYou are not in a game."
+		else if arg 1 is "vote":
+			if {SurvivalGames.votingActive::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%} is true:
+				if {SurvivalGames.inGame::%uuid of command sender%} is true:
+					if {SurvivalGames.MatchStatus::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%} is "Active":
+						send "&6SurvivalGames &8> &aYou cannot vote during an active match."
+						stop
+					else:
+						set {_worldName} to the player's world
+						if {_worldName} is "Lobby":
+							if {SurvivalGames.hasVoted::%uuid of command sender%} is false:
+								if {SurvivalGames.MatchStatus::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%} is "Pregame":
+									if arg 2 is "1":
+										add 1 to {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::1}
+										set {SurvivalGames.hasVoted::%uuid of command sender%} to true
+										send "&6SurvivalGames &8> &aYou have voted for &cSurvival Games 2 &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::1}% votes currently&7)"
+									else if arg 2 is "2":
+										add 1 to {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::2}
+										set {SurvivalGames.hasVoted::%uuid of command sender%} to true
+										send "&6SurvivalGames &8> &aYou have voted for &cSurvival Games 4 &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::2}% votes currently&7)"
+									else if arg 2 is "3":
+										add 1 to {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::3}
+										set {SurvivalGames.hasVoted::%uuid of command sender%} to true
+										send "&6SurvivalGames &8> &aYou have voted for &cSolar Frost &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::3}% votes currently&7)"
+									else if arg 2 is "4":
+										add 1 to {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::4}
+										set {SurvivalGames.hasVoted::%uuid of command sender%} to true
+										send "&6SurvivalGames &8> &aYou have voted for &cBreeze Island &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::4}% votes currently&7)"
+									else:
+										send "&6SurvivalGames &8> &aPlease specify a valid map to vote for."
+								else:
+									send "&6SurvivalGames &8> &aYou cannot vote during an active match."
+							else:
+								send "&6SurvivalGames &8> &aYou have already voted."
+						else:
+							send "&6SurvivalGames &8> &aYou must be in the lobby to vote."
+				else:
+					send "&6SurvivalGames &8> &aYou must be in a game to vote."
+			else:
+				send "&6SurvivalGames &8> &aVoting is not active."
+
+# ADMIN COMMANDS
+		else if arg 1 is "map":
+			if player has permission "SurvivalGames.admin":
+				set {_worldName} to the player's world
+				if arg 2 is "create":
+					if arg 3 is set:
+						if yaml value "Maps.%{_worldName}%" from "Maps" is not set:
+							set yaml value "Maps.%{_worldName}%.mapName" from "Maps" to "%arg 3%"
+							save yaml "Maps"
+							send "&aSuccessfully created SurvivalGames Map: &7%arg 3%"
+						else:
+							send "&cMap already exists. Please try another name."
+					else:
+						send "&cYou must provide a map Name"
+						stop
+				if arg 2 is "setspawn":
+					if yaml value "Maps.%{_worldName}%" from "Maps" is set:
+						set {_spawnpoint} to 1
+						loop {MaxPlayers} times:
+							if yaml value "Maps.%{_worldName}%.Spawns.Spawn%{_spawnpoint}%" from "Maps" is set:
+								if {_spawnpoint} is less than {MaxPlayers}:
+									add 1 to {_spawnpoint}
+								else:
+									send "&cMax spawns reached "
+							else:
+								set yaml value "Maps.%{_worldName}%.Spawns.Spawn%{_spawnpoint}%.X" from "Maps" to "%player's x-coordinate%"
+								set yaml value "Maps.%{_worldName}%.Spawns.Spawn%{_spawnpoint}%.Y" from "Maps" to "%command sender's y-coordinate%"
+								set yaml value "Maps.%{_worldName}%.Spawns.Spawn%{_spawnpoint}%.Z" from "Maps" to "%command sender's z-coordinate%"
+								save yaml "Maps"
+								send "&aAdded spawnpoint &6%{_spawnpoint}%"
+								stop
+					else:
+						send "&cMap name missing or invalid"
+
+
+		if arg 1 is "forcestart":
+			if player has permission "SurvivalGames.admin":
+				if arg 2 is set:
+					set {_SGID} to "SGid%arg 2%"
+					send "&c*** %{SurvivalGames.MatchStatus::%{_SGID}%}% ***"
+					if {SurvivalGames.MatchStatus::%{_SGID}%} is "Pregame":
+						set {_SGID} to "SGid%arg 2%"
+						startMatch("%{_SGID}%")
+					else:
+						send "&cMatch already in progress" to the command sender
+		if arg 1 is "forceend":
+			if player has permission "SurvivalGames.admin":
+				if arg 2 is set:
+					set {_SGID} to "SGid%arg 2%"
+					endMatch("%{_SGID}%", "%{SurvivalGames.worldMap::%{_SGID}%}%")
+		
+		if arg 1 is "forcedm":
+			if player has permission "SurvivalGames.admin":
+				if arg 2 is set:
+					set {_SGID} to "SGid%arg 2%"
+					deathMatch("%{_SGID}%", "%{SurvivalGames.worldMap::%{_SGID}%}%")
+
+		if arg 1 is "reset":
+			if player has permission "SurvivalGames.admin":
+				set {_SGID} to "SGid%arg 2%"
+				if {SurvivalGames::*} contains "%{_SGID}%":
+					loop all players:
+						set {_p} to loop-value
+						if {SurvivalGames.inGame::%uuid of {_p}%} is true:
+							loop {SurvivalGames::*}:
+								if {SurvivalGames::%loop-value-2%::PlayerList::*} contains "%{_p}%":
+									remove "%{_p}%" from {SurvivalGames::%loop-value-2%::PlayerList::*}
+									delete {SurvivalGames.CurrentMatchId::%uuid of {_p}%}
+									set {SurvivalGames.inGame::%uuid of {_p}%} to false
+
+
+					delete {SurvivalGames::%{_SGID}%::*}
+					delete {SurvivalGames.MatchStatus::%{_SGID}%}
+					delete {SurvivalGames::%{_SGID}%}
+
+					delete {SurvivalGames::%{_SGID}%::PlayerList::*} 
+					remove "%{_SGID}%" from {SurvivalGames::*}
+					send "&6SurvivalGames &8> &aGame %{_SGID}% has been reset."
+
+
+		if arg 1 is "Chests":
+			if player has permission "SurvivalGames.admin":
+				send "&6SurvivalGames &8> &aChests have been reset for game %command sender's world%."
+				set {_worldName} to the command sender's world
+				delete {chestOpened.%{_worldName}%::*}
+				set time of world "%{_worldName}%" to day
+
+		if arg 1 is "testvote":
+			if player has permission "SurvivalGames.admin":
+				startVoting("SGid1")
+
+
+
+
+command /setspawn:
+	permission: spawn.setspawn
+	permission message: &cSorry, but you don't have permission to execute this command!
+	description: Set spawn at your location.
+	trigger:
+		message "&6You have &cset spawn&6 at your location!"
+		set {spawn} to location of player
+
+command /spawn [<player>]:
+	aliases: hub, lobby
+	description: Teleport you to spawn.
+	trigger:
+		if {SurvivalGames.inGame::%uuid of player%} is true:
+			send "&cYou cannot use this command while in a game. Type: &a/SG Leave&c to leave!" to player
+			stop
+		if {spawn} isn't set:
+			message "&4Error:&c spawn is not set!"
+			stop
+		else:
+			argument 1 is not set:
+				teleport player to {spawn}
+				message "&6Teleporting..."
+			else:
+				if sender has permission "spawn.spawn.others":
+					if argument is online:
+						teleport argument to {spawn}
+					if sender is a player:
+						message "&6You have been teleported to spawn by &c%player%&6." to argument 1
+				else:
+					message "&cSorry, but you don't have permission to execute this command!"
+
+command /delspawn:
+	permission: spawn.spawn.delete
+	permission message: &cSorry, but you don't have permission to execute this command!
+	description: Unset spawn location.
+	trigger:
+		delete {spawn}
+		message "&6You have successfully unset &cspawn6!"
+
+
+on first join:
+	set {SurvivalGames.hasVoted::%uuid of command sender%} to false
+	teleport player to {spawn}
+	if {@FirstJoin} is true:
+		broadcast "&6SurvivalGames &8> &a%player% has joined the lobby for the first time!"
+	else:
+		stop
+
+on join:
+	if {@JoinMessage} is true:
+		set join message to ""
+	if {spawn} is set:
+		if {@TPJoin} is true:
+			teleport player to {spawn}
+		else:
+			stop
+	else:
+		stop
+
+
+
+
+
+command /version:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /ver:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /pl:
+	trigger:
+		if {SurvivalGames.inGame::%uuid of command sender%} is true:
+			send "&7-------------------"
+			send "&6SurvivalGames &8> &aPlayers in the game:"
+			send "&7"
+			send "&7%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::PlayerList::*}%"
+			send "&7-------------------"
+		else:
+			send "&cYou are not in a game."
+
+
+		

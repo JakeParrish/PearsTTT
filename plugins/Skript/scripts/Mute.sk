@@ -1,0 +1,33 @@
+command /mute [<offline player>] [<number>]:
+	permission: mute.*
+	permission message: &cYou do not have permission for that!
+	executable by: players and console
+	trigger:
+		if arg 1 is not set:
+			message "&c/mute <player> <seconds>"
+		if arg 1 is set:
+			set {mute.%arg 1%} to number-argument
+			broadcast "&b%arg 1% &6was muted by &c%player%"
+
+every 1 second:
+	loop all players:
+		if {mute.%loop-player%} is more than 0:
+			remove 1 from {mute.%loop-player%}
+		else:
+			delete {mute.%loop-player%}
+
+on chat:
+	if {mute.%player%} is more than 0:
+		message "&6You can not talk while you are muted. &b%{mute.%player%}% &cseconds left."
+		cancel event
+
+command /unmute [<offline player>]:
+	permission: mute.*
+	permission message: &cYou do not have permission for that!
+	executable by: players and console
+	trigger:
+		if arg 1 is not set:
+			message "&c/unmute <player>"
+		if arg 1 is set:
+			delete {mute.%arg 1%}
+			broadcast "&b%arg-1% &6was unmuted by &c%player%"

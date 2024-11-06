@@ -1,0 +1,80 @@
+
+Add points system
+
+
+
+
+
+command /plugins:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /about:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command //calc:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /ipwl:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /pt:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /powertool:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /ept:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /epowertool:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /br:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:help:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:?:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /?:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:about:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:pl:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:plugins:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:version:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:ver:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+
+command /me:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop

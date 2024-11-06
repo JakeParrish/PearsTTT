@@ -1,0 +1,41 @@
+options:
+	prefix: &cVANISH> 
+	vanish-permission: sk.vanish
+	join-message: &7%player% joined!
+	leave-message: &7%player% left.
+
+command /vanish:
+	permission: {@vanish-permission}
+	trigger:
+		if {vanish.%player%} is true:
+			set {vanish.%player%} to false
+			broadcast "{@join-message}"
+			reveal player to all players
+			add 1 to {players.online}
+			loop all players:
+				if loop-player has permission "{@vanish-permission}":
+					send "&a&lStaff &8▪ &a%player% &7unvanished." to loop-player
+		else:
+			set {vanish.%player%} to true
+			broadcast "{@leave-message}"
+			hide player from all players
+			remove 1 from {players.online}
+			loop all players:
+				if loop-player has permission "sk.vanish":
+					send "{@prefix} &a%player% &7vanished." to loop-player
+					reveal player to loop-players
+
+
+
+Command /fly:
+	permission: SurvivalGames.fly
+	trigger:
+		If {fly.%player%} is not set:
+			Send "&bFlight mode is now &3enabled&b." to player
+			set player's flight mode to true
+			Set {fly.%player%} to true
+			Stop
+		Send "&bFlight mode is now &3disabled&b." to player
+		set player's flight mode to false
+		Delete {fly.%player%}
+		Stop
