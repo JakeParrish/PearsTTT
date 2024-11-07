@@ -1,60 +1,507 @@
-[01:42:59] [Server thread/INFO]: [ProtocolLib] The updater found an update: 5.3.0 (Running 5.2.0-SNAPSHOT-679). Download at https://www.spigotmc.org/resources/protocollib.1997/
-[13:43:00] [Server thread/INFO]: [ProtocolLib] The updater found an update: 5.3.0 (Running 5.2.0-SNAPSHOT-679). Download at https://www.spigotmc.org/resources/protocollib.1997/
-[22:03:15] [Server thread/INFO]: Stopping the server
-[22:03:15] [Server thread/INFO]: Stopping server
-[22:03:15] [Server thread/INFO]: [OldCombatMechanics] Disabling OldCombatMechanics v2.0.3-beta
-[22:03:15] [Server thread/INFO]: [OldCombatMechanics] OldCombatMechanics v2.0.3-beta has been disabled
-[22:03:15] [Server thread/INFO]: [ViaRewind] Disabling ViaRewind v4.0.2
-[22:03:15] [Server thread/INFO]: [WorldEdit] Disabling WorldEdit v7.3.0+6678-55745ad
-[22:03:15] [Server thread/INFO]: Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
-[22:03:15] [Server thread/INFO]: [skript-yaml] Disabling skript-yaml v1.5
-[22:03:15] [Server thread/INFO]: [WorldBorder] Disabling WorldBorder v1.2
-[22:03:15] [Server thread/INFO]: [UnsignedMessages] Disabling UnsignedMessages v1.0.1
-[22:03:15] [Server thread/INFO]: [ProtocolLib] Disabling ProtocolLib v5.2.0-SNAPSHOT-679
-[22:03:15] [Server thread/INFO]: [ViaBackwards] Disabling ViaBackwards v5.0.3
-[22:03:15] [Server thread/INFO]: [Skript] Disabling Skript v2.9.2
-[22:03:15] [Server thread/INFO]: [Multiverse-Core] Disabling Multiverse-Core v4.3.12
-[22:03:15] [Server thread/INFO]: [ViaVersion] Disabling ViaVersion v5.0.3
-[22:03:15] [Server thread/INFO]: [ViaVersion] ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
-[22:03:15] [Server thread/INFO]: Saving players
-[22:03:15] [Server thread/INFO]: Saving worlds
-[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Lobby]'/minecraft:overworld
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'Lobby'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'Lobby'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'Lobby'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 1 block chunks, 26 entity chunks, 0 poi chunks in world 'Lobby' in 0.01s
-[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (Lobby): All chunks are saved
-[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Lobby_the_end]'/minecraft:the_end
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'Lobby_the_end'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'Lobby_the_end'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'Lobby_the_end'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'Lobby_the_end' in 0.00s
-[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SurvivalGames4TEMPLATE]'/minecraft:map_survivalgames4template
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SurvivalGames4TEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SurvivalGames4TEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SurvivalGames4TEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'map_SurvivalGames4TEMPLATE' in 0.00s
-[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SurvivalGames4TEMPLATE): All chunks are saved
-[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_BreezeIslandTEMPLATE]'/minecraft:map_breezeislandtemplate
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_BreezeIslandTEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_BreezeIslandTEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_BreezeIslandTEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 2 entity chunks, 0 poi chunks in world 'map_BreezeIslandTEMPLATE' in 0.00s
-[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_BreezeIslandTEMPLATE): All chunks are saved
-[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SurvivalGames2TEMPLATE]'/minecraft:map_survivalgames2template
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SurvivalGames2TEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SurvivalGames2TEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SurvivalGames2TEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 6 entity chunks, 0 poi chunks in world 'map_SurvivalGames2TEMPLATE' in 0.00s
-[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SurvivalGames2TEMPLATE): All chunks are saved
-[22:03:15] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SolarFrostTEMPLATE]'/minecraft:map_solarfrosttemplate
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SolarFrostTEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SolarFrostTEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SolarFrostTEMPLATE'
-[22:03:15] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 5 entity chunks, 0 poi chunks in world 'map_SolarFrostTEMPLATE' in 0.00s
-[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SolarFrostTEMPLATE): All chunks are saved
-[22:03:15] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
-[22:03:15] [Server thread/INFO]: Flushing Chunk IO
-[22:03:15] [Server thread/INFO]: Closing Thread Pool
-[22:03:15] [Server thread/INFO]: Closing Server
+[19:56:25] [ServerMain/INFO]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[19:56:26] [ServerMain/INFO]: Loaded 7 recipes
+[19:56:27] [Server thread/INFO]: Starting minecraft server version 1.20
+[19:56:27] [Server thread/INFO]: Loading properties
+[19:56:27] [Server thread/INFO]: This server is running Paper version git-Paper-17 (MC: 1.20) (Implementing API version 1.20-R0.1-SNAPSHOT) (Git: c287e92)
+[19:56:27] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[19:56:27] [Server thread/INFO]: Using 4 threads for Netty based IO
+[19:56:27] [Server thread/WARN]: [!] The timings profiler has been enabled but has been scheduled for removal from Paper in the future.
+    We recommend installing the spark profiler as a replacement: https://spark.lucko.me/
+    For more information please visit: https://github.com/PaperMC/Paper/issues/8948
+[19:56:27] [Server thread/INFO]: [ChunkTaskScheduler] Chunk system is using 1 I/O threads, 4 worker threads, and gen parallelism of 4 threads
+[19:56:27] [Server thread/INFO]: Default game type: SURVIVAL
+[19:56:27] [Server thread/INFO]: Generating keypair
+[19:56:27] [Server thread/INFO]: Starting Minecraft server on *:25565
+[19:56:27] [Server thread/INFO]: Using default channel type
+[19:56:27] [Server thread/INFO]: Paper: Using Java compression from Velocity.
+[19:56:27] [Server thread/INFO]: Paper: Using Java cipher from Velocity.
+[19:56:28] [Server thread/INFO]: [ViaVersion] Loading server plugin ViaVersion v5.0.3
+[19:56:28] [Server thread/INFO]: [ViaVersion] ViaVersion 5.0.3 is now loaded. Registering protocol transformers and injecting...
+[19:56:28] [Via-Mappingloader-0/INFO]: [ViaVersion] Loading block connection mappings ...
+[19:56:28] [Via-Mappingloader-0/INFO]: [ViaVersion] Using FastUtil Long2ObjectOpenHashMap for block connections
+[19:56:28] [Server thread/INFO]: [ViaBackwards] Loading translations...
+[19:56:28] [Server thread/INFO]: [ViaBackwards] Registering protocols...
+[19:56:29] [Server thread/INFO]: [ViaRewind] Registering protocols...
+[19:56:29] [Server thread/INFO]: [Multiverse-Core] Loading server plugin Multiverse-Core v4.3.12
+[19:56:29] [Server thread/INFO]: [ViaBackwards] Loading server plugin ViaBackwards v5.0.3
+[19:56:29] [Server thread/INFO]: [Skript] Loading server plugin Skript v2.9.2
+[19:56:29] [Server thread/INFO]: [ProtocolLib] Loading server plugin ProtocolLib v5.2.0-SNAPSHOT-679
+[19:56:30] [Server thread/INFO]: [WorldEdit] Loading server plugin WorldEdit v7.3.0+6678-55745ad
+[19:56:30] [Server thread/INFO]: Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@3a9cfded]
+[19:56:30] [Server thread/INFO]: [WorldBorder] Loading server plugin WorldBorder v1.2
+[19:56:30] [Server thread/INFO]: [ViaRewind] Loading server plugin ViaRewind v4.0.2
+[19:56:30] [Server thread/INFO]: [UnsignedMessages] Loading server plugin UnsignedMessages v1.0.1
+[19:56:30] [Server thread/INFO]: [UnsignedMessages] Detected server version: 1.20
+[19:56:30] [Server thread/INFO]: [skript-yaml] Loading server plugin skript-yaml v1.5
+[19:56:30] [Server thread/INFO]: [OldCombatMechanics] Loading server plugin OldCombatMechanics v2.0.3-beta
+[19:56:30] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[19:56:30] [Server thread/INFO]: [ProtocolLib] Enabling ProtocolLib v5.2.0-SNAPSHOT-679
+[19:56:30] [Server thread/INFO]: [WorldEdit] Enabling WorldEdit v7.3.0+6678-55745ad
+[19:56:30] [Server thread/INFO]: Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+[19:56:30] [Server thread/INFO]: WEPIF: Using the Bukkit Permissions API.
+[19:56:30] [Server thread/INFO]: Using com.sk89q.worldedit.bukkit.adapter.impl.v1_20_R1.PaperweightAdapter as the Bukkit adapter
+[19:56:31] [Server thread/INFO]: [ViaRewind] Enabling ViaRewind v4.0.2
+[19:56:31] [Server thread/INFO]: Preparing level "Lobby"
+[19:56:31] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[19:56:31] [Server thread/INFO]: Time elapsed: 135 ms
+[19:56:31] [Server thread/INFO]: Preparing start region for dimension minecraft:the_end
+[19:56:31] [Server thread/INFO]: Time elapsed: 18 ms
+[19:56:31] [Server thread/INFO]: [ViaVersion] Enabling ViaVersion v5.0.3
+[19:56:31] [Server thread/INFO]: [ViaVersion] ViaVersion detected server version: 1.20-1.20.1 (763)
+[19:56:31] [Server thread/INFO]: [Multiverse-Core] Enabling Multiverse-Core v4.3.12
+[19:56:31] [Server thread/WARN]: [Multiverse-Core] "Multiverse-Core v4.3.12" has registered a listener for org.bukkit.event.entity.EntityCreatePortalEvent on method "public void com.onarandombox.MultiverseCore.listeners.MVPortalListener.entityPortalCreate(org.bukkit.event.entity.EntityCreatePortalEvent)", but the event is Deprecated. "Server performance will be affected"; please notify the authors [dumptruckman, Rigby, fernferret, lithium3141, main--].
+[19:56:31] [Server thread/INFO]: [Multiverse-Core] §aWe are aware of the warning about the deprecated event. There is no alternative that allows us to do what we need to do and performance impact is negligible. It is safe to ignore.
+[19:56:31] [Server thread/WARN]: [Multiverse-Core] Exception while loading value for environment
+[19:56:31] [Server thread/WARN]: [Multiverse-Core] Exception while loading value for environment
+[19:56:31] [Server thread/WARN]: [Multiverse-Core] Exception while loading value for environment
+[19:56:32] [Server thread/WARN]: [Multiverse-Core] Exception while loading value for environment
+[19:56:32] [Server thread/INFO]: Preparing start region for dimension minecraft:map_survivalgames4template
+[19:56:32] [Server thread/INFO]: Time elapsed: 242 ms
+[19:56:32] [Server thread/WARN]: [Multiverse-Core] WorldManager: Can't load this world because the folder was deleted/moved: map_LobbyGamesTEMPLATE
+[19:56:32] [Server thread/WARN]: [Multiverse-Core] Use '/mv remove' to remove it from the config!
+[19:56:32] [Server thread/INFO]: Preparing start region for dimension minecraft:map_breezeislandtemplate
+[19:56:32] [Server thread/INFO]: Time elapsed: 126 ms
+[19:56:32] [Server thread/INFO]: Preparing start region for dimension minecraft:map_survivalgames2template
+[19:56:32] [Server thread/INFO]: Time elapsed: 34 ms
+[19:56:32] [Server thread/WARN]: java.lang.NullPointerException: Cannot invoke "org.bukkit.World$Environment.ordinal()" because the return value of "org.bukkit.WorldCreator.environment()" is null
+[19:56:32] [Server thread/WARN]: 	at org.bukkit.craftbukkit.v1_20_R1.CraftServer.createWorld(CraftServer.java:1189)
+[19:56:32] [Server thread/WARN]: 	at org.bukkit.Bukkit.createWorld(Bukkit.java:803)
+[19:56:32] [Server thread/WARN]: 	at org.bukkit.WorldCreator.createWorld(WorldCreator.java:474)
+[19:56:32] [Server thread/WARN]: 	at multiverse-core-4.3.12.jar//com.onarandombox.MultiverseCore.utils.WorldManager.doLoad(WorldManager.java:486)
+[19:56:32] [Server thread/WARN]: 	at multiverse-core-4.3.12.jar//com.onarandombox.MultiverseCore.utils.WorldManager.doLoad(WorldManager.java:467)
+[19:56:32] [Server thread/WARN]: 	at multiverse-core-4.3.12.jar//com.onarandombox.MultiverseCore.utils.WorldManager.doLoad(WorldManager.java:442)
+[19:56:32] [Server thread/WARN]: 	at multiverse-core-4.3.12.jar//com.onarandombox.MultiverseCore.utils.WorldManager.loadWorlds(WorldManager.java:770)
+[19:56:32] [Server thread/WARN]: 	at multiverse-core-4.3.12.jar//com.onarandombox.MultiverseCore.MultiverseCore.onEnable(MultiverseCore.java:313)
+[19:56:32] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:281)
+[19:56:32] [Server thread/WARN]: 	at io.papermc.paper.plugin.manager.PaperPluginInstanceManager.enablePlugin(PaperPluginInstanceManager.java:189)
+[19:56:32] [Server thread/WARN]: 	at io.papermc.paper.plugin.manager.PaperPluginManagerImpl.enablePlugin(PaperPluginManagerImpl.java:104)
+[19:56:32] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:507)
+[19:56:32] [Server thread/WARN]: 	at org.bukkit.craftbukkit.v1_20_R1.CraftServer.enablePlugin(CraftServer.java:562)
+[19:56:32] [Server thread/WARN]: 	at org.bukkit.craftbukkit.v1_20_R1.CraftServer.enablePlugins(CraftServer.java:473)
+[19:56:32] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.loadWorld0(MinecraftServer.java:636)
+[19:56:32] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.loadLevel(MinecraftServer.java:435)
+[19:56:32] [Server thread/WARN]: 	at net.minecraft.server.dedicated.DedicatedServer.e(DedicatedServer.java:308)
+[19:56:32] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.w(MinecraftServer.java:1101)
+[19:56:32] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.lambda$spin$0(MinecraftServer.java:318)
+[19:56:32] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:842)
+[19:56:32] [Server thread/ERROR]: [Multiverse-Core] The world 'map_DrybonesValleyTEMPLATE' could NOT be loaded because it contains errors and is probably corrupt!
+[19:56:32] [Server thread/ERROR]: [Multiverse-Core] Try using Minecraft Region Fixer to repair your world! 'map_DrybonesValleyTEMPLATE'
+[19:56:32] [Server thread/ERROR]: [Multiverse-Core] https://github.com/Fenixin/Minecraft-Region-Fixer
+[19:56:32] [Server thread/INFO]: Preparing start region for dimension minecraft:map_solarfrosttemplate
+[19:56:32] [Server thread/INFO]: Time elapsed: 38 ms
+[19:56:32] [Server thread/INFO]: [Multiverse-Core] 7 - World(s) loaded.
+[19:56:32] [Server thread/WARN]: [Multiverse-Core] Buscript failed to load! The script command will be disabled! If you would like not to see this message, use `/mv conf enablebuscript false` to disable Buscript from loading.
+[19:56:32] [Server thread/INFO]: [Multiverse-Core] Version 4.3.12 (API v24) Enabled - By dumptruckman, Rigby, fernferret, lithium3141 and main--
+[19:56:32] [Server thread/INFO]: [ViaBackwards] Enabling ViaBackwards v5.0.3
+[19:56:32] [Server thread/INFO]: [Skript] Enabling Skript v2.9.2
+[19:56:33] [ForkJoinPool.commonPool-worker-1/INFO]: [Skript] A new version of Skript is available: 2.9.4 (you're currently running 2.9.2)
+[19:56:33] [ForkJoinPool.commonPool-worker-1/INFO]: Download it at: <aqua><u><link:https://github.com/SkriptLang/Skript/releases/download/2.9.4/Skript-2.9.4.jar>https://github.com/SkriptLang/Skript/releases/download/2.9.4/Skript-2.9.4.jar
+[19:56:37] [Server thread/INFO]: [Skript] Loaded 232918 aliases in 4519ms
+[19:56:38] [Server thread/INFO]: [Skript]  ~ created by & © Peter Güttinger aka Njol ~
+[19:56:38] [Server thread/INFO]: [WorldBorder] Enabling WorldBorder v1.2
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_BreezeIsland because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border world because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border world_the_end because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SurvivalGames4 because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SurvivalGames4SGid2 because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SurvivalGames4SGid1 because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_BreezeIslandSGid1 because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SolarFrost because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SurvivalGames2SGid1 because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SolarFrostSGid2 because this world does not exist
+[19:56:38] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SolarFrostSGid1 because this world does not exist
+[19:56:38] [Server thread/INFO]: [UnsignedMessages] Enabling UnsignedMessages v1.0.1
+[19:56:38] [Server thread/INFO]: [UnsignedMessages] Format: blank
+[19:56:38] [Server thread/INFO]: [skript-yaml] Enabling skript-yaml v1.5
+[19:56:38] [Server thread/INFO]: [OldCombatMechanics] Enabling OldCombatMechanics v2.0.3-beta
+[19:56:38] [Server thread/WARN]: [OldCombatMechanics] Configured world map_SurvivalGames2 not found, skipping...
+[19:56:38] [Server thread/WARN]: [OldCombatMechanics] Configured world map_SurvivalGames4 not found, skipping...
+[19:56:38] [Server thread/WARN]: [OldCombatMechanics] Configured world map_BreezeIsland not found, skipping...
+[19:56:38] [Server thread/WARN]: [OldCombatMechanics] Configured world map_SolarFrost not found, skipping...
+[19:56:38] [Server thread/INFO]: [OldCombatMechanics] OldCombatMechanics v2.0.3-beta has been enabled
+[19:56:38] [Server thread/INFO]: Running delayed init tasks
+[19:56:38] [Craft Scheduler Thread - 2 - ViaVersion/INFO]: [ViaVersion] Finished mapping loading, shutting down loader executor!
+[19:56:38] [Server thread/INFO]: [Skript] Loading variables...
+[19:56:38] [Server thread/INFO]: [Skript] Loaded 166 variables in 0.0 seconds
+[19:56:38] [Server thread/INFO]: [Skript] Line 535: (SurvivalGamesCore.sk)
+[19:56:38] [Server thread/INFO]:     loop-value is already a text, so you should not put it in one (e.g. loop-value instead of "%loop-value%")
+[19:56:38] [Server thread/INFO]:     Line: add "%loop-value%" to {_spawns::*}
+[19:56:38] [Server thread/INFO]:  
+[19:56:38] [Server thread/INFO]: [Skript] Line 655: (SurvivalGamesCore.sk)
+[19:56:38] [Server thread/INFO]:     loop-value is already a text, so you should not put it in one (e.g. loop-value instead of "%loop-value%")
+[19:56:38] [Server thread/INFO]:     Line: add "%loop-value%" to {_spawns::*}
+[19:56:38] [Server thread/INFO]:  
+[19:56:38] [Server thread/INFO]: [Skript] Line 924: (SurvivalGamesCore.sk)
+[19:56:38] [Server thread/INFO]:     the 3rd argument is already a text, so you should not put it in one (e.g. the 3rd argument instead of "%the 3rd argument%")
+[19:56:38] [Server thread/INFO]:     Line: set yaml value "Maps.%{_worldName}%.mapName" from "Maps" to "%arg 3%"
+[19:56:38] [Server thread/INFO]:  
+[19:56:39] [Server thread/INFO]: [Skript] All scripts loaded without errors.
+[19:56:39] [Server thread/INFO]: [Skript] Loaded 4 scripts with a total of 49 structures in 0.87 seconds
+[19:56:39] [Server thread/INFO]: [Skript] Finished loading.
+[19:56:39] [Server thread/WARN]: [ViaVersion] There is a newer plugin version available: 5.1.1, you're on: 5.0.3
+[19:56:39] [Server thread/INFO]: Done (11.909s)! For help, type "help"
+[19:56:39] [Server thread/INFO]: Timings Reset
+[19:56:39] [Craft Scheduler Thread - 3 - OldCombatMechanics/INFO]: [OldCombatMechanics] An update for OldCombatMechanics to version 2.0.4 is available!
+[19:56:39] [Craft Scheduler Thread - 3 - OldCombatMechanics/INFO]: [OldCombatMechanics] Click here to download it: https://www.spigotmc.org/resources/oldcombatmechanics.19510/update?update=567035
+[19:56:50] [User Authenticator #0/INFO]: UUID of player ParrishV2 is 5c55926d-9a11-4421-8aea-55d622e045b7
+[19:56:51] [Netty Server IO #3/WARN]: [ViaVersion] (1.17->1.16.4) Increased world height is NOT SUPPORTED for 1.16 players and below. They will see a void below y 0 and above 256. You can enable the `bedrock-at-y-0` config option to replace the air with a bedrock layer.
+[19:56:51] [Server thread/INFO]: ParrishV2[/127.0.0.1:58881] logged in with entity id 508 at ([Lobby]262.59477778625694, 83.0, 39.52786630204773)
+[19:56:52] [Craft Scheduler Thread - 3 - OldCombatMechanics/INFO]: [OldCombatMechanics] An update for OldCombatMechanics to version 2.0.4 is available!
+[19:56:52] [Craft Scheduler Thread - 3 - OldCombatMechanics/INFO]: [OldCombatMechanics] Click here to download it: https://www.spigotmc.org/resources/oldcombatmechanics.19510/update?update=567035
+[19:57:03] [Server thread/INFO]: ParrishV2 issued server command: /mvimport map_DrybonesValleyTEMPLATE
+[19:57:06] [Server thread/INFO]: ParrishV2 issued server command: /mvimport map_DrybonesValleyTEMPLATE normal
+[19:57:06] [Server thread/INFO]: ParrishV2: Starting import of world 'map_DrybonesValleyTEMPLATE'...
+[19:57:06] [Server thread/INFO]: [Multiverse-Core] Loading World & Settings - 'map_DrybonesValleyTEMPLATE' - Env: NORMAL - Type: null
+[19:57:06] [Server thread/INFO]: Preparing start region for dimension minecraft:map_drybonesvalleytemplate
+[19:57:06] [Server thread/INFO]: Time elapsed: 17 ms
+[19:57:06] [Server thread/INFO]: ParrishV2: Complete!
+[19:57:16] [Server thread/INFO]: ParrishV2 issued server command: /mvtp map_Drybonesvalleytemplate
+[19:57:24] [Server thread/INFO]: ParrishV2 issued server command: /tp -1390 -1900
+[19:57:26] [Server thread/INFO]: ParrishV2 issued server command: /tp -1390 ~ -1900
+[19:57:26] [Server thread/INFO]: [ParrishV2: Teleported ParrishV2 to -1389.500000, 4.000000, -1899.500000]
+[19:57:26] [Server thread/WARN]: ParrishV2 moved too quickly! -1387.4258146467428,0.0,-1895.4814966712938
+[19:57:29] [Server thread/INFO]: ParrishV2 issued server command: /gamemode creative
+[19:57:29] [Server thread/INFO]: [ParrishV2: Set own game mode to Creative Mode]
+[19:57:33] [Server thread/INFO]: ParrishV2 lost connection: Disconnected
+[19:57:48] [User Authenticator #0/INFO]: UUID of player ParrishV2 is 5c55926d-9a11-4421-8aea-55d622e045b7
+[19:57:48] [Server thread/INFO]: ParrishV2[/127.0.0.1:58906] logged in with entity id 726 at ([Lobby]262.59477778625694, 83.0, 39.52786630204773)
+[19:57:49] [Craft Scheduler Thread - 5 - OldCombatMechanics/INFO]: [OldCombatMechanics] An update for OldCombatMechanics to version 2.0.4 is available!
+[19:57:49] [Craft Scheduler Thread - 5 - OldCombatMechanics/INFO]: [OldCombatMechanics] Click here to download it: https://www.spigotmc.org/resources/oldcombatmechanics.19510/update?update=567035
+[19:57:57] [Server thread/INFO]: ParrishV2 issued server command: /mvtp map_DrybonesValleyTemplate
+[19:58:01] [Server thread/INFO]: ParrishV2 issued server command: /gamemode creative
+[19:58:01] [Server thread/INFO]: [ParrishV2: Set own game mode to Creative Mode]
+[19:58:07] [Server thread/INFO]: ParrishV2 issued server command: /tp -1390 ~ 300
+[19:58:07] [Server thread/INFO]: [ParrishV2: Teleported ParrishV2 to -1389.500000, 4.000000, 300.500000]
+[19:58:12] [Server thread/INFO]: ParrishV2 issued server command: /tp -1390 ~100 300
+[19:58:12] [Server thread/INFO]: [ParrishV2: Teleported ParrishV2 to -1389.500000, 104.000000, 300.500000]
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:58:12] [Server thread/WARN]: ParrishV2 moved too quickly! 0.19999998807907104,100.0,0.0
+[19:59:29] [Server thread/INFO]: ParrishV2 issued server command: /mv reload
+[19:59:29] [Server thread/WARN]: [Multiverse-Core] Exception while loading value for environment
+[19:59:29] [Server thread/WARN]: [Multiverse-Core] Exception while loading value for environment
+[19:59:29] [Server thread/WARN]: [Multiverse-Core] WorldManager: Can't load this world because the folder was deleted/moved: map_LobbyGamesTEMPLATE
+[19:59:29] [Server thread/WARN]: [Multiverse-Core] Use '/mv remove' to remove it from the config!
+[19:59:29] [Server thread/INFO]: [Multiverse-Core] 8 - World(s) loaded.
+[19:59:47] [Server thread/INFO]: ParrishV2 issued server command: /sg map create map_DrybonesValley
+[20:01:08] [Server thread/INFO]: ParrishV2 issued server command: /gamemode creative
+[20:01:08] [Server thread/INFO]: [ParrishV2: Set own game mode to Creative Mode]
+[20:02:09] [Server thread/INFO]: ParrishV2 issued server command: /sg
+[20:02:14] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:19] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:22] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:26] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:30] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:35] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:41] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:45] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:49] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:53] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:02:59] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:03] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:08] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:14] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:20] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:24] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:30] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:34] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:40] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:45] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:49] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:52] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:03:56] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:04:01] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:04:04] [Server thread/INFO]: ParrishV2 issued server command: /sg map setspawn
+[20:04:10] [Server thread/INFO]: ParrishV2 issued server command: /sg join 1
+[20:04:11] [Server thread/INFO]: ParrishV2 issued server command: /spawn
+[20:04:21] [Server thread/INFO]: ParrishV2 issued server command: /sg forcestart 1
+[20:04:27] [Server thread/INFO]: ParrishV2 issued server command: /sg forcestart 3
+[20:04:33] [Server thread/INFO]: ParrishV2 issued server command: /vote 3
+[20:04:35] [Server thread/INFO]: ParrishV2 issued server command: /sg vote 3
+[20:04:55] [Server thread/INFO]: [Multiverse-Core] Saving world 'map_BreezeIsland2TEMPLATE'
+[20:04:55] [Server thread/WARN]: A manual (plugin-induced) save has been detected while server is configured to auto-save. This may affect performance.
+[20:04:55] [Server thread/INFO]: [Multiverse-Core] Copying files for world 'map_BreezeIsland2TEMPLATE'
+[20:04:55] [Server thread/INFO]: Preparing start region for dimension minecraft:map_breezeisland2sgid1
+[20:04:55] [Server thread/INFO]: Time elapsed: 11 ms
+[20:04:55] [Server thread/INFO]: World cloned!
+[20:04:55] [Server thread/INFO]: SurvivalGames > Setting up the world map_BreezeIsland2SGid1...
+[20:04:59] [Server thread/INFO]: World border set for the world 'map_BreezeIsland2SGid1'
+[20:05:17] [Server thread/INFO]: World border set for the world 'map_BreezeIsland2SGid1'
+[20:05:17] [Server thread/INFO]: Set the weather to clear
+[20:05:17] [Server thread/INFO]: Set the weather to clear
+[20:05:21] [Server thread/INFO]: ParrishV2 issued server command: /sg forceend 1
+[20:05:27] [Server thread/INFO]: Invalid arguments. Please provide valid numbers for size, centerX, and centerZ.
+[20:05:27] [Server thread/INFO]: Set the weather to clear
+[20:05:27] [Server thread/INFO]: Are you sure you want to delete world 'map_BreezeIsland2SGid1'? You cannot undo this action.
+[20:05:27] [Server thread/INFO]: Run /mv confirm to continue. This will expire in 10 seconds.
+[20:05:27] [Server thread/INFO]: Deleting world 'map_BreezeIsland2SGid1'...
+[20:05:27] [Server thread/INFO]: [Multiverse-Core] World 'map_BreezeIsland2SGid1' was unloaded from Multiverse.
+[20:05:27] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_BreezeIsland2SGid1'
+[20:05:27] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_BreezeIsland2SGid1'
+[20:05:27] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_BreezeIsland2SGid1'
+[20:05:27] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 52 entity chunks, 0 poi chunks in world 'map_BreezeIsland2SGid1' in 0.01s
+[20:05:27] [Server thread/INFO]: [Multiverse-Core] World 'map_BreezeIsland2SGid1' was unloaded from Bukkit.
+[20:05:27] [Server thread/INFO]: [Multiverse-Core] World 'map_BreezeIsland2SGid1' was removed from config.yml
+[20:05:27] [Server thread/INFO]: [Multiverse-Core] World 'map_BreezeIsland2SGid1' was DELETED.
+[20:05:27] [Server thread/INFO]: World map_BreezeIsland2SGid1 was deleted!
+[20:05:27] [Server thread/INFO]: World Cleanup Complete - map_BreezeIsland2SGid1 deleted
+[20:05:30] [Server thread/INFO]: SurvivalGames > Game SGid1 has been created.
+[20:05:30] [Server thread/INFO]: SurvivalGames > A new game has been created. Type  /sg join 1 to join!
+[20:05:33] [Server thread/INFO]: ParrishV2 issued server command: /sg join 1
+[20:05:36] [Server thread/INFO]: ParrishV2 issued server command: /sg testvote
+[20:05:54] [Server thread/INFO]: ParrishV2 issued server command: /reload confirm
+[20:05:54] [Server thread/INFO]: ParrishV2: Please note that this command is not supported and may cause issues when using some plugins.
+[20:05:54] [Server thread/INFO]: ParrishV2: If you encounter any issues please use the /stop command to restart your server.
+[20:05:54] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[20:05:54] [Server thread/INFO]: Using 4 threads for Netty based IO
+[20:05:54] [Server thread/INFO]: [OldCombatMechanics] Disabling OldCombatMechanics v2.0.3-beta
+[20:05:54] [Server thread/INFO]: [OldCombatMechanics] OldCombatMechanics v2.0.3-beta has been disabled
+[20:05:54] [Server thread/INFO]: [skript-yaml] Disabling skript-yaml v1.5
+[20:05:54] [Server thread/INFO]: [UnsignedMessages] Disabling UnsignedMessages v1.0.1
+[20:05:54] [Server thread/INFO]: [ViaRewind] Disabling ViaRewind v4.0.2
+[20:05:54] [Server thread/INFO]: [WorldBorder] Disabling WorldBorder v1.2
+[20:05:54] [Server thread/INFO]: [WorldEdit] Disabling WorldEdit v7.3.0+6678-55745ad
+[20:05:54] [Server thread/INFO]: Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[20:05:54] [Server thread/INFO]: [ProtocolLib] Disabling ProtocolLib v5.2.0-SNAPSHOT-679
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ????????????????????????????????????????????????????????????????????
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ?                               WARNING                            ?
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ?     RELOADING THE SERVER WHILE PROTOCOL LIB IS ENABLED MIGHT     ?
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ?                    LEAD TO UNEXPECTED ERRORS!                    ?
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ?                                                                  ?
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ?     Consider to cleanly restart your server if you encounter     ?
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ?    any issues related to Protocol Lib before opening an issue    ?
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ?                            on GitHub!                            ?
+[20:05:55] [Server thread/ERROR]: [ProtocolLib] ????????????????????????????????????????????????????????????????????
+[20:05:55] [Server thread/INFO]: [Skript] Disabling Skript v2.9.2
+[20:05:55] [Server thread/INFO]: [ViaBackwards] Disabling ViaBackwards v5.0.3
+[20:05:55] [Server thread/INFO]: [Multiverse-Core] Disabling Multiverse-Core v4.3.12
+[20:05:55] [Server thread/INFO]: [ViaVersion] Disabling ViaVersion v5.0.3
+[20:05:55] [Server thread/INFO]: [ViaVersion] ViaVersion is disabling. If this is a reload and you experience issues, please reboot instead.
+[20:05:55] [Server thread/INFO]: [ViaVersion] ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[20:05:55] [Server thread/INFO]: Loaded 7 recipes
+[20:05:55] [Server thread/INFO]: [ViaVersion] Loading server plugin ViaVersion v5.0.3
+[20:05:55] [Server thread/INFO]: [ViaVersion] ViaVersion 5.0.3 is now loaded. Registering protocol transformers and injecting...
+[20:05:55] [Server thread/ERROR]: [ViaVersion] ViaVersion is already loaded, we're going to kick all the players... because otherwise we'll crash because of ProtocolLib.
+[20:05:55] [Server thread/INFO]: ParrishV2 lost connection: Server reload, please rejoin!
+[20:05:55] [Server thread/INFO]: ParrishV2 left the game
+[20:05:55] [Via-Mappingloader-0/INFO]: [ViaVersion] Loading block connection mappings ...
+[20:05:56] [Via-Mappingloader-0/INFO]: [ViaVersion] Using FastUtil Long2ObjectOpenHashMap for block connections
+[20:05:56] [Server thread/INFO]: [ViaBackwards] Loading translations...
+[20:05:56] [Server thread/INFO]: [ViaBackwards] Registering protocols...
+[20:05:56] [Server thread/INFO]: [ViaRewind] Registering protocols...
+[20:05:56] [Server thread/INFO]: [Multiverse-Core] Loading server plugin Multiverse-Core v4.3.12
+[20:05:56] [Server thread/INFO]: [ViaBackwards] Loading server plugin ViaBackwards v5.0.3
+[20:05:56] [Server thread/INFO]: [Skript] Loading server plugin Skript v2.9.2
+[20:05:56] [Server thread/INFO]: [ProtocolLib] Loading server plugin ProtocolLib v5.2.0-SNAPSHOT-679
+[20:05:56] [Server thread/INFO]: [WorldEdit] Loading server plugin WorldEdit v7.3.0+6678-55745ad
+[20:05:57] [Server thread/INFO]: Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@20b1959e]
+[20:05:57] [Server thread/INFO]: [WorldBorder] Loading server plugin WorldBorder v1.2
+[20:05:57] [Server thread/INFO]: [ViaRewind] Loading server plugin ViaRewind v4.0.2
+[20:05:57] [Server thread/INFO]: [UnsignedMessages] Loading server plugin UnsignedMessages v1.0.1
+[20:05:57] [Server thread/INFO]: [UnsignedMessages] Detected server version: 1.20
+[20:05:57] [Server thread/INFO]: [skript-yaml] Loading server plugin skript-yaml v1.5
+[20:05:57] [Server thread/INFO]: [OldCombatMechanics] Loading server plugin OldCombatMechanics v2.0.3-beta
+[20:05:57] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[20:05:57] [Server thread/INFO]: [ProtocolLib] Enabling ProtocolLib v5.2.0-SNAPSHOT-679
+[20:05:57] [Server thread/INFO]: [WorldEdit] Enabling WorldEdit v7.3.0+6678-55745ad
+[20:05:57] [Server thread/INFO]: Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+[20:05:57] [Server thread/INFO]: WEPIF: Using the Bukkit Permissions API.
+[20:05:57] [Server thread/WARN]: [WorldEdit] Server reload detected. This may cause various issues with WorldEdit and dependent plugins.
+[20:05:57] [Server thread/INFO]: Using com.sk89q.worldedit.bukkit.adapter.impl.v1_20_R1.PaperweightAdapter as the Bukkit adapter
+[20:05:57] [Server thread/INFO]: [ViaRewind] Enabling ViaRewind v4.0.2
+[20:05:57] [Server thread/INFO]: [ViaVersion] Enabling ViaVersion v5.0.3
+[20:05:57] [Server thread/INFO]: [ViaVersion] ViaVersion detected server version: 1.20-1.20.1 (763)
+[20:05:57] [Server thread/INFO]: [Multiverse-Core] Enabling Multiverse-Core v4.3.12
+[20:05:57] [Server thread/WARN]: [Multiverse-Core] "Multiverse-Core v4.3.12" has registered a listener for org.bukkit.event.entity.EntityCreatePortalEvent on method "public void com.onarandombox.MultiverseCore.listeners.MVPortalListener.entityPortalCreate(org.bukkit.event.entity.EntityCreatePortalEvent)", but the event is Deprecated. "Server performance will be affected"; please notify the authors [dumptruckman, Rigby, fernferret, lithium3141, main--].
+[20:05:57] [Server thread/INFO]: [Multiverse-Core] §aWe are aware of the warning about the deprecated event. There is no alternative that allows us to do what we need to do and performance impact is negligible. It is safe to ignore.
+[20:05:57] [Server thread/WARN]: [Multiverse-Core] Exception while loading value for environment
+[20:05:57] [Server thread/WARN]: [Multiverse-Core] Exception while loading value for environment
+[20:05:57] [Server thread/WARN]: [Multiverse-Core] WorldManager: Can't load this world because the folder was deleted/moved: map_LobbyGamesTEMPLATE
+[20:05:57] [Server thread/WARN]: [Multiverse-Core] Use '/mv remove' to remove it from the config!
+[20:05:57] [Server thread/INFO]: [Multiverse-Core] 8 - World(s) loaded.
+[20:05:57] [Server thread/WARN]: [Multiverse-Core] Buscript failed to load! The script command will be disabled! If you would like not to see this message, use `/mv conf enablebuscript false` to disable Buscript from loading.
+[20:05:57] [Server thread/INFO]: [Multiverse-Core] Version 4.3.12 (API v24) Enabled - By dumptruckman, Rigby, fernferret, lithium3141 and main--
+[20:05:57] [Server thread/INFO]: [ViaBackwards] Enabling ViaBackwards v5.0.3
+[20:05:57] [Server thread/INFO]: [Skript] Enabling Skript v2.9.2
+[20:05:58] [ForkJoinPool.commonPool-worker-2/INFO]: [Skript] A new version of Skript is available: 2.9.4 (you're currently running 2.9.2)
+[20:05:58] [ForkJoinPool.commonPool-worker-2/INFO]: Download it at: <aqua><u><link:https://github.com/SkriptLang/Skript/releases/download/2.9.4/Skript-2.9.4.jar>https://github.com/SkriptLang/Skript/releases/download/2.9.4/Skript-2.9.4.jar
+[20:05:58] [User Authenticator #1/INFO]: UUID of player ParrishV2 is 5c55926d-9a11-4421-8aea-55d622e045b7
+[20:06:01] [Server thread/INFO]: [Skript] Loaded 232918 aliases in 3529ms
+[20:06:01] [Server thread/INFO]: [Skript]  ~ created by & © Peter Güttinger aka Njol ~
+[20:06:01] [Server thread/INFO]: [WorldBorder] Enabling WorldBorder v1.2
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_BreezeIsland because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border world because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border world_the_end because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SurvivalGames4 because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_BreezeIsland2SGid1 because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SurvivalGames4SGid2 because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SurvivalGames4SGid1 because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_BreezeIslandSGid1 because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SolarFrost because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SurvivalGames2SGid1 because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SolarFrostSGid2 because this world does not exist
+[20:06:01] [Server thread/INFO]: [WorldBorder] ERROR: Unable to create world border map_SolarFrostSGid1 because this world does not exist
+[20:06:01] [Server thread/INFO]: [UnsignedMessages] Enabling UnsignedMessages v1.0.1
+[20:06:01] [Server thread/INFO]: [UnsignedMessages] Format: blank
+[20:06:01] [Server thread/INFO]: [skript-yaml] Enabling skript-yaml v1.5
+[20:06:01] [Server thread/INFO]: [OldCombatMechanics] Enabling OldCombatMechanics v2.0.3-beta
+[20:06:01] [Server thread/WARN]: [OldCombatMechanics] Configured world map_SurvivalGames2 not found, skipping...
+[20:06:01] [Server thread/WARN]: [OldCombatMechanics] Configured world map_SurvivalGames4 not found, skipping...
+[20:06:01] [Server thread/WARN]: [OldCombatMechanics] Configured world map_BreezeIsland not found, skipping...
+[20:06:01] [Server thread/WARN]: [OldCombatMechanics] Configured world map_SolarFrost not found, skipping...
+[20:06:01] [Server thread/INFO]: [OldCombatMechanics] OldCombatMechanics v2.0.3-beta has been enabled
+[20:06:01] [Server thread/INFO]: ParrishV2: Reload complete.
+[20:06:01] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 7073ms or 141 ticks behind
+[20:06:01] [Server thread/INFO]: Timings Reset
+[20:06:01] [Craft Scheduler Thread - 8 - ViaVersion/INFO]: [ViaVersion] Finished mapping loading, shutting down loader executor!
+[20:06:01] [Server thread/INFO]: [Skript] Loading variables...
+[20:06:01] [Server thread/INFO]: [Skript] Loaded 177 variables in 0.0 seconds
+[20:06:02] [Server thread/INFO]: [Skript] Line 538: (SurvivalGamesCore.sk)
+[20:06:02] [Server thread/INFO]:     loop-value is already a text, so you should not put it in one (e.g. loop-value instead of "%loop-value%")
+[20:06:02] [Server thread/INFO]:     Line: add "%loop-value%" to {_spawns::*}
+[20:06:02] [Server thread/INFO]:  
+[20:06:02] [Server thread/INFO]: [Skript] Line 658: (SurvivalGamesCore.sk)
+[20:06:02] [Server thread/INFO]:     loop-value is already a text, so you should not put it in one (e.g. loop-value instead of "%loop-value%")
+[20:06:02] [Server thread/INFO]:     Line: add "%loop-value%" to {_spawns::*}
+[20:06:02] [Server thread/INFO]:  
+[20:06:02] [Server thread/INFO]: [Skript] Line 927: (SurvivalGamesCore.sk)
+[20:06:02] [Server thread/INFO]:     the 3rd argument is already a text, so you should not put it in one (e.g. the 3rd argument instead of "%the 3rd argument%")
+[20:06:02] [Server thread/INFO]:     Line: set yaml value "Maps.%{_worldName}%.mapName" from "Maps" to "%arg 3%"
+[20:06:02] [Server thread/INFO]:  
+[20:06:02] [Server thread/INFO]: [Skript] All scripts loaded without errors.
+[20:06:02] [Server thread/INFO]: [Skript] Loaded 4 scripts with a total of 49 structures in 0.64 seconds
+[20:06:02] [Server thread/INFO]: [Skript] Finished loading.
+[20:06:02] [Server thread/WARN]: [ViaVersion] There is a newer plugin version available: 5.1.1, you're on: 5.0.3
+[20:06:02] [Netty Server IO #1/WARN]: [ViaVersion] (1.17->1.16.4) Increased world height is NOT SUPPORTED for 1.16 players and below. They will see a void below y 0 and above 256. You can enable the `bedrock-at-y-0` config option to replace the air with a bedrock layer.
+[20:06:02] [Server thread/INFO]: ParrishV2[/127.0.0.1:59022] logged in with entity id 1340 at ([Lobby]262.59477778625694, 83.0, 39.52786630204773)
+[20:06:03] [Craft Scheduler Thread - 9 - OldCombatMechanics/INFO]: [OldCombatMechanics] An update for OldCombatMechanics to version 2.0.4 is available!
+[20:06:03] [Craft Scheduler Thread - 9 - OldCombatMechanics/INFO]: [OldCombatMechanics] Click here to download it: https://www.spigotmc.org/resources/oldcombatmechanics.19510/update?update=567035
+[20:06:03] [Craft Scheduler Thread - 10 - OldCombatMechanics/INFO]: [OldCombatMechanics] An update for OldCombatMechanics to version 2.0.4 is available!
+[20:06:03] [Craft Scheduler Thread - 10 - OldCombatMechanics/INFO]: [OldCombatMechanics] Click here to download it: https://www.spigotmc.org/resources/oldcombatmechanics.19510/update?update=567035
+[20:06:07] [Server thread/INFO]: ParrishV2 issued server command: /sg leave
+[20:06:08] [Server thread/INFO]: ParrishV2 issued server command: /sg join 1
+[20:06:17] [Server thread/INFO]: ParrishV2 issued server command: /sg testvote
+[20:06:21] [Server thread/INFO]: ParrishV2 issued server command: /sg forcestart 12
+[20:06:22] [Server thread/INFO]: ParrishV2 issued server command: /sg forcestart 1
+[20:06:26] [Server thread/INFO]: ParrishV2 issued server command: /sg vote 4
+[20:06:51] [Server thread/INFO]: Sorry, Multiverse doesn't know about world map_DrybonesValleyTEMPLATETEMPLATE, so we can't clone it!
+[20:06:51] [Server thread/INFO]: Check the /mv list command to verify it is listed.
+[20:06:51] [Server thread/INFO]: SurvivalGames > Setting up the world map_DrybonesValleyTEMPLATESGid1...
+[20:06:55] [Server thread/INFO]: The world 'map_DrybonesValleyTEMPLATESGid1' doesn't exist
+[20:06:55] [Server thread/INFO]: Multiverse does not know how to take you to e:map_DrybonesValleyTEMPLATESGid1:-1222.27,18,326.6
+[20:07:13] [Server thread/INFO]: The world 'map_DrybonesValleyTEMPLATESGid1' doesn't exist
+[20:07:13] [Server thread/INFO]: Set the weather to clear
+[20:07:13] [Server thread/INFO]: Set the weather to clear
+[20:07:23] [Server thread/INFO]: ParrishV2 issued server command: /sg forceend 1
+[20:07:29] [Server thread/INFO]: The world 'map_DrybonesValleyTEMPLATESGid1' doesn't exist
+[20:07:29] [Server thread/INFO]: Set the weather to clear
+[20:07:29] [Server thread/INFO]: Are you sure you want to delete world 'map_DrybonesValleyTEMPLATESGid1'? You cannot undo this action.
+[20:07:29] [Server thread/INFO]: Run /mv confirm to continue. This will expire in 10 seconds.
+[20:07:29] [Server thread/INFO]: Deleting world 'map_DrybonesValleyTEMPLATESGid1'...
+[20:07:29] [Server thread/INFO]: There was an issue deleting 'map_DrybonesValleyTEMPLATESGid1'! Please check console for errors.
+[20:07:29] [Server thread/INFO]: World Cleanup Complete - map_DrybonesValleyTEMPLATESGid1 deleted
+[20:07:32] [Server thread/INFO]: SurvivalGames > Game SGid1 has been created.
+[20:07:32] [Server thread/INFO]: SurvivalGames > A new game has been created. Type  /sg join 1 to join!
+[20:07:35] [Server thread/INFO]: ParrishV2 issued server command: /sk reload all
+[20:07:40] [Server thread/INFO]: ParrishV2 issued server command: /sg join 1
+[20:07:43] [Server thread/INFO]: ParrishV2 issued server command: /sg testvote
+[20:09:42] [Server thread/INFO]: ParrishV2 issued server command: /sg forcestart 1\
+[20:09:43] [Server thread/INFO]: ParrishV2 issued server command: /sg forcestart 1
+[20:09:46] [Server thread/INFO]: ParrishV2 issued server command: /sg vote 3
+[20:10:17] [Server thread/INFO]: [Multiverse-Core] Saving world 'map_DrybonesValleyTEMPLATE'
+[20:10:17] [Server thread/WARN]: A manual (plugin-induced) save has been detected while server is configured to auto-save. This may affect performance.
+[20:10:17] [Server thread/INFO]: [Multiverse-Core] Copying files for world 'map_DrybonesValleyTEMPLATE'
+[20:10:17] [Server thread/INFO]: Preparing start region for dimension minecraft:map_drybonesvalleysgid1
+[20:10:17] [Server thread/INFO]: Time elapsed: 5 ms
+[20:10:17] [Server thread/INFO]: World cloned!
+[20:10:17] [Server thread/INFO]: SurvivalGames > Setting up the world map_DrybonesValleySGid1...
+[20:10:21] [Server thread/INFO]: World border set for the world 'map_DrybonesValleySGid1'
+[20:10:39] [Server thread/INFO]: World border set for the world 'map_DrybonesValleySGid1'
+[20:10:39] [Server thread/INFO]: Set the weather to clear
+[20:10:39] [Server thread/INFO]: Set the weather to clear
+[20:11:39] [Server thread/INFO]: World border set for the world 'map_DrybonesValleySGid1'
+[20:35:59] [Server thread/INFO]: Stopping the server
+[20:35:59] [Server thread/INFO]: Stopping server
+[20:35:59] [Server thread/INFO]: [OldCombatMechanics] Disabling OldCombatMechanics v2.0.3-beta
+[20:35:59] [Server thread/INFO]: [OldCombatMechanics] OldCombatMechanics v2.0.3-beta has been disabled
+[20:35:59] [Server thread/INFO]: [skript-yaml] Disabling skript-yaml v1.5
+[20:35:59] [Server thread/INFO]: [UnsignedMessages] Disabling UnsignedMessages v1.0.1
+[20:35:59] [Server thread/INFO]: [ViaRewind] Disabling ViaRewind v4.0.2
+[20:35:59] [Server thread/INFO]: [WorldBorder] Disabling WorldBorder v1.2
+[20:35:59] [Server thread/INFO]: [WorldEdit] Disabling WorldEdit v7.3.0+6678-55745ad
+[20:35:59] [Server thread/INFO]: Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[20:35:59] [Server thread/INFO]: [ProtocolLib] Disabling ProtocolLib v5.2.0-SNAPSHOT-679
+[20:35:59] [Server thread/INFO]: [Skript] Disabling Skript v2.9.2
+[20:35:59] [Server thread/INFO]: [ViaBackwards] Disabling ViaBackwards v5.0.3
+[20:35:59] [Server thread/INFO]: [Multiverse-Core] Disabling Multiverse-Core v4.3.12
+[20:35:59] [Server thread/INFO]: [ViaVersion] Disabling ViaVersion v5.0.3
+[20:35:59] [Server thread/INFO]: [ViaVersion] ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[20:35:59] [Server thread/INFO]: Saving players
+[20:35:59] [Server thread/INFO]: ParrishV2 lost connection: Server closed
+[20:35:59] [Server thread/INFO]: ParrishV2 left the game
+[20:35:59] [Server thread/INFO]: Saving worlds
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Lobby]'/minecraft:overworld
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'Lobby'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'Lobby'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'Lobby'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 1 block chunks, 26 entity chunks, 0 poi chunks in world 'Lobby' in 0.01s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (Lobby): All chunks are saved
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Lobby_the_end]'/minecraft:the_end
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'Lobby_the_end'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'Lobby_the_end'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'Lobby_the_end'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'Lobby_the_end' in 0.00s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SurvivalGames4TEMPLATE]'/minecraft:map_survivalgames4template
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SurvivalGames4TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SurvivalGames4TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SurvivalGames4TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'map_SurvivalGames4TEMPLATE' in 0.00s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SurvivalGames4TEMPLATE): All chunks are saved
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_BreezeIslandTEMPLATE]'/minecraft:map_breezeislandtemplate
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_BreezeIslandTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_BreezeIslandTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_BreezeIslandTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 2 entity chunks, 0 poi chunks in world 'map_BreezeIslandTEMPLATE' in 0.00s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_BreezeIslandTEMPLATE): All chunks are saved
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_BreezeIsland2TEMPLATE]'/minecraft:map_breezeisland2template
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_BreezeIsland2TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_BreezeIsland2TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_BreezeIsland2TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'map_BreezeIsland2TEMPLATE' in 0.00s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_BreezeIsland2TEMPLATE): All chunks are saved
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SurvivalGames2TEMPLATE]'/minecraft:map_survivalgames2template
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SurvivalGames2TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SurvivalGames2TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SurvivalGames2TEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 6 entity chunks, 0 poi chunks in world 'map_SurvivalGames2TEMPLATE' in 0.00s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SurvivalGames2TEMPLATE): All chunks are saved
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_SolarFrostTEMPLATE]'/minecraft:map_solarfrosttemplate
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_SolarFrostTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_SolarFrostTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_SolarFrostTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 5 entity chunks, 0 poi chunks in world 'map_SolarFrostTEMPLATE' in 0.00s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_SolarFrostTEMPLATE): All chunks are saved
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_DrybonesValleyTEMPLATE]'/minecraft:map_drybonesvalleytemplate
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_DrybonesValleyTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_DrybonesValleyTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_DrybonesValleyTEMPLATE'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 730 block chunks, 0 entity chunks, 0 poi chunks in world 'map_DrybonesValleyTEMPLATE' in 0.18s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_DrybonesValleyTEMPLATE): All chunks are saved
+[20:35:59] [Server thread/INFO]: Saving chunks for level 'ServerLevel[map_DrybonesValleySGid1]'/minecraft:map_drybonesvalleysgid1
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'map_DrybonesValleySGid1'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'map_DrybonesValleySGid1'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'map_DrybonesValleySGid1'
+[20:35:59] [Server thread/INFO]: [ChunkHolderManager] Saved 253 block chunks, 15 entity chunks, 0 poi chunks in world 'map_DrybonesValleySGid1' in 0.07s
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage (map_DrybonesValleySGid1): All chunks are saved
+[20:35:59] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[20:35:59] [Server thread/INFO]: Flushing Chunk IO
+[20:35:59] [Server thread/INFO]: Closing Thread Pool
+[20:35:59] [Server thread/INFO]: Closing Server

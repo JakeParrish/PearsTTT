@@ -93,6 +93,47 @@ worlds:
     generator: 'null'
     playerLimit: '-1'
     allowFlight: 'true'
+  map_LobbyGamesTEMPLATE:
+    ==: MVWorld
+    hidden: 'false'
+    alias: ''
+    color: WHITE
+    style: NORMAL
+    pvp: 'false'
+    scale: '1.0'
+    respawnWorld: ''
+    allowWeather: 'true'
+    spawning:
+      ==: MVSpawnSettings
+      animals:
+        ==: MVSpawnSubSettings
+        spawn: 'true'
+        spawnrate: '-1'
+        exceptions: []
+      monsters:
+        ==: MVSpawnSubSettings
+        spawn: 'true'
+        spawnrate: '-1'
+        exceptions: []
+    entryfee:
+      ==: MVEntryFee
+      amount: '0.0'
+    hunger: 'true'
+    autoHeal: 'true'
+    adjustSpawn: 'true'
+    portalForm: ALL
+    gameMode: SURVIVAL
+    keepSpawnInMemory: 'false'
+    spawnLocation:
+      ==: MVNullLocation (It's a bug if you see this in your config file)
+    autoLoad: 'true'
+    bedRespawn: 'true'
+    worldBlacklist: []
+    environment: 'null'
+    seed: '0'
+    generator: 'null'
+    playerLimit: '-1'
+    allowFlight: 'true'
   Lobby:
     ==: MVWorld
     hidden: 'false'
@@ -137,47 +178,6 @@ worlds:
     worldBlacklist: []
     environment: NORMAL
     seed: '3841710041830395456'
-    generator: 'null'
-    playerLimit: '-1'
-    allowFlight: 'true'
-  map_LobbyGamesTEMPLATE:
-    ==: MVWorld
-    hidden: 'false'
-    alias: ''
-    color: WHITE
-    style: NORMAL
-    pvp: 'false'
-    scale: '1.0'
-    respawnWorld: ''
-    allowWeather: 'true'
-    spawning:
-      ==: MVSpawnSettings
-      animals:
-        ==: MVSpawnSubSettings
-        spawn: 'true'
-        spawnrate: '-1'
-        exceptions: []
-      monsters:
-        ==: MVSpawnSubSettings
-        spawn: 'true'
-        spawnrate: '-1'
-        exceptions: []
-    entryfee:
-      ==: MVEntryFee
-      amount: '0.0'
-    hunger: 'true'
-    autoHeal: 'true'
-    adjustSpawn: 'true'
-    portalForm: ALL
-    gameMode: SURVIVAL
-    keepSpawnInMemory: 'false'
-    spawnLocation:
-      ==: MVNullLocation (It's a bug if you see this in your config file)
-    autoLoad: 'true'
-    bedRespawn: 'true'
-    worldBlacklist: []
-    environment: 'null'
-    seed: '0'
     generator: 'null'
     playerLimit: '-1'
     allowFlight: 'true'
@@ -231,13 +231,14 @@ worlds:
   map_BreezeIsland2TEMPLATE:
     ==: MVWorld
     hidden: 'false'
-    alias: ''
+    alias: map_BreezeIsland2TEMPLATE
     color: WHITE
     style: NORMAL
     pvp: 'false'
     scale: '1.0'
     respawnWorld: ''
     allowWeather: 'true'
+    difficulty: NORMAL
     spawning:
       ==: MVSpawnSettings
       animals:
@@ -260,11 +261,16 @@ worlds:
     gameMode: SURVIVAL
     keepSpawnInMemory: 'false'
     spawnLocation:
-      ==: MVNullLocation (It's a bug if you see this in your config file)
+      ==: MVSpawnLocation
+      x: -7.5
+      y: 137.0
+      z: 32.5
+      pitch: 0.0
+      yaw: 0.0
     autoLoad: 'true'
     bedRespawn: 'true'
     worldBlacklist: []
-    environment: 'null'
+    environment: NORMAL
     seed: '0'
     generator: 'null'
     playerLimit: '-1'
@@ -316,26 +322,27 @@ worlds:
     generator: 'null'
     playerLimit: '-1'
     allowFlight: 'true'
-  map_DrybonesValleyTEMPLATE:
+  map_DrybonesValleySGid1:
     ==: MVWorld
     hidden: 'false'
     alias: ''
     color: WHITE
     style: NORMAL
-    pvp: 'false'
+    pvp: 'true'
     scale: '1.0'
     respawnWorld: ''
     allowWeather: 'true'
+    difficulty: NORMAL
     spawning:
       ==: MVSpawnSettings
       animals:
         ==: MVSpawnSubSettings
-        spawn: 'true'
+        spawn: 'false'
         spawnrate: '-1'
         exceptions: []
       monsters:
         ==: MVSpawnSubSettings
-        spawn: 'true'
+        spawn: 'false'
         spawnrate: '-1'
         exceptions: []
     entryfee:
@@ -346,14 +353,66 @@ worlds:
     adjustSpawn: 'true'
     portalForm: ALL
     gameMode: SURVIVAL
-    keepSpawnInMemory: 'false'
+    keepSpawnInMemory: 'true'
     spawnLocation:
-      ==: MVNullLocation (It's a bug if you see this in your config file)
+      ==: MVSpawnLocation
+      x: -1203.0
+      y: 20.0
+      z: 331.0
+      pitch: 0.0
+      yaw: 0.0
     autoLoad: 'true'
     bedRespawn: 'true'
     worldBlacklist: []
-    environment: 'null'
-    seed: '0'
+    environment: NORMAL
+    seed: '7667375525619010944'
+    generator: 'null'
+    playerLimit: '-1'
+    allowFlight: 'true'
+  map_DrybonesValleyTEMPLATE:
+    ==: MVWorld
+    hidden: 'false'
+    alias: ''
+    color: WHITE
+    style: NORMAL
+    pvp: 'true'
+    scale: '1.0'
+    respawnWorld: ''
+    allowWeather: 'true'
+    difficulty: NORMAL
+    spawning:
+      ==: MVSpawnSettings
+      animals:
+        ==: MVSpawnSubSettings
+        spawn: 'false'
+        spawnrate: '-1'
+        exceptions: []
+      monsters:
+        ==: MVSpawnSubSettings
+        spawn: 'false'
+        spawnrate: '-1'
+        exceptions: []
+    entryfee:
+      ==: MVEntryFee
+      amount: '0.0'
+    hunger: 'true'
+    autoHeal: 'true'
+    adjustSpawn: 'true'
+    portalForm: ALL
+    gameMode: SURVIVAL
+    keepSpawnInMemory: 'true'
+    spawnLocation:
+      ==: MVSpawnLocation
+      x: -1203.0
+      y: 20.0
+      z: 331.0
+      pitch: 0.0
+      yaw: 0.0
+    autoLoad: 'true'
+    bedRespawn: 'true'
+    worldBlacklist: []
+    environment: NORMAL
+    seed: '7667375525619010944'
     generator: 'null'
     playerLimit: '-1'
     allowFlight: 'true'
@@ -401,47 +460,6 @@ worlds:
     worldBlacklist: []
     environment: NORMAL
     seed: '-3976920569263738926'
-    generator: 'null'
-    playerLimit: '-1'
-    allowFlight: 'true'
-  map_DryboneValleyTEMPLATE:
-    ==: MVWorld
-    hidden: 'false'
-    alias: ''
-    color: WHITE
-    style: NORMAL
-    pvp: 'false'
-    scale: '1.0'
-    respawnWorld: ''
-    allowWeather: 'true'
-    spawning:
-      ==: MVSpawnSettings
-      animals:
-        ==: MVSpawnSubSettings
-        spawn: 'true'
-        spawnrate: '-1'
-        exceptions: []
-      monsters:
-        ==: MVSpawnSubSettings
-        spawn: 'true'
-        spawnrate: '-1'
-        exceptions: []
-    entryfee:
-      ==: MVEntryFee
-      amount: '0.0'
-    hunger: 'true'
-    autoHeal: 'true'
-    adjustSpawn: 'true'
-    portalForm: ALL
-    gameMode: SURVIVAL
-    keepSpawnInMemory: 'false'
-    spawnLocation:
-      ==: MVNullLocation (It's a bug if you see this in your config file)
-    autoLoad: 'true'
-    bedRespawn: 'true'
-    worldBlacklist: []
-    environment: 'null'
-    seed: '0'
     generator: 'null'
     playerLimit: '-1'
     allowFlight: 'true'

@@ -32,6 +32,12 @@ variables:
 # BreezeIsland
 	{SurvivalGames.map_BreezeIsland.MidX} = 15
 	{SurvivalGames.map_BreezeIsland.MidZ} = 24
+# BreezeIsland2
+	{SurvivalGames.map_BreezeIsland2.MidX} = 16
+	{SurvivalGames.map_BreezeIsland2.MidZ} = 26
+# DrybonesValley
+	{SurvivalGames.map_DrybonesValley.MidX} = -1203
+	{SurvivalGames.map_DrybonesValley.MidZ} = 331
 
 
 
@@ -174,7 +180,6 @@ on death:
 						send "&6SurvivalGames &8> &6%victim% &2has been killed by &c%attacker%&2! &c%size of {PlayersAlive.%{_LobbyID}%::*}% &2players remaining!" to loop-player
 						play sound "entity.lightning_bolt.impact" at volume 1 at pitch 2 to victim
 				if size of {PlayersAlive.%{_LobbyID}%::*} is 3:
-					if size of {PlayersAlive.%{_LobbyID}%::*} is 3:
 					loop all players:
 						if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
 							send "&6SurvivalGames &8> &aDeathmatch will begin in one minute" to loop-player
@@ -432,16 +437,33 @@ function startVoting(LobbyID: text):
 
 	set {SurvivalGames.votingActive::%{_LobbyID}%} to true
 
+	loop yaml node keys "Maps" from "Maps":
+		add loop-value to {_allMaps::*}
+	
+	delete {SurvivalGames::%{_LobbyID}%::MapOptions::*}
+	loop 4 times:
+		set {_copyMap} to a random element out of {_allMaps::*}
+		remove {_copyMap} from {_allMaps::*}
+		add {_copyMap} to {SurvivalGames::%{_LobbyID}%::MapOptions::*}
+
 	loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
 		send "&8&l-------------------" to loop-value parsed as player
 		send "&6SurvivalGames &8> &aVoting has begun for the next map!" to loop-value parsed as player
 		send "&6SurvivalGames &8> &aPlease vote for the map you would like to play on." to loop-value parsed as player
 		send "&6SurvivalGames &8> &aUse &c/SG VOTE [MAP NUMBER] &ato vote." to loop-value parsed as player
 		send "&6SurvivalGames &8> &aThe maps are:" to loop-value parsed as player
-		send "&6SurvivalGames &8> &8&l1 &a- &cSurvival Games 2" to loop-value parsed as player
-		send "&6SurvivalGames &8> &8&l2 &a- &cSurvival Games 4" to loop-value parsed as player
-		send "&6SurvivalGames &8> &8&l3 &a- &cSolar Frost" to loop-value parsed as player
-		send "&6SurvivalGames &8> &8&l4 &a- &cBreeze Island" to loop-value parsed as player
+
+		set {_map1} to yaml value "Maps.%{SurvivalGames::%{_LobbyID}%::MapOptions::1}%.mapName" from "Maps"
+		send "&6SurvivalGames &8> &8&l1 &a- &c%{_map1}%" to loop-value parsed as player
+
+		set {_map2} to yaml value "Maps.%{SurvivalGames::%{_LobbyID}%::MapOptions::2}%.mapName" from "Maps"
+		send "&6SurvivalGames &8> &8&l2 &a- &c%{_map2}%" to loop-value parsed as player
+
+		set {_map3} to yaml value "Maps.%{SurvivalGames::%{_LobbyID}%::MapOptions::3}%.mapName" from "Maps"
+		send "&6SurvivalGames &8> &8&l3 &a- &c%{_map3}%" to loop-value parsed as player
+
+		set {_map4} to yaml value "Maps.%{SurvivalGames::%{_LobbyID}%::MapOptions::4}%.mapName" from "Maps"
+		send "&6SurvivalGames &8> &8&l4 &a- &c%{_map4}%" to loop-value parsed as player
 		send "&8&l-------------------" to loop-value parsed as player
 	wait 30 seconds
 	set {SurvivalGames.votingActive::%{_LobbyID}%} to false
@@ -451,38 +473,36 @@ function startVoting(LobbyID: text):
 		send "&6SurvivalGames &8> &aCalculating the results..." to loop-value parsed as player
 		send "&8&l-------------------" to loop-value parsed as player
 	wait 2 seconds
-	set {_votes.%{_LobbyID}%::map_SurvivalGames2} to {SurvivalGames::%{_LobbyID}%::Votes::1}
-	set {_votes.%{_LobbyID}%::map_SurvivalGames4} to {SurvivalGames::%{_LobbyID}%::Votes::2}
-	set {_votes.%{_LobbyID}%::map_SolarFrost} to {SurvivalGames::%{_LobbyID}%::Votes::3}
-	set {_votes.%{_LobbyID}%::map_BreezeIsland} to {SurvivalGames::%{_LobbyID}%::Votes::4}
+	set {_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::1}%} to {SurvivalGames::%{_LobbyID}%::Votes::1}
+	set {_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::2}%} to {SurvivalGames::%{_LobbyID}%::Votes::2}
+	set {_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::3}%} to {SurvivalGames::%{_LobbyID}%::Votes::3}
+	set {_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::4}%} to {SurvivalGames::%{_LobbyID}%::Votes::4}
 
 	set {_highest} to 0
 	loop yaml node keys "Maps" from "Maps":
 		if {_votes.%{_LobbyID}%::%loop-value%} is greater than {_highest}:
 			set {_highest} to {_votes.%{_LobbyID}%::%loop-value%}
 			set {SurvivalGames.worldMap::%{_LobbyID}%} to "%loop-value%%{_LobbyID}%"
+			set {_tempMap} to yaml value "Maps.%loop-value%.mapName" from "Maps"
 		else if {_votes.%{_LobbyID}%::%loop-value%} is equal to {_highest}:
 			if random number between 1 and 2 is 1:
 				set {_highest} to {_votes.%{_LobbyID}%::%loop-value%}
 				set {SurvivalGames.worldMap::%{_LobbyID}%} to "%loop-value%%{_LobbyID}%"
+				set {_tempMap} to yaml value "Maps.%loop-value%.mapName" from "Maps"
 	wait 2 seconds
-
-
-
 
 	loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
 		set {_p} to loop-value parsed as player
 		set {SurvivalGames.hasVoted::%{_p}%} to false
-		set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
 		replace "%{_LobbyID}%" with "" in {_tempMap}
 		send "&8&l-------------------" to {_p}
 		send "&6SurvivalGames &8> &aThe winning map is: &c%{_tempMap}%" to {_p}
 		send "" to {_p}
 		send "&6SurvivalGames &8> &aThe votes were:" to {_p}
-		send "&6SurvivalGames &8> &aSurvival Games 2: &c%{_votes.%{_LobbyID}%::map_SurvivalGames2}%" to {_p}
-		send "&6SurvivalGames &8> &aSurvival Games 4: &c%{_votes.%{_LobbyID}%::map_SurvivalGames4}%" to {_p}
-		send "&6SurvivalGames &8> &aSolar Frost: &c%{_votes.%{_LobbyID}%::map_SolarFrost}%" to {_p}
-		send "&6SurvivalGames &8> &aBreeze Island: &c%{_votes.%{_LobbyID}%::map_BreezeIsland}%" to {_p}
+		send "&6SurvivalGames &8> &a%{_map1}%: &c%{_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::1}%}%" to {_p}
+		send "&6SurvivalGames &8> &a%{_map2}%: &c%{_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::2}%}%" to {_p}
+		send "&6SurvivalGames &8> &a%{_map3}%: &c%{_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::3}%}%" to {_p}
+		send "&6SurvivalGames &8> &a%{_map4}%: &c%{_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::4}%}%" to {_p}
 		send "&8&l-------------------" to {_p}
 	set {SurvivalGames.votingPeriod::%{_LobbyID}%} to false
 
@@ -867,19 +887,23 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 									if arg 2 is "1":
 										add 1 to {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::1}
 										set {SurvivalGames.hasVoted::%uuid of command sender%} to true
-										send "&6SurvivalGames &8> &aYou have voted for &cSurvival Games 2 &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::1}% votes currently&7)"
+										set {_map1} to yaml value "Maps.%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::MapOptions::1}%.mapName" from "Maps"
+										send "&6SurvivalGames &8> &aYou have voted for &c%{_map1}% &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::1}% votes currently&7)"
 									else if arg 2 is "2":
 										add 1 to {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::2}
 										set {SurvivalGames.hasVoted::%uuid of command sender%} to true
-										send "&6SurvivalGames &8> &aYou have voted for &cSurvival Games 4 &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::2}% votes currently&7)"
+										set {_map2} to yaml value "Maps.%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::MapOptions::2}%.mapName" from "Maps"
+										send "&6SurvivalGames &8> &aYou have voted for &c%{_map2}% &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::2}% votes currently&7)"
 									else if arg 2 is "3":
 										add 1 to {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::3}
 										set {SurvivalGames.hasVoted::%uuid of command sender%} to true
-										send "&6SurvivalGames &8> &aYou have voted for &cSolar Frost &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::3}% votes currently&7)"
+										set {_map3} to yaml value "Maps.%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::MapOptions::3}%.mapName" from "Maps"
+										send "&6SurvivalGames &8> &aYou have voted for &c%{_map3}% &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::3}% votes currently&7)"
 									else if arg 2 is "4":
 										add 1 to {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::4}
 										set {SurvivalGames.hasVoted::%uuid of command sender%} to true
-										send "&6SurvivalGames &8> &aYou have voted for &cBreeze Island &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::4}% votes currently&7)"
+										set {_map4} to yaml value "Maps.%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::MapOptions::4}%.mapName" from "Maps"
+										send "&6SurvivalGames &8> &aYou have voted for &c%{_map4}% &7(&6%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::Votes::4}% votes currently&7)"
 									else:
 										send "&6SurvivalGames &8> &aPlease specify a valid map to vote for."
 								else:
