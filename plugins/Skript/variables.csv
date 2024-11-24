@@ -28,7 +28,7 @@
 "chestopened.lobby::lobby:285.5,95.5,22.5", boolean, 01
 "chestopened.lobby::lobby:289.5,84.5,19.5", boolean, 01
 chestrefilltrigger, long, 000000000000000A
-currentworldborder, long, 0000000000000046
+currentworldborder, long, 00000000000000A5
 deathmatchtrigger, long, 0000000000000004
 deathstatus::1, string, 800750726567616D65
 deathstatus::5c55926d-9a11-4421-8aea-55d622e045b7, string, 800750726567616D65
@@ -82,9 +82,9 @@ gameplay.traitorcount, integer, 00000001
 map_survivalgames4.midx, long, 0000000000000000
 map_survivalgames4.midz, long, FFFFFFFFFFFFFFFE
 mapsetup, boolean, 00
-mapx, long, FFFFFFFFFFFFD95B
+mapx, long, 00000000000011EF
 mapy, long, 0000000000000108
-mapz, long, 00000000000039E7
+mapz, long, FFFFFFFFFFFFEB70
 maxgamesallowed, long, 000000000000000F
 maxplayers, long, 0000000000000018
 maxpoints, long, 0000000000000019

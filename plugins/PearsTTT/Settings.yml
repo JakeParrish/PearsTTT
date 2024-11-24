@@ -1,0 +1,16 @@
+Gameplay:
+    TraitorCount: 1
+    DetectiveCount: 0
+
+Other:
+    MinPlayers: 2
+    PostRoundDM: 0
+
+RoundStructure:
+    PrepTime_Min: 5
+    RisingLava_StartMin: 20
+    RisingLava_FinishMin: 5
+    RisingLava_FinishHeight: 55
+    BorderSizeMin: 50
+    BorderSizeMax: 175
+    Autoplay: 0

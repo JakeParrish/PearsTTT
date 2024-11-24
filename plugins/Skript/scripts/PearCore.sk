@@ -1,0 +1,208 @@
+on load:
+	# Check if the file exists by trying to load it
+	load yaml "plugins/PearsTTT/Settings.yml" as "Settings"
+	load yaml "plugins/PearsTTT/Roles.yml" as "Roles"
+	if yaml value "Gameplay.TraitorCount" from "Settings" is not set:
+		set yaml value "Gameplay.TraitorCount" from "Settings" to 1
+		set yaml value "Gameplay.DetectiveCount" from "Settings" to 0
+	if yaml value "Other.MinPlayers" from "Settings" is not set:
+		set yaml value "Other.MinPlayers" from "Settings" to 2
+		set yaml value "Other.PostRoundDM" from "Settings" to 0
+	if yaml value "RoundStructure.PrepTime_Min" from "Settings" is not set:
+		set yaml value "RoundStructure.PrepTime_Min" from "Settings" to 5
+		set yaml value "RoundStructure.RisingLava_StartMin" from "Settings" to 20
+		set yaml value "RoundStructure.RisingLava_FinishMin" from "Settings" to 5
+		set yaml value "RoundStructure.RisingLava_FinishHeight" from "Settings" to 55
+		set yaml value "RoundStructure.BorderSizeMin" from "Settings" to 50
+		set yaml value "RoundStructure.BorderSizeMax" from "Settings" to 175
+		set yaml value "RoundStructure.Autoplay" from "Settings" to 0
+	save yaml "Settings"
+	if yaml value "Roles.Glitch" from "Roles" is not set:
+		set yaml value "Roles.Glitch" from "Roles" to 0 # Innocent Role -> Appears as a traitor to other traitors
+		set yaml value "Roles.Hypnotist" from "Roles" to 0 # Traitor Role -> Can use their brainwashing device to revive a dead innocent as a traitor
+		set yaml value "Roles.Spy" from "Roles" to 0 # Traitor Role -> Steals the name and player model of players they kill
+		set yaml value "Roles.Jester" from "Roles" to 0 # Independent Role -> Jester wins the round if they get someone else to kill them. They cannot do damage.
+	save yaml "Roles"
+
+on damage:
+	if {MapSetup} is true:
+		cancel event
+	if {PrepTime} is true:
+		cancel event
+
+function teamCreation():
+	# Delete all teams
+	execute console command "/team remove Innocent"
+	execute console command "/team remove Traitor"
+	execute console command "/team remove Detective"
+	execute console command "/team remove Glitch"
+	execute console command "/team remove Hypnotist"
+	execute console command "/team remove Spy"
+	execute console command "/team remove Jester"
+	# Create teams
+	execute console command "/team add Innocent"
+	execute console command "/team add Traitor"
+	execute console command "/team add Detective"
+	execute console command "/team add Glitch"
+	execute console command "/team add Hypnotist"
+	execute console command "/team add Spy"
+	execute console command "/team add Jester"
+	# Modify teams color
+	execute console command "/team modify Innocent color green"
+	execute console command "/team modify Traitor color red"
+	execute console command "/team modify Detective color blue"
+	execute console command "/team modify Glitch color red"
+	execute console command "/team modify Hypnotist color red"
+	execute console command "/team modify Spy color red"
+	execute console command "/team modify Jester color green"
+	# Modify teams nameplate
+	execute console command "/team modify Innocent nametagVisibility hideForOwnTeam"
+	execute console command "/team modify Traitor nametagVisibility hideForOtherTeams"
+	execute console command "/team modify Detective nametagVisibility always"
+	execute console command "/team modify Glitch nametagVisibility hideForOtherTeams"
+	execute console command "/team modify Hypnotist nametagVisibility hideForOtherTeams"
+	execute console command "/team modify Spy nametagVisibility hideForOtherTeams"
+	execute console command "/team modify Jester nametagVisibility hideForOwnTeam"
+
+
+function worldSetup():
+	set {MapSetup} to true
+	set {Gameplay.TraitorCount} to yaml value "Gameplay.TraitorCount" from "Settings"
+	set {Gameplay.DetectiveCount} to yaml value "Gameplay.DetectiveCount" from "Settings"
+	set {Other.MinPlayerst} to yaml value "Other.MinPlayers" from "Settings"
+	set {Other.PostRoundDM} to yaml value "Other.PostRoundDM" from "Settings"
+	set {RoundStructure.PrepTime_Min} to yaml value "RoundStructure.PrepTime_Min" from "Settings"
+	set {RoundStructure.BorderSizeMin} to yaml value "RoundStructure.BorderSizeMin" from "Settings"
+	set {RoundStructure.BorderSizeMax} to yaml value "RoundStructure.BorderSizeMax" from "Settings"
+	set {RoundStructure.RisingLava_StartMin} to yaml value "RoundStructure.RisingLava_StartMin" from "Settings"
+	set {RoundStructure.RisingLava_FinishMin} to yaml value "RoundStructure.RisingLava_FinishMin" from "Settings"
+	set {RoundStructure.RisingLava_FinishHeight} to yaml value "RoundStructure.RisingLava_FinishHeight" from "Settings"
+	wait 1 second
+	teamCreation()
+	execute console command "/mv create TTT normal"
+	set {MapX} to a random integer between -20000 and 20000
+	set {MapY} to 264
+	set {MapZ} to a random integer between -20000 and 20000
+	set {CurrentWorldBorder} to a random integer between {RoundStructure.BorderSizeMin} and {RoundStructure.BorderSizeMax}
+	execute console command "/border set TTT %{CurrentWorldBorder}% %{MapX}% %{MapZ}%"
+	loop all players:
+		execute console command "/mvtp %loop-player% e:TTT:%{MapX}%,%{MapY}%,%{MapZ}%"
+	wait 10 seconds
+	
+	set {MapSetup} to false
+	startMatch()
+
+function roleAssign():
+	set {Role.Glitch} to yaml value "Roles.Glitch" from "Roles"
+	set {Role.Hypnotist} to yaml value "Roles.Hypnotist" from "Roles"
+	set {Role.Spy} to yaml value "Roles.Spy" from "Roles"
+	set {Role.Jester} to yaml value "Roles.Jester" from "Roles"
+	delete {Players::*}
+	loop all players:
+		add loop-player to {Players::*}
+	loop {Gameplay.DetectiveCount} times:
+		set {_p} to a random object out of {Players::*}
+		remove {_p} from {Players::*}
+		set {Role::%{_p}%} to "Detective"
+		execute console command "/team join Detective %{_p}%"
+	loop {Gameplay.TraitorCount} times:
+		set {_p} to a random object out of {Players::*}
+		remove {_p} from {Players::*}
+		set {Role::%{_p}%} to "Traitor"
+		execute console command "/team join Traitor %{_p}%"
+	loop {Role.Glitch} times:
+		set {_p} to a random object out of {Players::*}
+		remove {_p} from {Players::*}
+		set {Role::%{_p}%} to "Glitch"
+		execute console command "/team join Glitch %{_p}%"
+	loop {Role.Hypnotist} times:
+		set {_p} to a random object out of {Players::*}
+		remove {_p} from {Players::*}
+		set {Role::%{_p}%} to "Hypnotist"
+		execute console command "/team join Hypnotist %{_p}%"
+	loop {Role.Spy} times:
+		set {_p} to a random object out of {Players::*}
+		remove {_p} from {Players::*}
+		set {Role::%{_p}%} to "Spy"
+		execute console command "/team join Spy %{_p}%"
+	loop {Role.Jester} times:
+		set {_p} to a random object out of {Players::*}
+		remove {_p} from {Players::*}
+		set {Role::%{_p}%} to "Jester"
+		execute console command "/team join Jester %{_p}%"
+	loop size of {Players::*} times:
+		set {_p} to a random object out of {Players::*}
+		remove {_p} from {Players::*}
+		set {Role::%{_p}%} to "Innocent"
+		execute console command "/team join Innocent %{_p}%"
+
+
+function startMatch():
+	set {PrepTime} to true
+	broadcast "&e&lPear's TTT &8&l> &aRoles will be assigned in &7%{RoundStructure.PrepTime_Min}% &aminutes."
+	loop {RoundStructure.PrepTime_Min} times:
+		wait 1 seconds
+	set {PrepTime} to false
+	set {GameActive} to true
+	roleAssign()
+	wait 15 ticks
+	midMatch()
+
+function midMatch():
+	set {_counter} to {RoundStructure.RisingLava_StartMin}
+	loop {RoundStructure.RisingLava_StartMin} times:
+		if {GameActive} is true:
+			broadcast "&e&lPear's TTT &8&l> &aLava will begin rising in &7%{_counter}% &aminutes."
+			wait 1 seconds
+			if {GameActive} is false:
+				stop
+			wait 1 seconds
+			remove 1 from {_counter}
+		else:
+			stop
+	set {_pos1X} to ({MapX} + ({CurrentWorldBorder} / 2))
+	set {_pos1Z} to ({MapZ} + ({CurrentWorldBorder} / 2))
+	set {_pos2X} to (({MapX} - ({CurrentWorldBorder} / 2)))
+	set {_pos2Z} to ( ({MapZ} - ({CurrentWorldBorder} / 2)))
+	set {_posY} to -64
+	execute console command "//world ttt"
+	execute console command "//pos1 %round({_pos1X})%,%round({_posY})%,%round({_pos1z})%"
+	execute console command "//pos2 %round({_pos2X})%,%{_posY}%,%round({_pos2Z})%"
+	execute console command "//set redstone_block"
+	set {_posY} to -63
+	wait 5 ticks
+	set {_calcRise} to round(({RoundStructure.RisingLava_FinishHeight} + 64) / {RoundStructure.RisingLava_FinishMin}) #BPM
+	broadcast "&e&lPear's TTT &8&l> &cLava will begin rising to &7Y:&a%{RoundStructure.RisingLava_FinishHeight}% at &a%{_calcRise}% &cblocks per minute in 30 seconds. &cY: %{RoundStructure.RisingLava_FinishHeight}% &ais safe!"
+	wait 5 seconds #CHANGE THIS TO LONGER
+	loop {RoundStructure.RisingLava_FinishMin} times:
+		if {GameActive} is true:
+			if {_posY} is greater than 55:
+				stop
+			set {_oldY} to {_posY}
+			set {_posY} to ({_posY} + {_calcRise})
+			broadcast "&e&lPear's TTT &8&l> &cLava is rising to &7Y:&a%{_posY}% in 1 minute."
+			wait 20 seconds # MAKE LONGER
+			execute console command "//pos1 %round({_pos1X})%,%round({_oldY})%,%round({_pos1z})%"
+			execute console command "//pos2 %round({_pos2X})%,%{_posY}%,%round({_pos2Z})%"
+			execute console command "//set lava"
+			wait 1 seconds
+		else:
+			stop
+
+
+	
+
+command /ttt [<text>] [<text>] [<text>]:
+	permission: ttt.admin
+	trigger:
+		if arg 1 is set:
+			if arg 1 is "Settings":
+				set {_p} to command sender
+				# openSettings({_p})
+				stop
+			else if arg 1 is "Start":
+				worldSetup()
+				stop
+		
+		
+		
