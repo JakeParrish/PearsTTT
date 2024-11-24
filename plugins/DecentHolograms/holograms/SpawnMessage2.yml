@@ -1,0 +1,14 @@
+location: Lobby:266.685:86.000:39.496
+enabled: true
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
+pages:
+- lines:
+  - content: '&6Right-Click To'
+    height: 0.3
+  - content: '&6Open Game Menu'
+    height: 0.3
+  actions: {}

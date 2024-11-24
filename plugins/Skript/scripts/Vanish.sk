@@ -25,7 +25,11 @@ command /vanish:
 					send "{@prefix} &a%player% &7vanished." to loop-player
 					reveal player to loop-players
 
-
+command /revealvanish <offline player>:
+	trigger:
+		set {vanish.%arg 1%} to false
+		reveal arg 1 to all players
+		
 
 Command /fly:
 	permission: SurvivalGames.fly

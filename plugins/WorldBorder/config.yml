@@ -37,47 +37,35 @@ worlds:
     border_size: 2000
     center_x: 100
     center_z: -200
-  map_SurvivalGames4:
-    border_size: 1000000
-    center_x: 0
-    center_z: -2
-  map_BreezeIsland:
-    border_size: 1000000
-    center_x: 15
-    center_z: 24
-  map_SolarFrost:
-    border_size: 1000000
-    center_x: -397
-    center_z: -1326
-  map_SurvivalGames4SGid1:
+  map_HolidayResortSGid1:
     border_size: 75
-    center_x: 0
-    center_z: -2
-  map_SolarFrostSGid1:
-    border_size: 75
-    center_x: -397
-    center_z: -1326
-  map_SurvivalGames4SGid2:
-    border_size: 75
-    center_x: 0
-    center_z: -2
+    center_x: -9
+    center_z: 5
   map_BreezeIslandSGid1:
-    border_size: 1000000
+    border_size: 75
     center_x: 15
     center_z: 24
-  map_SolarFrostSGid2:
-    border_size: 1000000
-    center_x: -397
-    center_z: -1326
-  map_SurvivalGames2SGid1:
-    border_size: 75
-    center_x: 0
-    center_z: 0
-  map_BreezeIsland2SGid1:
-    border_size: 1000000
-    center_x: 16
-    center_z: 26
   map_DrybonesValleySGid1:
     border_size: 75
     center_x: -1203
     center_z: 331
+  map_BreezeIsland2SGid1:
+    border_size: 75
+    center_x: 16
+    center_z: 26
+  map_SurvivalGames3SGid1:
+    border_size: 75
+    center_x: 0
+    center_z: 0
+  map_SurvivalGames4SGid1:
+    border_size: 1000000
+    center_x: 0
+    center_z: -2
+  map_LobbyGamesSGid1:
+    border_size: 75
+    center_x: 143
+    center_z: 15
+  map_SurvivalGames2SGid1:
+    border_size: 1000000
+    center_x: 0
+    center_z: 0

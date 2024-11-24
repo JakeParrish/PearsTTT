@@ -1,34 +1,27 @@
 options:
-#Core options go here
-#Teleport players to spawn whenever they join
-	TPJoin: true
-#Announce the new players when they join for the first time
-	FirstJoin: true
-#Hide join Messages
-	JoinMessage: true
-#Hide quit Messages
-	QuitMessage: true
-
-
-
+	#Core options go here
+	#Teleport players to spawn whenever they join
+		TPJoin: true
+	#Announce the new players when they join for the first time
+		FirstJoin: true
+	#Hide join Messages
+		JoinMessage: true
+	#Hide quit Messages
+		QuitMessage: true
+	
+	
+	
 variables:
 #Core Perm Variables go here
 	{MinMaxPlayers} = 22
 	{MaxPlayers} = 24
-	{MinPoints} = 13
-	{MaxPoints} = 25
+	{MaxGamesAllowed} = 15
+	{DeathmatchTrigger} = 4
+	{ChestRefillTrigger} = 10
+	
 
 
 	# MAP SPECIFIC VARIABLES
-# SURVIVAL GAMES 2
-	{SurvivalGames.map_SurvivalGames2.MidX} = 0
-	{SurvivalGames.map_SurvivalGames2.MidZ} = 0
-# SURVIVAL GAMES 4
-	{SurvivalGames.map_SurvivalGames4.MidX} = 0
-	{SurvivalGames.map_SurvivalGames4.MidZ} = -2
-# SolarFrost
-	{SurvivalGames.map_SolarFrost.MidX} = -397
-	{SurvivalGames.map_SolarFrost.MidZ} = -1326
 # BreezeIsland
 	{SurvivalGames.map_BreezeIsland.MidX} = 15
 	{SurvivalGames.map_BreezeIsland.MidZ} = 24
@@ -38,6 +31,25 @@ variables:
 # DrybonesValley
 	{SurvivalGames.map_DrybonesValley.MidX} = -1203
 	{SurvivalGames.map_DrybonesValley.MidZ} = 331
+# Holiday Resort
+	{SurvivalGames.map_HolidayResort.MidX} = -9
+	{SurvivalGames.map_HolidayResort.MidZ} = 5
+# Lobby Games
+	{SurvivalGames.map_LobbyGames.MidX} = 143
+	{SurvivalGames.map_LobbyGames.MidZ} = 15
+# SURVIVAL GAMES 2
+	{SurvivalGames.map_SurvivalGames2.MidX} = 0
+	{SurvivalGames.map_SurvivalGames2.MidZ} = 0
+# SURVIVAL GAMES 3
+	{SurvivalGames.map_SurvivalGames3.MidX} = 0
+	{SurvivalGames.map_SurvivalGames3.MidZ} = 0
+# SURVIVAL GAMES 4
+	{SurvivalGames.map_SurvivalGames4.MidX} = 0
+	{SurvivalGames.map_SurvivalGames4.MidZ} = -2
+# SolarFrost
+	{SurvivalGames.map_SolarFrost.MidX} = -397
+	{SurvivalGames.map_SolarFrost.MidZ} = -1326
+
 
 
 
@@ -71,7 +83,7 @@ on quit:
 				stop
 		set {SurvivalGames.inGame::%uuid of player%} to false
 		loop {SurvivalGames::*}:
-			if {SurvivalGames::%loop-value%::PlayerList::*} contains "%player%":
+			if {PlayersAlive.%loop-value%::*} contains "%player%":
 				remove "%player%" from {PlayersAlive.%loop-value%::*}
 				loop {SurvivalGames::%loop-value-1%::PlayerList::*}:
 					send "&6SurvivalGames &8> &6%player% &2has been killed! &c%size of {PlayersAlive.%{_LobbyID}%::*}% &2players remaining!" to loop-value-2 parsed as player
@@ -81,7 +93,7 @@ on quit:
 
 
 on load:
-    # Check if the file exists by trying to load it
+	# Check if the file exists by trying to load it
 	load yaml "plugins/ParrySurvivalGames/Maps.yml" as "Maps"
 	load yaml "plugins/ParrySurvivalGames/Players.yml" as "Players"
 	load yaml "plugins/ParrySurvivalGames/LootTables.yml" as "LootTables"
@@ -93,20 +105,20 @@ on load:
 	set the gamerule doVinesSpread of world "Lobby" to false 
 
 on join:
+	reveal player to all players
+	set player's flight mode to false
+	set {DeathStatus::%player%} to "Pregame"
 	if yaml value "Players.%player%.Kills" from "Players" is not set:
 		set yaml value "Players.%player%.Kills" from "Players" to "0"
 		set yaml value "Players.%player%.Deaths" from "Players" to "0"
 		set yaml value "Players.%player%.Wins" from "Players" to "0"
-		set yaml value "Players.%player%.RD" from "Players" to 40
-		save yaml "Players"
-	if yaml value "Players.%player%.Points" from "Players" is not set:
-		set yaml value "Players.%player%.Points" from "Players" to "1000"
+		set yaml value "Players.%player%.Points" from "Players" to "250"
 		save yaml "Players"
 
 on damage:
 	if world is "Lobby":
 		cancel event
-        
+		
 on block place:
 	if player doesn't have the permission "SurvivalGames.admin":
 		cancel event
@@ -117,22 +129,45 @@ on block break:
 			cancel event
 		if event-block is not minecraft:grass or minecraft:oak_leaves or minecraft:spruce_leaves or minecraft:birch_leaves or minecraft:jungle_leaves or minecraft:acacia_leaves or minecraft:dark_oak_leaves or minecraft:cobweb:
 			cancel event
+	if {DeathStatus::%player%} is "Dead":
+		cancel event
 		
 on block place:
 	if player doesn't have permission "SurvivalGames.admin":
 		cancel event
+	if {DeathStatus::%player%} is "Dead":
+		cancel event
 
 on chat:
 	cancel event
+	set {_Points} to yaml value "Players.%player%.Points" from "Players"
 	if {DeathStatus::%player%} is "Dead":#Dead,Alive,Pregame
 		loop all players:
 			if {DeathStatus::%loop-player%} is "Dead":
 				if {SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of loop-player%}%::PlayerList::*} contains "%loop-player%":
-					send "&8[&9%{_Kills}%&8]&7 (Dead) &6%player%&8: &7%message%" to loop-player
+					send "&8[&9%{_Points}%&8]&7 (Dead) &6%player%&8: &7%message%" to loop-player
 					stop
-	set {_Kills} to yaml value "Players.%player%.Kills" from "Players"
-	send "&8[&9%{_Kills}%&8]&6 %player%&8: &7%message%" to all players
+	send "&8[&9%{_Points}%&8]&6 %player%&8: &7%message%" to all players
 
+on respawn:
+	loop {SurvivalGames::*}:
+		if {SurvivalGames::%loop-value%::PlayerList::*} contains player:
+			set {_LobbyID} to loop-value
+			set {_map} to {SurvivalGames.worldMap::%{_LobbyID}%}
+			replace "%loop-value%" with "" in {_map}
+			set {_loc} to player's location
+			set x coordinate of {_loc} to {SurvivalGames.%{_map}%.MidX}
+			set z coordinate of {_loc} to {SurvivalGames.%{_map}%.MidX}
+			set y coordinate of {_loc} to 256
+			loop 256 times:
+				remove 1 from the y coordinate of {_loc}
+				if the block at {_loc} is not air:
+					if the block at {_loc} is not glass block:
+						add 1 to the y coordinate of {_loc}
+						teleport player to {_loc}
+						stop
+		else:
+			teleport player to {spawn}
 
 on death:
 	set the death message to ""
@@ -147,27 +182,58 @@ on death:
 			set yaml value "Players.%attacker%.Kills" from "Players" to {_Kills}
 			set {_Deaths} to yaml value "Players.%victim%.Deaths" from "Players"
 			add 1 to {_Deaths}
+			if {SurvivalGames.ActiveBounty::%victim%} is greater than 0:
+				send "&6SurvivalGames &8> &7You have claimed &c%victim%'s &7bounty of &c%{SurvivalGames.ActiveBounty::%victim%}% &7points." to the attacker
+				set {_oldPoints} to yaml value "Players.%attacker%.Points" from "Players"
+				set {_newPoints} to ({_oldPoints} + {SurvivalGames.ActiveBounty::%victim%})
+				set yaml value "Players.%attacker%.Points" from "Players" to {_newPoints}
+				set {SurvivalGames.ActiveBounty::%victim%} to 0
+
 			set yaml value "Players.%victim%.Deaths" from "Players" to {_Deaths}
 			save yaml "Players"
-			send "&6SurvivalGames &8> &7You have been killed by &c%attacker%." to the victim
-			send "&6SurvivalGames &8> &7You have killed by &c%victim%." to the attacker
+
+			set {_attackerPoints} to yaml value "Players.%attacker%.Points" from "Players"
+			set {_victimPoints} to yaml value "Players.%victim%.Points" from "Players"
+			if {_victimPoints} is greater than 8:
+				set {_transfer} to (round({_victimPoints} / 9))
+				set yaml value "Players.%attacker%.Points" from "Players" to ({_attackerPoints} + {_transfer})
+				set yaml value "Players.%victim%.Points" from "Players" to ({_victimPoints} - {_transfer})
+				save yaml "Players"
+				send "&6SurvivalGames &8> &7You have lost &c%{_transfer}% &7points to &c%attacker%." to the victim
+				send "&6SurvivalGames &8> &7You have gained &c%{_transfer}% &7points by killing &c%victim%." to the attacker
+			else:
+				set {_transfer} to 1
+				set yaml value "Players.%attacker%.Points" from "Players" to ({_attackerPoints} + {_transfer})
+				save yaml "Players"
+				send "&6SurvivalGames &8> &7You have lost &c0 &7points to &c%attacker%." to the victim
+				send "&6SurvivalGames &8> &7You have gained &c%{_transfer}% &7points by killing &c%victim%." to the attacker
+
 		else:
-			send "&6SurvivalGames &8> &7You have been killed." to the victim
+			set {_attackerPoints} to yaml value "Players.%attacker%.Points" from "Players"
+			set {_victimPoints} to yaml value "Players.%victim%.Points" from "Players"
+			if {_victimPoints} is greater than 8:
+				set {_transfer} to (round({_victimPoints} / 9))
+				set yaml value "Players.%victim%.Points" from "Players" to ({_victimPoints} - {_transfer})
+				save yaml "Players"
+				send "&6SurvivalGames &8> &7You died. You have lost &c%{_transfer}% &7points." to the victim
+			else:
+				set {_transfer} to 1
+				send "&6SurvivalGames &8> &7You died. You have lost &c0 &7points." to the victim
 			set {_Deaths} to yaml value "Players.%victim%.Deaths" from "Players"
+			set {SurvivalGames.ActiveBounty::%victim%} to 0
 			add 1 to {_Deaths}
+			set yaml value "Players.%victim%.Deaths" from "Players" to {_Deaths}
 			save yaml "Players"
 		
 		set {SurvivalGames.inGame::%uuid of victim%} to false
-
-		set victim's gamemode to Spectator
 
 		if {PlayersAlive.%{_LobbyID}%::*} is set:
 			set {_tempAlive::*} to {PlayersAlive.%{_LobbyID}%::*}
 			remove "%victim%" from {PlayersAlive.%{_LobbyID}%::*}
 
 			if size of {PlayersAlive.%{_LobbyID}%::*} is greater than 1:
-            
-				if size of {PlayersAlive.%{_LobbyID}%::*} is 10:
+			
+				if size of {PlayersAlive.%{_LobbyID}%::*} is {ChestRefillTrigger}:
 					loop all players:
 						if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains loop-player:
 							send "&6SurvivalGames &8> &aChests have been refilled." to loop-player
@@ -177,9 +243,10 @@ on death:
 
 				loop all players:
 					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains loop-player:
+						hide victim from loop-player
 						send "&6SurvivalGames &8> &6%victim% &2has been killed by &c%attacker%&2! &c%size of {PlayersAlive.%{_LobbyID}%::*}% &2players remaining!" to loop-player
 						play sound "entity.lightning_bolt.impact" at volume 1 at pitch 2 to victim
-				if size of {PlayersAlive.%{_LobbyID}%::*} is 3:
+				if size of {PlayersAlive.%{_LobbyID}%::*} is {DeathmatchTrigger}:
 					loop all players:
 						if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
 							send "&6SurvivalGames &8> &aDeathmatch will begin in one minute" to loop-player
@@ -195,8 +262,11 @@ on death:
 			if size of {PlayersAlive.%{_LobbyID}%::*} is 1:
 				endMatch("%{_LobbyID}%", "%{_worldName}%")
 			
-
+#--------------------------------------------------------------------- CHEST LOOT ---------------------------------------------------------------------
 on rightclick on chest:
+	if {DeathStatus::%player%} is "Dead":
+		cancel event
+		stop
 	if player's gamemode is Creative or Survival:
 		set {_LobbyID} to {SurvivalGames.CurrentMatchId::%uuid of player%}
 		set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
@@ -262,7 +332,7 @@ on rightclick on chest:
 											play sound "block.note_block.pling" with volume 0.25 to the player
 										stop
 						
-# INADVERTENT ELSE STATEMENT - THE ABOVE CODE HITS IF DOUBLE CHEST, BELOW IS IF SINGLE CHEST
+			# INADVERTENT ELSE STATEMENT - THE ABOVE CODE HITS IF DOUBLE CHEST, BELOW IS IF SINGLE CHEST
 					set {chestOpened.%{_worldName}%::%location of event-block%} to true
 					clear all items in event-inventory
 
@@ -352,7 +422,7 @@ on rightclick on chest:
 									play sound "block.note_block.pling" with volume 0.25 to the player
 								stop
 				
-# INADVERTENT ELSE STATEMENT - THE ABOVE CODE HITS IF DOUBLE CHEST, BELOW IS IF SINGLE CHEST
+			# INADVERTENT ELSE STATEMENT - THE ABOVE CODE HITS IF DOUBLE CHEST, BELOW IS IF SINGLE CHEST
 			set {chestOpened.%{_worldName}%::%location of event-block%} to true
 			clear all items in event-inventory
 
@@ -390,6 +460,8 @@ on rightclick on chest:
 		wait 1 ticks
 		stop
 
+#--------------------------------------------------------------------- CHEST LOOT ---------------------------------------------------------------------
+
 on item damage:
 	if item is flint and steel:
 		if item's durability is greater than 3:
@@ -398,17 +470,248 @@ on item damage:
 on player move:
 	if {freeze.%player%} is true:
 		cancel event
+
 	if {DeathStatus::%player%} is "Dead":
-		if player doesn't have permission "SurvivalGames.admin":
-			set player's gamemode to spectator
+		hide player from all players
+		set player's flight mode to true
+		sg_heal_dead(player)
+		loop {SurvivalGames::*}:
+			if {SurvivalGames::%loop-value%::PlayerList::*} contains player:
+				set {_counter} to 0
+				loop 36 times:
+					if {_counter} is 4:
+						set slot {_counter} of player's inventory to compass named "&6&lRight-Click to spectate"
+					else:
+						set slot {_counter} of player's inventory to gray glass pane named " "
+					add 1 to {_counter}
+
+
+
 	set {_y} to player's y coordinate
 	if player's world is "Lobby":
 		if {_y} is less than 0:
 			execute console command "spawn %player%"
 		if player doesn't have permission "SurvivalGames.admin":
-			if player's gamemode is not spectator:
+			if {DeathStatus::%player%} is not "Dead":
 				sg_clear_player(player)
 
+on right click holding a compass:
+	cancel event
+	if {DeathStatus::%player%} is "Dead":
+		open chest with 3 rows named "&6&lSpectate Menu" to player
+		wait 1 tick
+		set {_LobbyID} to {SurvivalGames.CurrentMatchId::%uuid of player%}
+		set {_counter} to 0
+		loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+			if {DeathStatus::%loop-value parsed as a player%} is "Alive":
+				set {_item} to skull of "%loop-value%" parsed as a player named "&c%loop-value%"
+				set line 1 of lore of {_item} to "&eLeft-Click to spectate"
+				set line 2 of lore of {_item} to "&eRight-Click to place bounty"
+				set slot {_counter} of player's current inventory to {_item}
+
+on damage:
+	if {DeathStatus::%attacker%} is "Dead":
+		cancel event
+
+on drop:
+	if {DeathStatus::%player%} is "Dead":
+		cancel event
+
+command /toggledead:
+	permission: "SurivalGames.Admin"
+	trigger:
+		if {DeathStatus::%command sender%} is "Dead":
+			set command sender's flight mode to false
+			reveal command sender to all players
+			send "Pregame" to command sender
+			set {DeathStatus::%command sender%} to "Pregame"
+		else if {DeathStatus::%command sender%} is "Pregame":
+			set command sender's flight mode to false
+			reveal command sender to all players
+			send "Alive" to command sender
+			set {DeathStatus::%command sender%} to "Alive"
+		else:
+			send "Dead" to command sender
+			set {DeathStatus::%command sender%} to "Dead"
+
+on rightclick on entity:
+	if world is "Lobby":
+		if entity is a villager:
+			set {_p1} to player
+			gameMenu({_p1})
+	
+function gameMenu(Player: player):
+	open chest with 3 rows named "&6&lGame Menu" to {_Player}
+	wait 1 tick	
+	set {_counter} to 0
+	set {_phead} to skull of "%{_Player}%" parsed as a player named "&c%{_Player}%"
+	loop {SurvivalGames::*}:
+		if {SurvivalGames.MatchStatus::%loop-value%} is "Pregame":
+			if size of {SurvivalGames::%loop-value%::PlayerList::*} is less than 24:
+				set {_idNum} to loop-value
+				replace "SGid" with "" in {_idNum}
+				set slot {_counter} of {_Player}'s current inventory to lime wool named "&aLobby %{_idNum}% &7- &aLeft-Click to join" with lore "&6Player count: &c%size of {SurvivalGames::%loop-value%::PlayerList::*}%&6/24"
+			else:
+				set {_idNum} to loop-value
+				replace "SGid" with "" in {_idNum}
+				set slot {_counter} of {_Player}'s current inventory to lime wool named "&cLobby %{_idNum}% &7- &cClosed: Lobby is full" with lore "&6Player count: &c%size of {SurvivalGames::%loop-value%::PlayerList::*}%&6/24"
+		else if {SurvivalGames.MatchStatus::%loop-value%} is "Active":
+			set {_idNum} to loop-value
+			replace "SGid" with "" in {_idNum}
+			set {_item} to red wool named "&cLobby %{_idNum}% &7- &cClosed: Match in progress" 
+			set line 1 of lore of {_item} to "&eLeft-Click to spectate"
+			set line 2 of lore of {_item} to "&6Players Alive: &c%size of {PlayersAlive.%{_LobbyID}%::*}%"
+			set slot {_counter} of {_Player}'s current inventory to {_item}
+		else if {SurvivalGames.MatchStatus::%loop-value%} is "Deathmatch":
+			set {_idNum} to loop-value
+			replace "SGid" with "" in {_idNum}
+			set {_item} to red wool named "&cLobby %{_idNum}% &7- &cClosed: Deathmatch in progress" 
+			set line 1 of lore of {_item} to "&eLeft-Click to spectate"
+			set line 2 of lore of {_item} to "&6Players Alive: &c%size of {PlayersAlive.%{_LobbyID}%::*}%"
+			set slot {_counter} of {_Player}'s current inventory to {_item}
+		else if {SurvivalGames.MatchStatus::%loop-value%} is "Setup":
+			set {_idNum} to loop-value
+			replace "SGid" with "" in {_idNum}
+			set slot {_counter} of {_Player}'s current inventory to red wool named "&cLobby %{_idNum}% &7- &cClosed: Setup in progress" with lore "&6Players Alive: &c%size of {PlayersAlive.%{_LobbyID}%::*}%"
+		add 1 to {_counter}
+	while {_counter} is less than 27:
+		set slot {_counter} of {_Player}'s current inventory to gray glass pane named "&0 "
+		add 1 to {_counter}
+
+			
+
+function bountyMenu(Player: player, Sender: player):
+	open chest inventory with 3 rows named "&6&lBounty Menu - &c%{_Player}%" to {_sender}
+	wait 1 tick	
+	set {_counter} to 0
+	set {_phead} to skull of "%{_Player}%" parsed as a player named "&c%{_Player}%"
+	loop 28 times:
+		if {_counter} is 12:
+			set slot {_counter} of {_sender}'s current inventory to lime wool named "&aBounty 10 points - &c%{_Player}%"
+		else if {_counter} is 13:
+			set slot {_counter} of {_sender}'s current inventory to lime wool named "&aBounty 50 points - &c%{_Player}%"
+		else if {_counter} is 14:
+			set slot {_counter} of {_sender}'s current inventory to lime wool named "&aBounty 100 points - &c%{_Player}%"
+		else if {_counter} is 4:
+			set slot {_counter} of {_sender}'s current inventory to {_phead}
+		else:
+			set slot {_counter} of {_sender}'s current inventory to gray glass pane named "&0 "
+		add 1 to {_counter}
+
+on inventory click:
+	if type of event-inventory is not player inventory:
+		if inventory name of player's current inventory contains "&6&lGame menu":
+			if world is "Lobby":
+				cancel event
+				set {_itemName} to name of event-slot
+				loop {SurvivalGames::*}:
+					set {_SGid} to loop-value
+					replace "SGid" with "" in {_SGid}
+					if {_itemName} contains "Lobby %{_SGid}%":
+						make player execute "/sg join %{_SGid}%"
+						close player's inventory
+						stop
+		if {DeathStatus::%player%} is "Dead":
+			if inventory name of player's current inventory is "&6&lSpectate Menu":
+				if click type is right mouse button:
+					set {_LobbyID} to {SurvivalGames.CurrentMatchId::%uuid of player%}
+					loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+						if name of event-slot is "&c%loop-value%":
+							cancel event
+							set {_p1} to loop-value parsed as a player
+							set {_p2} to player
+							bountyMenu({_p1}, {_p2})
+							stop
+				else if click type is left mouse button:
+					set {_LobbyID} to {SurvivalGames.CurrentMatchId::%uuid of player%}
+					loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+						if name of event-slot is "&c%loop-value%":
+							cancel event
+							teleport player to loop-value parsed as a player
+							close the player's inventory
+							stop
+			else:
+				cancel event
+			if inventory name of player's current inventory contains "&6&lBounty menu":
+				set {_LobbyID} to {SurvivalGames.CurrentMatchId::%uuid of player%}
+				set {_bountyAmount} to 10000000
+				if name of event-slot contains "&aBounty 10 points - &c":
+					cancel event
+					set {_bountyPlayer} to name of event-slot
+					replace "&aBounty 10 points - &c" with "" in {_bountyPlayer}
+					set {_bountyPlayer} to {_bountyPlayer} parsed as a player
+					set {_bountyAmount} to 10
+					close the player's inventory
+					set {_Points} to yaml value "Players.%player%.Points" from "Players"
+					if {_bountyAmount} is greater than {_Points}:
+						send "&cYou do not have enough points to place this bounty. You currently have &6%{_Points}% &cpoints."
+					else:
+						if {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} is not set:
+							set {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} to 0
+						set {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} to ({_bountyAmount} + {SurvivalGames.ActiveBounty::%{_bountyPlayer}%})
+						
+						set {_newPoints} to ({_Points} - {_bountyAmount})
+						set yaml value "Players.%player%.Points" from "Players" to {_newPoints}
+						save yaml "Players"
+
+						loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+							send "&6SurvivalGames &8> &aA new bounty has been placed on &7%{_bountyPlayer}%&a. Kill them to collect &7%{SurvivalGames.ActiveBounty::%{_bountyPlayer}%}% &apoints" to loop-value parsed as player
+						
+						send "&6SurvivalGames &8> &aBounty placed on &7%{_bountyPlayer}%&a. You have &7%{_newPoints}% &aremaining" to player
+				else if name of event-slot contains "&aBounty 50 points - &c":
+					cancel event
+					set {_bountyPlayer} to name of event-slot
+					replace "&aBounty 50 points - &c" with "" in {_bountyPlayer}
+					set {_bountyPlayer} to {_bountyPlayer} parsed as a player
+					set {_bountyAmount} to 50
+					close the player's inventory
+					set {_Points} to yaml value "Players.%player%.Points" from "Players"
+					if {_bountyAmount} is greater than {_Points}:
+						send "&cYou do not have enough points to place this bounty. You currently have &6%{_Points}% &cpoints."
+					else:
+						if {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} is not set:
+							set {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} to 0
+						set {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} to ({_bountyAmount} + {SurvivalGames.ActiveBounty::%{_bountyPlayer}%})
+						
+						set {_newPoints} to ({_Points} - {_bountyAmount})
+						set yaml value "Players.%player%.Points" from "Players" to {_newPoints}
+						save yaml "Players"
+
+						loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+							send "&6SurvivalGames &8> &aA new bounty has been placed on &7%{_bountyPlayer}%&a. Kill them to collect &7%{SurvivalGames.ActiveBounty::%{_bountyPlayer}%}% &apoints" to loop-value parsed as player
+						
+						send "&6SurvivalGames &8> &aBounty placed on &7%{_bountyPlayer}%&a. You have &7%{_newPoints}% &aremaining" to player
+				else if name of event-slot contains "&aBounty 100 points - &c":
+					cancel event
+					set {_bountyPlayer} to name of event-slot
+					replace "&aBounty 100 points - &c" with "" in {_bountyPlayer}
+					set {_bountyPlayer} to {_bountyPlayer} parsed as a player
+					set {_bountyAmount} to 100
+					close the player's inventory
+					set {_Points} to yaml value "Players.%player%.Points" from "Players"
+					if {_bountyAmount} is greater than {_Points}:
+						send "&cYou do not have enough points to place this bounty. You currently have &6%{_Points}% &cpoints."
+					else:
+						if {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} is not set:
+							set {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} to 0
+						set {SurvivalGames.ActiveBounty::%{_bountyPlayer}%} to ({_bountyAmount} + {SurvivalGames.ActiveBounty::%{_bountyPlayer}%})
+						
+						set {_newPoints} to ({_Points} - {_bountyAmount})
+						set yaml value "Players.%player%.Points" from "Players" to {_newPoints}
+						save yaml "Players"
+
+						loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
+							send "&6SurvivalGames &8> &aA new bounty has been placed on &7%{_bountyPlayer}%&a. Kill them to collect &7%{SurvivalGames.ActiveBounty::%{_bountyPlayer}%}% &apoints" to loop-value parsed as player
+						
+						send "&6SurvivalGames &8> &aBounty placed on &7%{_bountyPlayer}%&a. You have &7%{_newPoints}% &aremaining" to player
+				else if name of event-slot contains "&0 ":
+					cancel event
+					stop
+			else:
+				cancel event
+	else:
+		if {DeathStatus::%player%} is "Dead":
+			cancel event
 
 function worldSetup(Map: text, LobbyID: text):
 	set {_MapTemplate} to {_Map}
@@ -420,6 +723,7 @@ function worldSetup(Map: text, LobbyID: text):
 	set the gamerule doMobSpawning of world "%{_Map}%" to false 
 	set the gamerule announceAdvancements of world "%{_Map}%" to false 
 	set the gamerule doVinesSpread of world "%{_Map}%" to false 
+	execute console command "noweather add %{_Map}%"
 	wait 5 ticks
 
 function worldCleanup(Map: text):
@@ -478,18 +782,19 @@ function startVoting(LobbyID: text):
 	set {_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::3}%} to {SurvivalGames::%{_LobbyID}%::Votes::3}
 	set {_votes.%{_LobbyID}%::%{SurvivalGames::%{_LobbyID}%::MapOptions::4}%} to {SurvivalGames::%{_LobbyID}%::Votes::4}
 
-	set {_highest} to 0
+	set {_highest} to -1
 	loop yaml node keys "Maps" from "Maps":
 		if {_votes.%{_LobbyID}%::%loop-value%} is greater than {_highest}:
 			set {_highest} to {_votes.%{_LobbyID}%::%loop-value%}
 			set {SurvivalGames.worldMap::%{_LobbyID}%} to "%loop-value%%{_LobbyID}%"
 			set {_tempMap} to yaml value "Maps.%loop-value%.mapName" from "Maps"
 		else if {_votes.%{_LobbyID}%::%loop-value%} is equal to {_highest}:
-			if random number between 1 and 2 is 1:
+			if random number between 1 and 9 is greater than 5:
 				set {_highest} to {_votes.%{_LobbyID}%::%loop-value%}
 				set {SurvivalGames.worldMap::%{_LobbyID}%} to "%loop-value%%{_LobbyID}%"
 				set {_tempMap} to yaml value "Maps.%loop-value%.mapName" from "Maps"
 	wait 2 seconds
+
 
 	loop {SurvivalGames::%{_LobbyID}%::PlayerList::*}:
 		set {_p} to loop-value parsed as player
@@ -518,10 +823,11 @@ function startMatch(LobbyID: text):
 
 	# Map selected
 	worldSetup("%{SurvivalGames.worldMap::%{_LobbyID}%}%", "%{_LobbyID}%") # Change to voting result once voting is working.
+	set {SurvivalGames.MatchStatus::%{_LobbyID}%} to "Setup"
 	wait 1 second
+	set {PlayersAlive.%{_LobbyID}%::*} to {SurvivalGames::%{_LobbyID}%::PlayerList::*}
 	# Set match status to active and start match countdown
-	set {SurvivalGames.MatchStatus::%{_LobbyID}%} to "Active"
-	wait 2 seconds
+	wait 1 second
 	set {_copyPlayers::*} to {SurvivalGames::%{_LobbyID}%::PlayerList::*}
 	set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
 	replace "%{_LobbyID}%" with "" in {_tempMap}
@@ -545,6 +851,8 @@ function startMatch(LobbyID: text):
 		set {_y} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.Y" from "Maps"
 		set {_z} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.Z" from "Maps"
 		execute console command "mvtp %{_obj}% e:%{SurvivalGames.worldMap::%{_LobbyID}%}%:%{_x}%,%{_y}%,%{_z}%"
+		reveal ({_obj} parsed as a player) to all players
+		set ({_obj} parsed as a player)'s flight mode to false
 
 	wait 3 second
 	loop all players:
@@ -575,8 +883,7 @@ function startMatch(LobbyID: text):
 
 	set time of world "%{SurvivalGames.worldMap::%{_LobbyID}%}%" to day
 	execute console command "weather clear"
-	
-	set {PlayersAlive.%{_LobbyID}%::*} to {SurvivalGames::%{_LobbyID}%::PlayerList::*}
+	set {SurvivalGames.MatchStatus::%{_LobbyID}%} to "Active"
 	
 	midMatch("%{_LobbyID}%", "%{_worldName}%")
 	
@@ -590,7 +897,7 @@ function midMatch(LobbyID: text, Map: text):
 		set {_worldName} to {_Map}
 		if {SurvivalGames.MatchStatus::%{_LobbyID}%} is "Active":
 
-			if size of {PlayersAlive.%{_LobbyID}%::*} is less than 4:
+			if size of {PlayersAlive.%{_LobbyID}%::*} is less than {DeathmatchTrigger}:
 				loop all players:
 					if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
 						send "&6SurvivalGames &8> &aDeathmatch will begin in one minute" to loop-player
@@ -666,7 +973,8 @@ function deathMatch(LobbyID: text, Map: text):
 			set {_y} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.Y" from "Maps"
 			set {_z} to yaml value "Maps.%{_tempMap}%.Spawns.%{_spawnpoint}%.Z" from "Maps"
 			execute console command "mvtp %{_obj}% e:%{_Map}%:%{_x}%,%{_y}%,%{_z}%"
-			set {_spawnpoint} to {_spawnpoint} + 3
+			reveal ({_obj} parsed as a player) to all players
+			set ({_obj} parsed as a player)'s flight mode to false
 		loop all players:
 			if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
 				send "&6SurvivalGames &8> &aAll players teleported! Fight to the death!" to loop-player
@@ -676,6 +984,16 @@ function deathMatch(LobbyID: text, Map: text):
 function endMatch(LobbyID: text, Map: text):
 	set {_Map} to {SurvivalGames.worldMap::%{_LobbyID}%}
 	set {_tempMap} to {SurvivalGames.worldMap::%{_LobbyID}%}
+	if size of {PlayersAlive.%{_LobbyID}%::*} is 1:
+		set {_winner} to {PlayersAlive.%{_LobbyID}%::1}
+	if {SurvivalGames.ActiveBounty::%{_winner}%} is greater than 0:
+		set {_oldPoints} to yaml value "Players.%{_winner}%.Points" from "Players"
+		set {_newPoints} to ({_oldPoints} + {SurvivalGames.ActiveBounty::%{_winner}%})
+		set yaml value "Players.%{_winner}%.Points" from "Players" to {_newPoints}
+		send "&6SurvivalGames &8> &aYou collect your &c{SurvivalGames.ActiveBounty::%{_winner}%} &apoint bounty for surviving." to {_winner} parsed as a player
+		set {SurvivalGames.ActiveBounty::%{_winner}%} to 0
+
+	save yaml "Players"
 	loop all players:
 		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
 			send "&8&l-------------------" to loop-player
@@ -684,19 +1002,21 @@ function endMatch(LobbyID: text, Map: text):
 			send "&8&l-------------------" to loop-player
 			loop 3 times:
 				play sound "entity.firework_rocket.launch" with volume 0.25 to loop-player
-				wait 0.5 seconds
+				wait 5 ticks
 				loop 2 times:
 					play sound "entity.firework_rocket.twinkle" with volume 0.25 to loop-player
-					wait 0.2 seconds	
+					wait 3 ticks	
 					play sound "entity.firework_rocket.large_blast" with volume 0.25 to loop-player
-			send "&6SurvivalGames &8> &aTeleporting all players back to the lobby in &c3&a seconds..." to loop-player
-	wait 3 seconds
+			send "&6SurvivalGames &8> &aTeleporting all players back to the lobby in roughly &c3&a seconds..." to loop-player
+	wait 1 second
 
 	loop all players:
 		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
 			execute console command "spawn %loop-player%"
 			clear loop-player's inventory
 			set loop-player's gamemode to Survival
+			reveal loop-player to all players
+			set loop-player's flight mode to false
 	
 	delete {chestOpened.%{_Map}%::*}
 	delete {PlayersAlive.%{_LobbyID}%::*}
@@ -716,14 +1036,30 @@ function endMatch(LobbyID: text, Map: text):
 	set time of world "%{_Map}%" to day
 	execute console command "weather clear"
 	worldCleanup("%{_Map}%")
-	wait 3 seconds
-	if the size of {SurvivalGames::*} is less than 2:
+	wait 2 seconds
+	if the size of {SurvivalGames::*} is less than {MaxGamesAllowed}:
 		execute console command "sg create"
 		
 	
 
 
-
+function helpMenu(p: player):						
+	send "&7-------------------" to {_p}
+	send "&a/sg JOIN [Game Number]" to {_p}
+	send "&a/sg LEAVE&7 - Leave current game or queue." to {_p}
+	send "&7-------------------" to {_p}
+	if {_p} has permission "SurvivalGames.admin":
+		send "&a/sg CREATE &7- Create a new game" to {_p}
+		send "&a/sg MAP CREATE <MAP NAME> &7- Create new map with <map name>" to {_p}
+		send "&a/sg MAP SETSPAWN &7- Set a new map spawn" to {_p}
+		send "&7-------------------" to {_p}
+		send "&a/sg FORCESTART <LOBBY ID>&7- Forces a game in pregame to begin match setup" to {_p}
+		send "&a/sg FORCEDM <LOBBY ID>&7- Forces a game in progress to begin deathmatch" to {_p}
+		send "&a/sg FORCEEND <LOBBY ID>&7- Forces a game in progress end" to {_p}
+		send "" to {_p}
+		send "&a/sg RESET <LOBBY ID>&7- Deletes lobby. If open games is less than max, a new game will be created." to {_p}
+		send "&a/sg CHESTS&7- Resets all chest info for command senders world" to {_p}
+		send "&a/sg TESTVOTE&7- Starts the voting sequence, but does not set map. WORKS ON SGID1 ONLY" to {_p}
 
 function sg_clear_player(p: player):						
 	heal {_p}
@@ -734,11 +1070,15 @@ function sg_clear_player(p: player):
 	set {_p}'s chestplate to air
 	set {_p}'s leggings to air
 	set {_p}'s boots to air		
-	close {_p}'s inventory
 	clear {_p}'s inventory	
 	clear {_p}'s level
 	set {_p}'s gamemode to survival
-    
+
+function sg_heal_dead(p: player):						
+	heal {_p}
+	extinguish {_p}
+	set {_p}'s food to 20	
+	
 command /heal [<offline player>]:
 	permission: SurvivalGames.Heal
 	trigger:
@@ -752,22 +1092,16 @@ command /heal [<offline player>]:
 		extinguish {_p}
 		set {_p}'s food to 20	
 
-command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
+command /SurvivalGames [<text>] [<text>] [<text>]:
 	aliases: SG
 	description: Survival Games Core
 	trigger:
+		set {_p} to command sender
 		if arg 1 is not set:
-			send "&7-------------------"
-			send "&a/sg JOIN [Game Number]"
-			send "&a/sg LEAVE&7 - Leave current game or queue."
-			send "&7-------------------"
-			if player has permission "SurvivalGames.admin":
-				send "&a/sg CREATE &7- Create a new game"
-				send "&a/sg [MAP] [CREATE] <MAP NAME> &7- Create new map with <map name>"
-				send "&a/sg [SETSPAWN] &7- Set a new map spawn"
+			helpMenu({_p})
 		else if arg-1 is "create":
 			if player has permission "SurvivalGames.admin":
-				if size of {SurvivalGames::*} is less than 2:
+				if size of {SurvivalGames::*} is less than {MaxGamesAllowed}:
 					set {_counterLoop} to 1
 					loop {SurvivalGames::*}:
 						if loop-value is "SGid%{_counterLoop}%":
@@ -787,10 +1121,10 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 					broadcast "&6SurvivalGames &8> &aA new game has been created. Type &c /sg join %{_tempsgID}% &ato join!"
 					stop
 				else:
-					send "&cCurrently, only two matches can run at a time!"
+					send "&cThe max number of matches are currently running!"
 					stop
 			else if command sender is console:
-				if size of {SurvivalGames::*} is less than 2:
+				if size of {SurvivalGames::*} is less than {MaxGamesAllowed}:
 					set {_counterLoop} to 1
 					loop {SurvivalGames::*}:
 						if loop-value is "SGid%{_counterLoop}%":
@@ -816,6 +1150,7 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 			send "&6SurvivalGames &8> &aCurrent games:"
 			loop {SurvivalGames::*}:
 				set {_tempID} to loop-value
+				set {SurvivalGames.PlayerCount::%{_tempID}%} to size of {SurvivalGames::%{_tempID}%::PlayerList::*}
 				replace "SGid" with "" in {_tempID}
 				send "&6SurvivalGames &8> &7Game %{_tempID}%: &8(&c%{SurvivalGames.PlayerCount::%loop-value%}%&6/24 - &a%{SurvivalGames.MatchStatus::%loop-value%}%&8)"
 		else if arg 1 is "join":
@@ -830,24 +1165,39 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 								set {SurvivalGames.inGame::%uuid of command sender%} to true
 								add "%player%" to {SurvivalGames::%{_SGID}%::PlayerList::*}
 								set {SurvivalGames.PlayerCount::%{_SGID}%} to size of {SurvivalGames::%{_SGID}%::PlayerList::*}
+								reveal player to all players
 
 								send "&7You have joined &6Game %arg 2%&8: &c%{SurvivalGames.PlayerCount::%{_SGID}%}%&8/&6%{MaxPlayers}%"
 								loop {SurvivalGames::%{_SGID}%::PlayerList::*}:
 									send "&c%player% &7has joined the game - &c%{SurvivalGames.PlayerCount::%{_SGID}%}%&8/&6%{MaxPlayers}%" to loop-value parsed as player
-								set {SurvivalGames.CurrentMatchId::%uuid of command sender%} to "%{_SGID}%"
+								set {SurvivalGames.CurrentMatchId::%uuid of command sender%} to "%{_SGID}%"	
 							else:
-								send "&cGame is full."
+								send "&6SurvivalGames &8> &7Game is full."
 								stop
 					else:
-						send "&cYou are already in a game. Do &7/SG LEAVE &cto leave."
+						send "&6SurvivalGames &8> &cYou are already ingame. Do &7/SG LEAVE &cto leave."
 					if {SurvivalGames.PlayerCount::%{_SGID}%} is {MinMaxPlayers}:
 						if {SurvivalGames.MinMaxStarted::%{_SGID}%} is false:
 							set {SurvivalGames.MinMaxStarted::%{_SGID}%} to true
 							startMatch("%{_SGID}%")
 							stop
-				else:
-					send "&7Match already in progress."
+				else if {SurvivalGames.MatchStatus::%{_SGID}%} is "Setup":
+					send "&6SurvivalGames &8> &7You cannot join during world setup"
 					stop
+				else if {SurvivalGames.MatchStatus::%{_SGID}%} is "Active" or "Deathmatch":
+					if {SurvivalGames.inGame::%uuid of command sender%} is false:
+						if {SurvivalGames::*} contains "%{_SGID}%":
+							if {SurvivalGames.PlayerCount::%{_SGID}%} is less than {MaxPlayers}:
+								set {SurvivalGames.inGame::%uuid of command sender%} to true
+								add "%command sender%" to {SurvivalGames::%{_SGID}%::PlayerList::*}
+								set {DeathStatus::%command sender%} to "Dead"
+								send "&7You have started spectating &6Game %arg 2%&8"
+								set {SurvivalGames.CurrentMatchId::%uuid of command sender%} to "%{_SGID}%"
+							else:
+								send "&cGame is full."
+								stop
+				else:
+					send "&6SurvivalGames &8> &7Game not found."
 			else:
 				send "&cPlease specify which game you would like to join."
 			stop
@@ -856,9 +1206,12 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 				set {SurvivalGames.inGame::%uuid of command sender%} to false
 				execute console command "spawn %player%"
 				loop {SurvivalGames::*}:
-					if {SurvivalGames::%loop-value%::PlayerList::*} contains "%player%":
-						remove "%player%" from {SurvivalGames::%loop-value%::PlayerList::*}
+					if {SurvivalGames::%loop-value%::PlayerList::*} contains command sender:
+						remove command sender from {SurvivalGames::%loop-value%::PlayerList::*}
+						remove command sender from {PlayersAlive.%loop-value%::*}
+						set {SurvivalGames.PlayerCount::%loop-value%} to size of {SurvivalGames::%loop-value%::PlayerList::*}
 						delete {SurvivalGames.CurrentMatchId::%uuid of command sender%}
+						set {DeathStatus::%command sender%} to "Pregame"
 						send "&7You have left the game."
 						loop {SurvivalGames::%loop-value-1%::PlayerList::*}:
 							send "&c%player% &7has left the game." to loop-value-2 parsed as player
@@ -867,9 +1220,9 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 		else if arg 1 is "playerlist" or "pl":
 			if {SurvivalGames.inGame::%uuid of command sender%} is true:
 				send "&7-------------------"
-				send "&6SurvivalGames &8> &aPlayers in the game:"
+				send "&6SurvivalGames &8> &aPlayers Alive:"
 				send "&7"
-				send "&7%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::PlayerList::*}%"
+				send "&7%{SurvivalGames::%{PlayersAlive.%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::*}%}%"
 				send "&7-------------------"
 			else:
 				send "&cYou are not in a game."
@@ -921,7 +1274,11 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 		else if arg 1 is "map":
 			if player has permission "SurvivalGames.admin":
 				set {_worldName} to the player's world
+				replace "TEMPLATE" with "" in {_worldName}
+
 				if arg 2 is "create":
+					set {_worldName} to the player's world
+					replace "TEMPLATE" with "" in {_worldName}
 					if arg 3 is set:
 						if yaml value "Maps.%{_worldName}%" from "Maps" is not set:
 							set yaml value "Maps.%{_worldName}%.mapName" from "Maps" to "%arg 3%"
@@ -950,9 +1307,11 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 								stop
 					else:
 						send "&cMap name missing or invalid"
+				else:
+					helpMenu({_p})
 
 
-		if arg 1 is "forcestart":
+		else if arg 1 is "forcestart":
 			if player has permission "SurvivalGames.admin":
 				if arg 2 is set:
 					set {_SGID} to "SGid%arg 2%"
@@ -962,51 +1321,53 @@ command /SurvivalGames [<text>] [<text>] [<text>] [<text>] [<text>]:
 						startMatch("%{_SGID}%")
 					else:
 						send "&cMatch already in progress" to the command sender
-		if arg 1 is "forceend":
+				else:
+					helpMenu({_p})
+		else if arg 1 is "forceend":
 			if player has permission "SurvivalGames.admin":
 				if arg 2 is set:
 					set {_SGID} to "SGid%arg 2%"
 					endMatch("%{_SGID}%", "%{SurvivalGames.worldMap::%{_SGID}%}%")
 		
-		if arg 1 is "forcedm":
+		else if arg 1 is "forcedm":
 			if player has permission "SurvivalGames.admin":
 				if arg 2 is set:
 					set {_SGID} to "SGid%arg 2%"
 					deathMatch("%{_SGID}%", "%{SurvivalGames.worldMap::%{_SGID}%}%")
 
-		if arg 1 is "reset":
+		else if arg 1 is "reset":
 			if player has permission "SurvivalGames.admin":
 				set {_SGID} to "SGid%arg 2%"
 				if {SurvivalGames::*} contains "%{_SGID}%":
 					loop all players:
-						set {_p} to loop-value
-						if {SurvivalGames.inGame::%uuid of {_p}%} is true:
-							loop {SurvivalGames::*}:
-								if {SurvivalGames::%loop-value-2%::PlayerList::*} contains "%{_p}%":
-									remove "%{_p}%" from {SurvivalGames::%loop-value-2%::PlayerList::*}
-									delete {SurvivalGames.CurrentMatchId::%uuid of {_p}%}
-									set {SurvivalGames.inGame::%uuid of {_p}%} to false
+						if {SurvivalGames::%{_SGID}%::PlayerList::*} contains "%loop-player%":
+							set {_p} to loop-player
+							if {SurvivalGames.inGame::%uuid of {_p}%} is true:
+								set {SurvivalGames.inGame::%uuid of {_p}%} to false
+								delete {SurvivalGames.CurrentMatchId::%uuid of {_p}%}
 
-
+					worldCleanup("%{SurvivalGames.worldMap::%{_SGID}%}%")
 					delete {SurvivalGames::%{_SGID}%::*}
 					delete {SurvivalGames.MatchStatus::%{_SGID}%}
 					delete {SurvivalGames::%{_SGID}%}
-
+					delete {PlayersAlive.%{_SGID}%::*}
 					delete {SurvivalGames::%{_SGID}%::PlayerList::*} 
 					remove "%{_SGID}%" from {SurvivalGames::*}
 					send "&6SurvivalGames &8> &aGame %{_SGID}% has been reset."
 
 
-		if arg 1 is "Chests":
+		else if arg 1 is "Chests":
 			if player has permission "SurvivalGames.admin":
 				send "&6SurvivalGames &8> &aChests have been reset for game %command sender's world%."
 				set {_worldName} to the command sender's world
 				delete {chestOpened.%{_worldName}%::*}
 				set time of world "%{_worldName}%" to day
 
-		if arg 1 is "testvote":
+		else if arg 1 is "testvote":
 			if player has permission "SurvivalGames.admin":
 				startVoting("SGid1")
+		else:
+			helpMenu({_p})
 
 
 
@@ -1070,10 +1431,6 @@ on join:
 	else:
 		stop
 
-
-
-
-
 command /version:
 	trigger:
 		if player doesn't have permission "SurvivalGames.admin":
@@ -1085,13 +1442,95 @@ command /ver:
 command /pl:
 	trigger:
 		if {SurvivalGames.inGame::%uuid of command sender%} is true:
-			send "&7-------------------"
-			send "&6SurvivalGames &8> &aPlayers in the game:"
-			send "&7"
-			send "&7%{SurvivalGames::%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::PlayerList::*}%"
-			send "&7-------------------"
+			send "&7-------------------" to command sender
+			send "&6SurvivalGames &8> &aPlayers Alive:" to command sender
+			send "&7" to command sender
+			send "&7%{SurvivalGames::%{PlayersAlive.%{SurvivalGames.CurrentMatchId::%uuid of command sender%}%::*}%}%" to command sender
+			send "&7-------------------" to command sender
 		else:
 			send "&cYou are not in a game."
 
+command /about:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /top:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+		else:
+			set {_loc} to location at player
+			set y coordinate of {_loc} to 256
+			loop 256 times:
+				remove 1 from the y coordinate of {_loc}
+				if the block at {_loc} is not air:
+					if the block at {_loc} is not glass block:
+						add 1 to the y coordinate of {_loc}
+						teleport player to {_loc}
+						send "&dWhoosh" to player
+						stop
+command //calc:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /ipwl:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /pt:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /powertool:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /ept:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /epowertool:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /br:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:help:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:?:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /?:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:about:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:pl:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:plugins:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:version:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
+command /bukkit:ver:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
 
-		
+command /me:
+	trigger:
+		if player doesn't have permission "SurvivalGames.admin":
+			stop
