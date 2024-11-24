@@ -1,15 +1,12 @@
 Basic game-
 
-Create config that can allow for quick mid game swaps
+Create config that can allow for quick mid game swaps //Done (Basic stle)
 
 Some rules to think about:
-    - Terrorist percentage (Minimum total players?)
     - Allow Custom Roles
-        - Do I want to go even more advanced and enable certain roles but not some?
+        - Do I want to go even more advanced and enable certain roles but not some? Later
     - time limit
     - TTT Shop
-
-    -Karma????
 
 
 Map will be randomly generated 
