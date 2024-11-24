@@ -27,9 +27,6 @@
 "chestopened.lobby::lobby:274.5,82.5,66.5", boolean, 01
 "chestopened.lobby::lobby:285.5,95.5,22.5", boolean, 01
 "chestopened.lobby::lobby:289.5,84.5,19.5", boolean, 01
-"chestopened.map_drybonesvalleysgid1::map_drybonesvalleysgid1:-1203.5,19.5,334.5", boolean, 01
-"chestopened.map_drybonesvalleysgid1::map_drybonesvalleysgid1:-1201.5,19.5,333.5", boolean, 01
-"chestopened.map_drybonesvalleysgid1::map_drybonesvalleysgid1:-1200.5,19.5,331.5", boolean, 01
 chestrefilltrigger, long, 000000000000000A
 deathmatchtrigger, long, 0000000000000004
 deathstatus::1, string, 800750726567616D65
@@ -198,7 +195,7 @@ survivalgames.votingactive::sgid1, boolean, 00
 survivalgames.votingactive::sgid2, boolean, 00
 survivalgames.votingperiod::sgid1, boolean, 00
 survivalgames.votingperiod::sgid2, boolean, 00
-survivalgames.worldmap::sgid1, string, 80166D61705F427265657A6549736C616E64325347696431
+survivalgames.worldmap::sgid1, string, 80176D61705F537572766976616C47616D6573345347696431
 survivalgames.worldmap::sgid2, string, 80136D61705F536F6C617246726F73745347696432
 survivalgames.worldmap::sgid<none>, string, 80126D61705F537572766976616C47616D657334
 vanish.ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00

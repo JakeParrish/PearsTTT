@@ -54,6 +54,7 @@ variables:
 
 
 every 3 minutes:
+	execute console command "/updateleaderboards"
 	loop {SurvivalGames::*}:
 		if {SurvivalGames.MatchStatus::%loop-value%} is "Pregame":
 			if size of {SurvivalGames::%loop-value%::PlayerList::*} is less than {MaxPlayers}:
@@ -196,7 +197,7 @@ on death:
 			set {_attackerPoints} to yaml value "Players.%attacker%.Points" from "Players"
 			set {_victimPoints} to yaml value "Players.%victim%.Points" from "Players"
 			if {_victimPoints} is greater than 8:
-				set {_transfer} to (round({_victimPoints} / 9))
+				set {_transfer} to (round({_victimPoints} / 13))
 				set yaml value "Players.%attacker%.Points" from "Players" to ({_attackerPoints} + {_transfer})
 				set yaml value "Players.%victim%.Points" from "Players" to ({_victimPoints} - {_transfer})
 				save yaml "Players"
@@ -213,7 +214,7 @@ on death:
 			set {_attackerPoints} to yaml value "Players.%attacker%.Points" from "Players"
 			set {_victimPoints} to yaml value "Players.%victim%.Points" from "Players"
 			if {_victimPoints} is greater than 8:
-				set {_transfer} to (round({_victimPoints} / 9))
+				set {_transfer} to (round({_victimPoints} / 13))
 				set yaml value "Players.%victim%.Points" from "Players" to ({_victimPoints} - {_transfer})
 				save yaml "Players"
 				send "&6SurvivalGames &8> &7You died. You have lost &c%{_transfer}% &7points." to the victim
@@ -854,9 +855,9 @@ function startMatch(LobbyID: text):
 		execute console command "mvtp %{_obj}% e:%{SurvivalGames.worldMap::%{_LobbyID}%}%:%{_x}%,%{_y}%,%{_z}%"
 		reveal ({_obj} parsed as a player) to all players
 		set ({_obj} parsed as a player)'s flight mode to false
-		set {_Matches} to yaml value "Players.%player%.Matches" from "Players"
+		set {_Matches} to yaml value "Players.%{_obj}%.Matches" from "Players"
 		add 1 to {_Matches}
-		set yaml value "Players.%victim%.Matches" from "Players" to {_Matches}
+		set yaml value "Players.%{_obj}%.Matches" from "Players" to {_Matches}
 		save yaml "Players"
 
 	wait 3 second
@@ -998,12 +999,15 @@ function endMatch(LobbyID: text, Map: text):
 		send "&6SurvivalGames &8> &aYou collect your &c{SurvivalGames.ActiveBounty::%{_winner}%} &apoint bounty for surviving." to {_winner} parsed as a player
 		set {SurvivalGames.ActiveBounty::%{_winner}%} to 0
 
+	set {_oldWin} to yaml value "Players.%{_winner}%.Wins" from "Players"
+	set {_newWin} to ({_oldWin} + 1)
+	set yaml value "Players.%{_winner}%.Wins" from "Players" to {_newWin}
 	save yaml "Players"
 	loop all players:
 		if {SurvivalGames::%{_LobbyID}%::PlayerList::*} contains "%loop-player%":
 			send "&8&l-------------------" to loop-player
 			send "&6SurvivalGames &8> &aThe match has ended!" to loop-player
-			send "&6SurvivalGames &8> &aThe winner is &c%{PlayersAlive.%{_LobbyID}%::*}%" to loop-player
+			send "&6SurvivalGames &8> &aThe winner is &c%{_winner}%" to loop-player
 			send "&8&l-------------------" to loop-player
 			loop 3 times:
 				play sound "entity.firework_rocket.launch" with volume 0.25 to loop-player
@@ -1042,6 +1046,7 @@ function endMatch(LobbyID: text, Map: text):
 	execute console command "weather clear"
 	worldCleanup("%{_Map}%")
 	wait 2 seconds
+	execute console command "/updateleaderboards"
 	if the size of {SurvivalGames::*} is less than {MaxGamesAllowed}:
 		execute console command "sg create"
 		
@@ -1381,13 +1386,18 @@ command /stats [<offline player>]:
 			set {_Points} to yaml value "Players.%command sender%.Points" from "Players"
 			set {_Kills} to yaml value "Players.%command sender%.Kills" from "Players"
 			set {_Deaths} to yaml value "Players.%command sender%.Deaths" from "Players"
-			set {_Wins} to yaml value "Players.%command sender%.Points" from "Players"
+			set {_Wins} to yaml value "Players.%command sender%.Wins" from "Players"
 			set {_Matches} to yaml value "Players.%command sender%.Matches" from "Players"
 			set {_WinPercentage} to (({_Wins} / {_Matches}) * 100)
-			set {_KD} to ({_Kills} / {_Deaths})
+			if {_WinPercentage} is greater than 101:
+				set {_WinPercentage} to "NaN"
+			if {_Deaths} is 0:
+				set {_KD} to ({_Kills} / 1)
+			else:
+				set {_KD} to ({_Kills} / {_Deaths})
 			send "&8&l&m---------------&r&a&l%command sender%'s Stats &8&l&m---------------" to command sender
 			send "" to command sender
-			send "&8&l&m-&r &Wins: &a%{_Wins}% (%{_WinPercentage}% Win Percentage)" to command sender
+			send "&8&l&m-&r &6Wins: &a%{_Wins}% (%{_WinPercentage}%%% Win Percentage)" to command sender
 			send "&8&l&m-&r &6Kills: &a%{_Kills}%" to command sender
 			send "&8&l&m-&r &6Deaths: &a%{_Deaths}%" to command sender
 			send "&8&l&m-&r &6KD: &a%{_KD}%" to command sender
@@ -1399,26 +1409,31 @@ command /stats [<offline player>]:
 			set {_Points} to yaml value "Players.%arg 1%.Points" from "Players"
 			set {_Kills} to yaml value "Players.%arg 1%.Kills" from "Players"
 			set {_Deaths} to yaml value "Players.%arg 1%.Deaths" from "Players"
-			set {_Wins} to yaml value "Players.%arg 1%.Points" from "Players"
+			set {_Wins} to yaml value "Players.%arg 1%.Wins" from "Players"
 			set {_Matches} to yaml value "Players.%arg 1%.Matches" from "Players"
 			set {_WinPercentage} to (({_Wins} / {_Matches}) * 100)
-			set {_KD} to ({_Kills} / {_Deaths})
-			send "&8&l&m---------------&r&a&l%arg 1%'s Stats &8&l&m---------------" to arg 1
-			send "" to arg 1
-			send "&8&l&m-&r &Wins: &a%{_Wins}% (%{_WinPercentage}% Win Percentage)" to arg 1
-			send "&8&l&m-&r &6Kills: &a%{_Kills}%" to arg 1
-			send "&8&l&m-&r &6Deaths: &a%{_Deaths}%" to arg 1
-			send "&8&l&m-&r &6KD: &a%{_KD}%" to arg 1
-			send "&8&l&m-&r &6Total Matches Played: &a%{_Matches}%" to arg 1
-			send "&8&l&m-&r &6Points: &a%{_Points}%" to arg 1
-			send "" to arg 1
-			send "&8&l&m---------------&r&a&l%arg 1%'s Stats &8&l&m---------------" to arg 1
+			if {_WinPercentage} is greater than 100:
+				set {_WinPercentage} to "NaN"
+			if {_Deaths} is 0:
+				set {_KD} to ({_Kills} / 1)
+			else:
+				set {_KD} to ({_Kills} / {_Deaths})
+			send "&8&l&m---------------&r&a&l%arg 1%'s Stats &8&l&m---------------" to command sender
+			send "" to command sender
+			send "&8&l&m-&r &6Wins: &a%{_Wins}% (%{_WinPercentage}%%% Win Percentage)" to command sender
+			send "&8&l&m-&r &6Kills: &a%{_Kills}%" to command sender
+			send "&8&l&m-&r &6Deaths: &a%{_Deaths}%" to command sender
+			send "&8&l&m-&r &6KD: &a%{_KD}%" to command sender
+			send "&8&l&m-&r &6Total Matches Played: &a%{_Matches}%" to command sender
+			send "&8&l&m-&r &6Points: &a%{_Points}%" to command sender
+			send "" to command sender
+			send "&8&l&m---------------&r&a&l%arg 1%'s Stats &8&l&m---------------" to command sender
 			
 
 
 
 command /setspawn:
-	permission: spawn.setspawn
+	permission: SurvivalGames.Core
 	permission message: &cSorry, but you don't have permission to execute this command!
 	description: Set spawn at your location.
 	trigger:
@@ -1449,7 +1464,7 @@ command /spawn [<player>]:
 					message "&cSorry, but you don't have permission to execute this command!"
 
 command /delspawn:
-	permission: spawn.spawn.delete
+	permission: SurvivalGames.Core
 	permission message: &cSorry, but you don't have permission to execute this command!
 	description: Unset spawn location.
 	trigger:
@@ -1579,3 +1594,54 @@ command /me:
 	trigger:
 		if player doesn't have permission "SurvivalGames.admin":
 			stop
+
+
+# ------------------------------ AUTOMATION COMMAND ----------------------------
+command /updateleaderboards:
+	executable by: console
+	trigger:
+		# Kill board
+		loop yaml node keys "Players" from "Players":
+			add loop-value to {_players::*}
+			set {_killC} to yaml value "Players.%loop-value%.Kills" from "Players"
+			add {_killC} to {_kills::%loop-value%}
+		set {_sorted::*} to sorted {_kills::*}
+		loop 5 times:
+			add the last element of {_sorted::*} to {_reversedsorted::*}
+			remove last element of {_sorted::*} from {_sorted::*}
+		
+		set {_counter} to 2
+		loop {_reversedsorted::*}:
+			loop {_players::*}:
+				set {_killC} to yaml value "Players.%loop-value-2%.Kills" from "Players"
+				if loop-value-1 is {_killC}:
+					execute console command "/dh line set KillLeaderboard 1 %{_counter}% &7%{_counter} - 1%. %loop-value-2% - &u%{_killC}%"
+					execute console command "/dh line offsetx KillLeaderboard 1 %{_counter}% 0"
+					remove loop-value-2 from {_players::*}
+					add 1 to {_counter}
+					stop loop
+			if {_counter} is 7:
+				stop loop
+	
+		
+		loop yaml node keys "Players" from "Players":
+			add loop-value to {_playersB::*}
+			set {_winsC} to yaml value "Players.%loop-value%.Wins" from "Players"
+			add {_winsC} to {_wins::%loop-value%}
+		set {_sortedB::*} to sorted {_wins::*}
+		loop 5 times:
+			add the last element of {_sortedB::*} to {_reversedsortedB::*}
+			remove last element of {_sortedB::*} from {_sortedB::*}
+		set {_counter} to 2
+		loop {_reversedsortedB::*}:
+			loop {_playersB::*}:
+				set {_winC} to yaml value "Players.%loop-value-2%.Wins" from "Players"
+				if loop-value-1 is {_winC}:
+					execute console command "/dh line set WinLeaderboard 1 %{_counter}% &7%{_counter} - 1%. %loop-value-2% - &u%{_winC}%"
+					execute console command "/dh line offsetx WinLeaderboard 1 %{_counter}% 0"
+					remove loop-value-2 from {_playersB::*}
+					add 1 to {_counter}
+					stop loop
+			if {_counter} is 7:
+				stop loop
+		

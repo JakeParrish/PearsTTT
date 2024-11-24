@@ -24,7 +24,7 @@ npc:
         yaw: '88.8592'
         pitch: '0.0'
       spawned: true
-    traitnames: mounttrait,location,scoreboardtrait,spawned,owner,type
+    traitnames: type,spawned,location,scoreboardtrait,owner,mounttrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -51,7 +51,7 @@ npc:
         yaw: '-89.747'
         pitch: '0.0'
       spawned: true
-    traitnames: mounttrait,location,scoreboardtrait,owner,spawned,type
+    traitnames: type,spawned,location,scoreboardtrait,owner,mounttrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
