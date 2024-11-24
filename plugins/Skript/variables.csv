@@ -3,6 +3,8 @@
 #
 # version: 2.9.4
 
+bordersizemaxsetting::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
+bordersizeminsetting::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
 "chestopened::map_survivalgames4:-1.5,32.5,-3.5", boolean, 01
 "chestopened::map_survivalgames4:-1.5,32.5,-1.5", boolean, 01
 "chestopened::map_survivalgames4:-0.5,32.5,-4.5", boolean, 01
@@ -28,6 +30,7 @@
 "chestopened.lobby::lobby:285.5,95.5,22.5", boolean, 01
 "chestopened.lobby::lobby:289.5,84.5,19.5", boolean, 01
 chestrefilltrigger, long, 000000000000000A
+cs, string, 800131
 currentworldborder, long, 00000000000000A5
 deathmatchtrigger, long, 0000000000000004
 deathstatus::1, string, 800750726567616D65
@@ -52,6 +55,7 @@ deathstatus::b8264ec1-1ddb-4cc2-9a54-26704d8be5d3, string, 8005416C697665
 deathstatus::cdf0cea8-7244-4347-b7ba-86b4168d3eff, string, 800750726567616D65
 deathstatus::d5b67f9e-e27b-44cc-8e36-1c0916d0dbf9, string, 800444656164
 deathstatus::d4387d81-0948-40d2-ab83-69e96786b1dc, string, 800444656164
+detectivecountsetting::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
 fly.5c55926d-9a11-4421-8aea-55d622e045b7, boolean, 01
 freeze::itsjp, boolean, 00
 freeze.067da44a-c774-487e-a914-dd81c89e84af, boolean, 00
@@ -88,6 +92,7 @@ mapz, long, FFFFFFFFFFFFEB70
 maxgamesallowed, long, 000000000000000F
 maxplayers, long, 0000000000000018
 maxpoints, long, 0000000000000019
+message, string, 8004C2A77230
 minmaxplayers, long, 0000000000000012
 minpoints, long, 000000000000000D
 other.minplayerst, integer, 00000002
@@ -95,6 +100,10 @@ other.postrounddm, integer, 00000000
 players.online, long, 0000000000000000
 playersalive::1, string, 80054974734A70
 preptime, boolean, 00
+preptimesetting::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
+risinglavafinishheightsetting::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
+risinglavafinishminsetting::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
+risinglavastartminsetting::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
 role::<none>, string, 800754726169746F72
 role::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, string, 800754726169746F72
 role.glitch, integer, 00000000
@@ -102,8 +111,8 @@ role.hypnotist, integer, 00000000
 role.jester, integer, 00000000
 role.spy, integer, 00000000
 roundstructure.bordersizemax, integer, 000000AF
-roundstructure.bordersizemin, integer, 00000032
-roundstructure.preptime_min, integer, 00000005
+roundstructure.bordersizemin, long, 0000000000000032
+roundstructure.preptime_min, long, 0000000000000005
 roundstructure.risinglava_finishheight, integer, 00000037
 roundstructure.risinglava_finishmin, integer, 00000005
 roundstructure.risinglava_startmin, integer, 00000014
@@ -220,6 +229,7 @@ survivalgames.votingperiod::sgid2, boolean, 00
 survivalgames.worldmap::sgid1, string, 80176D61705F537572766976616C47616D6573345347696431
 survivalgames.worldmap::sgid2, string, 80136D61705F536F6C617246726F73745347696432
 survivalgames.worldmap::sgid<none>, string, 80126D61705F537572766976616C47616D657334
+traitorcountsetting::ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
 vanish.ab43eee4-81b4-4a2f-905a-86f76e9bae6f, boolean, 00
 yaml::file, string, 8026706C7567696E732F5061727279537572766976616C47616D65732F506C61796572732E796D6C
 

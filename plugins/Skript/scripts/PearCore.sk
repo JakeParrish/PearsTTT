@@ -29,9 +29,468 @@ on damage:
 		cancel event
 	if {PrepTime} is true:
 		cancel event
+on chat:
+	# ROUND STRUCTURE CHAT RESPONSES
+	if {prepTimeSetting::%player%} is true: #Works enough
+		cancel event
+		set {_message} to "%message%"
+		set {_counter} to 31
+		if {_message} contains "cancel":
+			set {prepTimeSetting::%player%} to false
+			send "&e&lPear's TTT &8&l> &6Cancelled. No values changed" to player
+			stop
+		loop 31 times:
+			set {_cs} to "%{_counter}%"
+			if {_message} contains "%{_cs}%":
+				set {_updateString} to {_counter}
+				set {_updateString} to {_updateString} parsed as number
+				stop loop
+			else:
+				remove 1 from {_counter}
+		if {_counter} is greater than 0:
+			if {_counter} is less than 31:
+				send "&e&lPear's TTT &8&l> &aPrep Time set to &c%{_counter}%" to player
+				set yaml value "RoundStructure.PrepTime_Min" from "Settings" to {_counter}
+				save yaml "Settings"
+				wait 1 tick
+				set {prepTimeSetting::%player%} to false
+				updateVars()
+			else:
+				send "&e&lPear's TTT &8&l> &6Prep Time must not exceed 30! Enter cancel to exit." to player
+				stop
+		else:
+			send "&e&lPear's TTT &8&l> &6Prep Time must be greater than 0! Enter cancel to exit." to player
+			stop
+	if {borderSizeMinSetting::%player%} is true: #works enough
+		cancel event
+		set {_message} to "%message%"
+		set {_counter} to 201
+		if {_message} contains "cancel":
+			set {borderSizeMinSetting::%player%} to false
+			send "&e&lPear's TTT &8&l> &6Cancelled. No values changed" to player
+			stop
+		loop 175 times:
+			set {_cs} to "%{_counter}%"
+			if {_message} contains "%{_cs}%":
+				set {_updateString} to {_counter}
+				set {_updateString} to {_updateString} parsed as number
+				stop loop
+			else:
+				remove 1 from {_counter}
+		if {_counter} is greater than 24:
+			if {_counter} is less than 201:
+				send "&e&lPear's TTT &8&l> &aMin Border Size set to &c%{_counter}%" to player
+				set yaml value "RoundStructure.BorderSizeMin" from "Settings" to {_counter}
+				save yaml "Settings"
+				wait 1 tick
+				set {borderSizeMinSetting::%player%} to false
+				updateVars()
+			else:
+				send "&e&lPear's TTT &8&l> &6Min Border Size must not exceed 200! Enter cancel to exit." to player
+				stop
+		else:
+			send "&e&lPear's TTT &8&l> &6Min Border Size must be greater than 25! Enter cancel to exit." to player
+			stop
+	if {borderSizeMaxSetting::%player%} is true: #Works
+		cancel event
+		set {_message} to "%message%"
+		set {_counter} to 201
+		if {_message} contains "cancel":
+			set {borderSizeMaxSetting::%player%} to false
+			send "&e&lPear's TTT &8&l> &6Cancelled. No values changed" to player
+			stop
+		loop 150 times:
+			set {_cs} to "%{_counter}%"
+			if {_message} contains "%{_cs}%":
+				set {_updateString} to {_counter}
+				set {_updateString} to {_updateString} parsed as number
+				stop loop
+			else:
+				remove 1 from {_counter}
+		if {_counter} is greater than 49:
+			if {_counter} is less than 201:
+				send "&e&lPear's TTT &8&l> &aMax Border Size set to &c%{_counter}%" to player
+				set yaml value "RoundStructure.BorderSizeMaz" from "Settings" to {_counter}
+				save yaml "Settings"
+				wait 1 tick
+				set {borderSizeMaxSetting::%player%} to false
+				updateVars()
+			else:
+				send "&e&lPear's TTT &8&l> &6Max Border Size must not exceed 200! Enter cancel to exit." to player
+				stop
+		else:
+			send "&e&lPear's TTT &8&l> &6Max Border Size must be greater than 50! Enter cancel to exit." to player
+			stop
+	if {risingLavaStartMinSetting::%player%} is true: #Works Enough
+		cancel event
+		set {_message} to "%message%"
+		set {_counter} to 46
+		if {_message} contains "cancel":
+			set {risingLavaStartMinSetting::%player%} to false
+			send "&e&lPear's TTT &8&l> &6Cancelled. No values changed" to player
+			stop
+		loop 45 times:
+			set {_cs} to "%{_counter}%"
+			if {_message} contains "%{_cs}%":
+				set {_updateString} to {_counter}
+				set {_updateString} to {_updateString} parsed as number
+				stop loop
+			else:
+				remove 1 from {_counter}
+		if {_counter} is greater than 0:
+			if {_counter} is less than 46:
+				send "&e&lPear's TTT &8&l> &aRising Lava - Start Time set to &c%{_counter}%" to player
+				set yaml value "RoundStructure.RisingLava_StartMin" from "Settings" to {_counter}
+				save yaml "Settings"
+				wait 1 tick
+				set {risingLavaStartMinSetting::%player%} to false
+				updateVars()
+			else:
+				send "&e&lPear's TTT &8&l> &6Rising Lava - Start Time must not exceed 45! Enter cancel to exit." to player
+				stop
+		else:
+			send "&e&lPear's TTT &8&l> &6Rising Lava - Start Time must be greater than 0! Enter cancel to exit." to player
+			stop 
+	if {risingLavaFinishMinSetting::%player%} is true: #Works enough
+		cancel event
+		set {_message} to "%message%"
+		set {_counter} to 21
+		if {_message} contains "cancel":
+			set {risingLavaFinishMinSetting::%player%} to false
+			send "&e&lPear's TTT &8&l> &6Cancelled. No values changed" to player
+			stop
+		loop 21 times:
+			set {_cs} to "%{_counter}%"
+			if {_message} contains "%{_cs}%":
+				set {_updateString} to {_counter}
+				set {_updateString} to {_updateString} parsed as number
+				stop loop
+			else:
+				remove 1 from {_counter}
+		if {_counter} is greater than 0:
+			if {_counter} is less than 21:
+				send "&e&lPear's TTT &8&l> &aRising Lava - Time to Finish set to &c%{_counter}%" to player
+				set yaml value "RoundStructure.RisingLava_FinishMin" from "Settings" to {_counter}
+				save yaml "Settings"
+				wait 1 tick
+				set {risingLavaFinishMinSetting::%player%} to false
+				updateVars()
+			else:
+				send "&e&lPear's TTT &8&l> &6Rising Lava - Time to Finish must not exceed 20! Enter cancel to exit." to player
+				stop
+		else:
+			send "&e&lPear's TTT &8&l> &6Rising Lava - Time to Finish must be greater than 0! Enter cancel to exit." to player
+			stop
+	if {risingLavaFinishHeightSetting::%player%} is true: #Works
+		cancel event
+		set {_message} to "%message%"
+		set {_counter} to 101
+		if {_message} contains "cancel":
+			set {risingLavaFinishHeightSetting::%player%} to false
+			send "&e&lPear's TTT &8&l> &6Cancelled. No values changed" to player
+			stop
+		loop 101 times:
+			set {_cs} to "%{_counter}%"
+			if {_message} contains "%{_cs}%":
+				set {_updateString} to {_counter}
+				set {_updateString} to {_updateString} parsed as number
+				stop loop
+			else:
+				remove 1 from {_counter}
+		if {_counter} is greater than 0:
+			if {_counter} is less than 101:
+				send "&e&lPear's TTT &8&l> &aRising Lava - Max Y-Value set to &c%{_counter}%" to player
+				set yaml value "RoundStructure.RisingLava_FinishHeight" from "Settings" to {_counter}
+				save yaml "Settings"
+				wait 1 tick
+				set {risingLavaFinishHeightSetting::%player%} to false
+				updateVars()
+			else:
+				send "&e&lPear's TTT &8&l> &6Rising Lava - Max Y-Value must not exceed 20! Enter cancel to exit." to player
+				stop
+		else:
+			send "&e&lPear's TTT &8&l> &6Rising Lava - Max Y-Value must be greater than 0! Enter cancel to exit." to player
+			stop
+
+	# GAME PLAY CHAT RESPONSES
+	if {detectiveCountSetting::%player%} is true: #Works
+		cancel event
+		set {message} to "%message%"
+		set {_counter} to 32
+		if {message} contains "cancel":
+			set {detectiveCountSetting::%player%} to false
+			send "&e&lPear's TTT &8&l> &6Cancelled. No values changed" to player
+			stop
+		loop 32 times:
+			set {cs} to "%{_counter}%"
+			if {message} contains {cs}:
+				set {_updateString} to {_counter}
+				set {_updateString} to {_updateString} parsed as number
+				stop loop
+			else:
+				remove 1 from {_counter}
+		if {_counter} is greater than -1:
+			if {_counter} is less than 17:
+				send "&e&lPear's TTT &8&l> &aDetective Count set to &c%{_counter}%" to player
+				set yaml value "Gameplay.DetectiveCount" from "Settings" to {_counter}
+				save yaml "Settings"
+				wait 1 tick
+				set {detectiveCountSetting::%player%} to false
+				updateVars()
+			else:
+				send "&e&lPear's TTT &8&l> &6Detective Count must not exceed 16! Enter cancel to exit." to player
+				stop
+		else:
+			send "&e&lPear's TTT &8&l> &6Detective Count must be at least 0! Enter cancel to exit." to player
+			stop
+	if {traitorCountSetting::%player%} is true: #Works
+		cancel event
+		set {message} to "%message%"
+		if {message} contains "cancel":
+			set {traitorCountSetting::%player%} to false
+			send "&e&lPear's TTT &8&l> &6Cancelled. No values changed" to player
+			stop
+		set {_counter} to 32
+		loop 32 times:
+			set {cs} to "%{_counter}%"
+			if {message} contains {cs}:
+				set {_updateString} to {_counter}
+				set {_updateString} to {_updateString} parsed as number
+				stop loop
+			else:
+				remove 1 from {_counter}
+		if {_counter} is greater than 0:
+			if {_counter} is less than 17:
+				send "&e&lPear's TTT &8&l> &aTraitor Count set to &c%{_counter}%" to player
+				set yaml value "Gameplay.TraitorCount" from "Settings" to {_counter}
+				save yaml "Settings"
+				wait 1 tick
+				set {traitorCountSetting::%player%} to false
+				updateVars()
+			else:
+				send "&e&lPear's TTT &8&l> &aTraitor Count must not exceed 16! Enter cancel to exit." to player
+				stop
+		else:
+			send "&e&lPear's TTT &8&l> &aTraitor Count must be more than 0! Enter cancel to exit." to player
+			stop
+
+on inventory click:
+	set {_p} to command sender
+	if type of event-inventory is not player inventory:
+		if inventory name of player's current inventory contains "&6&lSettings Menu":
+			if name of event-slot contains "&aGameplay Settings":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				gameplaySettingsMenu({_p})
+			if name of event-slot contains "&aRound Structure Settings":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				roundStructureSettingsMenu({_p})
+			if name of event-slot contains "&aRoles Settings":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				#rolesSettingsMenu({_p})
+			if name of event-slot contains "&aOther Settings":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				#otherSettingsMenu({_p})
+			if name of event-slot contains "&0 ":
+				cancel event
+		if inventory name of player's current inventory contains "&6&lGameplay Menu":
+			if name of event-slot contains "&eTraitor Total":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				gameplaySettingsChat("TraitorCount", {_p})
+			if name of event-slot contains "&bDetective Total":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				gameplaySettingsChat("DetectiveCount", {_p})
+			if name of event-slot contains "&cGo Back":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				settingsMainMenu({_p})
+			if name of event-slot contains "&0 ":
+				cancel event
+		if inventory name of player's current inventory contains "&6&lRound Structure Menu":
+			if name of event-slot contains "&ePrep Time &7(In Minutes)":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				roundStructureSettingsChat("PrepTimeMin", {_p})
+			if name of event-slot contains "&eBorder Size &7(Min)":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				roundStructureSettingsChat("BorderSizeMin", {_p})
+			if name of event-slot contains "&eBorder Size &7(Max)":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				roundStructureSettingsChat("BorderSizeMax", {_p})
+			if name of event-slot contains "&cRising Lava - Time after start to finish &7(in Min)":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				roundStructureSettingsChat("RisingLavaStartMin", {_p})
+			if name of event-slot contains "&cRising Lava - Time until start &7(in Min)":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				roundStructureSettingsChat("RisingLavaFinishMin", {_p})
+			if name of event-slot contains "&aRising Lava - Lava Height &7(Y-Value)":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				roundStructureSettingsChat("RisingLavaFinishHeight", {_p})
+			if name of event-slot contains "&cGo Back":
+				cancel event
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				settingsMainMenu({_p})
+			if name of event-slot contains "&0 ":
+				cancel event	
+		else:
+			stop
+	else:
+		stop
+function updateVars():
+	set {Gameplay.TraitorCount} to yaml value "Gameplay.TraitorCount" from "Settings"
+	set {Gameplay.DetectiveCount} to yaml value "Gameplay.DetectiveCount" from "Settings"
+	set {Other.MinPlayerst} to yaml value "Other.MinPlayers" from "Settings"
+	set {Other.PostRoundDM} to yaml value "Other.PostRoundDM" from "Settings"
+	set {RoundStructure.PrepTime_Min} to yaml value "RoundStructure.PrepTime_Min" from "Settings"
+	set {RoundStructure.BorderSizeMin} to yaml value "RoundStructure.BorderSizeMin" from "Settings"
+	set {RoundStructure.BorderSizeMax} to yaml value "RoundStructure.BorderSizeMax" from "Settings"
+	set {RoundStructure.RisingLava_StartMin} to yaml value "RoundStructure.RisingLava_StartMin" from "Settings"
+	set {RoundStructure.RisingLava_FinishMin} to yaml value "RoundStructure.RisingLava_FinishMin" from "Settings"
+	set {RoundStructure.RisingLava_FinishHeight} to yaml value "RoundStructure.RisingLava_FinishHeight" from "Settings"
+
+function settingsMainMenu(sender: player):
+	updateVars()
+	wait 1 tick
+	open chest inventory with 3 rows named "&6&lSettings Menu" to {_sender}
+	wait 1 tick	
+	set {_counter} to 0
+	loop 28 times:
+		if {_counter} is 10:
+			set slot {_counter} of {_sender}'s current inventory to netherite sword named "&aGameplay Settings"
+		else if {_counter} is 12:
+			set slot {_counter} of {_sender}'s current inventory to clock named "&aRound Structure Settings"
+		else if {_counter} is 14:
+			set slot {_counter} of {_sender}'s current inventory to zombie skull named "&aRoles Settings"
+		else if {_counter} is 16:
+			set slot {_counter} of {_sender}'s current inventory to netherite upgrade smithing template named "&aOther Settings"
+		else:
+			set slot {_counter} of {_sender}'s current inventory to gray glass pane named "&0 "
+		add 1 to {_counter}
+
+function gameplaySettingsMenu(sender: player):
+	open chest inventory with 3 rows named "&6&lGameplay Menu" to {_sender}
+	wait 1 tick	
+	set {_counter} to 0
+	loop 28 times:
+		if {_counter} is 12:
+			set slot {_counter} of {_sender}'s current inventory to creeper head named "&eTraitor Total" with lore "&6Current Setting: &c%{Gameplay.TraitorCount}%"
+		else if {_counter} is 14:
+			set slot {_counter} of {_sender}'s current inventory to golden apple named "&bDetective Total" with lore "&6Current Setting: &c%{Gameplay.DetectiveCount}%"
+		else if {_counter} is 18:
+			set slot {_counter} of {_sender}'s current inventory to redstone block named "&cGo Back"
+		else:
+			set slot {_counter} of {_sender}'s current inventory to gray glass pane named "&0 "
+		add 1 to {_counter}
+
+function gameplaySettingsChat(setting: text, sender: player):
+	if {_setting} is "TraitorCount":
+		set {traitorCountSetting::%{_sender}%} to true
+		send "&e&lPear's TTT &8&l> &aEnter how many traitors you would like to have &7(def. 1)" to {_sender}
+		stop
+	else if {_setting} is "DetectiveCount":
+		set {detectiveCountSetting::%{_sender}%} to true
+		send "&e&lPear's TTT &8&l> &aEnter how many detectives you would like to have &7(def. 0)" to {_sender}
+		stop
+
+function roundStructureSettingsMenu(sender: player):
+	open chest inventory with 3 rows named "&6&lRound Structure Menu" to {_sender}
+
+	wait 1 tick	
+	set {_counter} to 0
+	loop 28 times:
+		if {_counter} is 10:
+			set slot {_counter} of {_sender}'s current inventory to clock named "&ePrep Time &7(In Minutes)" with lore "&6Current Setting: &c%{RoundStructure.PrepTime_Min}%"
+		else if {_counter} is 11:
+			set slot {_counter} of {_sender}'s current inventory to ender pearl named "&eBorder Size &7(Min)" with lore "&6Current Setting: &c%{RoundStructure.BorderSizeMin}%"
+		else if {_counter} is 12:
+			set slot {_counter} of {_sender}'s current inventory to ender eye named "&eBorder Size &7(Max)" with lore "&6Current Setting: &c%{RoundStructure.BorderSizeMax}%"
+		else if {_counter} is 14:
+			set slot {_counter} of {_sender}'s current inventory to lava bucket named "&cRising Lava - Time after start to finish &7(in Min)" with lore "&6Current Setting: &c%{RoundStructure.RisingLava_StartMin}%"
+		else if {_counter} is 15:
+			set slot {_counter} of {_sender}'s current inventory to lava bucket named "&cRising Lava - Time until start &7(in Min)" with lore "&6Current Setting: &c%{RoundStructure.RisingLava_FinishMin}%"
+		else if {_counter} is 16:
+			set slot {_counter} of {_sender}'s current inventory to grass block named "&aRising Lava - Lava Height &7(Y-Value)" with lore "&6Current Setting: &c%{RoundStructure.RisingLava_FinishHeight}%"
+		else if {_counter} is 18:
+			set slot {_counter} of {_sender}'s current inventory to redstone block named "&cGo Back"
+		else:
+			set slot {_counter} of {_sender}'s current inventory to gray glass pane named "&0 "
+		add 1 to {_counter}
+
+function roundStructureSettingsChat(setting: text, sender: player):
+	if {_setting} is "PrepTimeMin":
+		set {prepTimeSetting::%{_sender}%} to true
+		send "&e&lPear's TTT &8&l> &aEnter &7(in Min) &ahow long you want prep time to last &7(def. 5)" to {_sender}
+		stop
+	else if {_setting} is "BorderSizeMin":
+		set {borderSizeMinSetting::%{_sender}%} to true
+		send "&e&lPear's TTT &8&l> &aEnter minimum border radius &7(def. 50)" to {_sender}
+		stop
+	else if {_setting} is "BorderSizeMax":
+		set {borderSizeMaxSetting::%{_sender}%} to true
+		send "&e&lPear's TTT &8&l> &aEnter maximum border radius &7(def. 175)" to {_sender}
+		stop
+	else if {_setting} is "RisingLavaStartMin":
+		set {risingLavaStartMinSetting::%{_sender}%} to true
+		send "&e&lPear's TTT &8&l> &aEnter &7(in Min) &ahow long you want until lava begins to rise &7(def. 20)" to {_sender}
+		stop
+	else if {_setting} is "RisingLavaFinishMin":
+		set {risingLavaFinishMinSetting::%{_sender}%} to true
+		send "&e&lPear's TTT &8&l> &aEnter &7(in Min) &ahow long you want the lava to take to rise &7(def. 5)" to {_sender}
+		stop
+	else if {_setting} is "RisingLavaFinishHeight":
+		set {risingLavaFinishHeightSetting::%{_sender}%} to true
+		send "&e&lPear's TTT &8&l> &aEnter the Y-Value you want the lava to stop rising at &7(def. 55)" to {_sender}
+		stop
+
+
 
 function teamCreation():
 	# Delete all teams
+	delete {TraitorTeam::*}
+	delete {InnocentTeam::*}
+	delete {DetectiveTeam::*}
+	delete {GlitchTeam::*}
+	delete {HypnotistTeam::*}
+	delete {SpyTeam::*}
+	delete {JesterTeam::*}
 	execute console command "/team remove Innocent"
 	execute console command "/team remove Traitor"
 	execute console command "/team remove Detective"
@@ -67,16 +526,7 @@ function teamCreation():
 
 function worldSetup():
 	set {MapSetup} to true
-	set {Gameplay.TraitorCount} to yaml value "Gameplay.TraitorCount" from "Settings"
-	set {Gameplay.DetectiveCount} to yaml value "Gameplay.DetectiveCount" from "Settings"
-	set {Other.MinPlayerst} to yaml value "Other.MinPlayers" from "Settings"
-	set {Other.PostRoundDM} to yaml value "Other.PostRoundDM" from "Settings"
-	set {RoundStructure.PrepTime_Min} to yaml value "RoundStructure.PrepTime_Min" from "Settings"
-	set {RoundStructure.BorderSizeMin} to yaml value "RoundStructure.BorderSizeMin" from "Settings"
-	set {RoundStructure.BorderSizeMax} to yaml value "RoundStructure.BorderSizeMax" from "Settings"
-	set {RoundStructure.RisingLava_StartMin} to yaml value "RoundStructure.RisingLava_StartMin" from "Settings"
-	set {RoundStructure.RisingLava_FinishMin} to yaml value "RoundStructure.RisingLava_FinishMin" from "Settings"
-	set {RoundStructure.RisingLava_FinishHeight} to yaml value "RoundStructure.RisingLava_FinishHeight" from "Settings"
+	updateVars()
 	wait 1 second
 	teamCreation()
 	execute console command "/mv create TTT normal"
@@ -105,36 +555,43 @@ function roleAssign():
 		remove {_p} from {Players::*}
 		set {Role::%{_p}%} to "Detective"
 		execute console command "/team join Detective %{_p}%"
+		add {_p} to {DetectiveTeam::*}
 	loop {Gameplay.TraitorCount} times:
 		set {_p} to a random object out of {Players::*}
 		remove {_p} from {Players::*}
 		set {Role::%{_p}%} to "Traitor"
 		execute console command "/team join Traitor %{_p}%"
+		add {_p} to {TraitorTeam::*}
 	loop {Role.Glitch} times:
 		set {_p} to a random object out of {Players::*}
 		remove {_p} from {Players::*}
 		set {Role::%{_p}%} to "Glitch"
 		execute console command "/team join Glitch %{_p}%"
+		add {_p} to {GlitchTeam::*}
 	loop {Role.Hypnotist} times:
 		set {_p} to a random object out of {Players::*}
 		remove {_p} from {Players::*}
 		set {Role::%{_p}%} to "Hypnotist"
 		execute console command "/team join Hypnotist %{_p}%"
+		add {_p} to {HypnotistTeam::*}
 	loop {Role.Spy} times:
 		set {_p} to a random object out of {Players::*}
 		remove {_p} from {Players::*}
 		set {Role::%{_p}%} to "Spy"
 		execute console command "/team join Spy %{_p}%"
+		add {_p} to {SpyTeam::*}
 	loop {Role.Jester} times:
 		set {_p} to a random object out of {Players::*}
 		remove {_p} from {Players::*}
 		set {Role::%{_p}%} to "Jester"
 		execute console command "/team join Jester %{_p}%"
+		add {_p} to {JesterTeam::*}
 	loop size of {Players::*} times:
 		set {_p} to a random object out of {Players::*}
 		remove {_p} from {Players::*}
 		set {Role::%{_p}%} to "Innocent"
 		execute console command "/team join Innocent %{_p}%"
+		add {_p} to {InnocentTeam::*}
 
 
 function startMatch():
@@ -176,7 +633,7 @@ function midMatch():
 	wait 5 seconds #CHANGE THIS TO LONGER
 	loop {RoundStructure.RisingLava_FinishMin} times:
 		if {GameActive} is true:
-			if {_posY} is greater than 55:
+			if {_posY} is greater than {RoundStructure.RisingLava_FinishHeight}:
 				stop
 			set {_oldY} to {_posY}
 			set {_posY} to ({_posY} + {_calcRise})
@@ -196,13 +653,13 @@ command /ttt [<text>] [<text>] [<text>]:
 	permission: ttt.admin
 	trigger:
 		if arg 1 is set:
-			if arg 1 is "Settings":
-				set {_p} to command sender
-				# openSettings({_p})
-				stop
-			else if arg 1 is "Start":
+			if arg 1 is "Start":
 				worldSetup()
 				stop
+			else if arg 1 is "Settings":
+				if command sender has permission "PearTTT.Settings":
+					set {_p} to command sender
+					settingsMainMenu({_p})	
 		
 		
 		
