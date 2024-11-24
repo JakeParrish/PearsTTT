@@ -113,6 +113,7 @@ on join:
 		set yaml value "Players.%player%.Deaths" from "Players" to "0"
 		set yaml value "Players.%player%.Wins" from "Players" to "0"
 		set yaml value "Players.%player%.Points" from "Players" to "250"
+		set yaml value "Players.%player%.Matches" from "Players" to "0"
 		save yaml "Players"
 
 on damage:
@@ -853,6 +854,10 @@ function startMatch(LobbyID: text):
 		execute console command "mvtp %{_obj}% e:%{SurvivalGames.worldMap::%{_LobbyID}%}%:%{_x}%,%{_y}%,%{_z}%"
 		reveal ({_obj} parsed as a player) to all players
 		set ({_obj} parsed as a player)'s flight mode to false
+		set {_Matches} to yaml value "Players.%player%.Matches" from "Players"
+		add 1 to {_Matches}
+		set yaml value "Players.%victim%.Matches" from "Players" to {_Matches}
+		save yaml "Players"
 
 	wait 3 second
 	loop all players:
@@ -1369,6 +1374,46 @@ command /SurvivalGames [<text>] [<text>] [<text>]:
 		else:
 			helpMenu({_p})
 
+
+command /stats [<offline player>]:
+	trigger:
+		if arg 1 is not set:
+			set {_Points} to yaml value "Players.%command sender%.Points" from "Players"
+			set {_Kills} to yaml value "Players.%command sender%.Kills" from "Players"
+			set {_Deaths} to yaml value "Players.%command sender%.Deaths" from "Players"
+			set {_Wins} to yaml value "Players.%command sender%.Points" from "Players"
+			set {_Matches} to yaml value "Players.%command sender%.Matches" from "Players"
+			set {_WinPercentage} to (({_Wins} / {_Matches}) * 100)
+			set {_KD} to ({_Kills} / {_Deaths})
+			send "&8&l&m---------------&r&a&l%command sender%'s Stats &8&l&m---------------" to command sender
+			send "" to command sender
+			send "&8&l&m-&r &Wins: &a%{_Wins}% (%{_WinPercentage}% Win Percentage)" to command sender
+			send "&8&l&m-&r &6Kills: &a%{_Kills}%" to command sender
+			send "&8&l&m-&r &6Deaths: &a%{_Deaths}%" to command sender
+			send "&8&l&m-&r &6KD: &a%{_KD}%" to command sender
+			send "&8&l&m-&r &6Total Matches Played: &a%{_Matches}%" to command sender
+			send "&8&l&m-&r &6Points: &a%{_Points}%" to command sender
+			send "" to command sender
+			send "&8&l&m---------------&r&a&l%command sender%'s Stats &8&l&m---------------" to command sender
+		else:
+			set {_Points} to yaml value "Players.%arg 1%.Points" from "Players"
+			set {_Kills} to yaml value "Players.%arg 1%.Kills" from "Players"
+			set {_Deaths} to yaml value "Players.%arg 1%.Deaths" from "Players"
+			set {_Wins} to yaml value "Players.%arg 1%.Points" from "Players"
+			set {_Matches} to yaml value "Players.%arg 1%.Matches" from "Players"
+			set {_WinPercentage} to (({_Wins} / {_Matches}) * 100)
+			set {_KD} to ({_Kills} / {_Deaths})
+			send "&8&l&m---------------&r&a&l%arg 1%'s Stats &8&l&m---------------" to arg 1
+			send "" to arg 1
+			send "&8&l&m-&r &Wins: &a%{_Wins}% (%{_WinPercentage}% Win Percentage)" to arg 1
+			send "&8&l&m-&r &6Kills: &a%{_Kills}%" to arg 1
+			send "&8&l&m-&r &6Deaths: &a%{_Deaths}%" to arg 1
+			send "&8&l&m-&r &6KD: &a%{_KD}%" to arg 1
+			send "&8&l&m-&r &6Total Matches Played: &a%{_Matches}%" to arg 1
+			send "&8&l&m-&r &6Points: &a%{_Points}%" to arg 1
+			send "" to arg 1
+			send "&8&l&m---------------&r&a&l%arg 1%'s Stats &8&l&m---------------" to arg 1
+			
 
 
 
