@@ -592,9 +592,38 @@ function roleAssign():
 		set {Role::%{_p}%} to "Innocent"
 		execute console command "/team join Innocent %{_p}%"
 		add {_p} to {InnocentTeam::*}
+#---
+on death:
+
+	#Add a xTeamAlive list. At start of game, its just a copy of player list.
+
+	if {TraitorTeam::*} contains victim:
+		remove victim from {TraitorTeam::*}
+		if size of {TraitorTeam::*} is less than 1:
+			broadcast "INNOCENTS WIN"
+	else if {InnocentTeam::*} contains victim:
+		remove victim from {InnocentTeam::*}
+		if ((size of {InnocentTeam::*}) + size of {DetectiveTeam::*}) is less than 1:
+			broadcast "Traitors WIN"
+	else if {DetectiveTeam::*} contains victim:
+		remove victim from {DetectiveTeam::*}
+		if ((size of {InnocentTeam::*}) + size of {DetectiveTeam::*}) is less than 1:
+			broadcast "Traitors WIN"
+
+	else if {GlitchTeam::*} contains victim:# IMPLEMENT THESE LATER
+		remove victim from {GlitchTeam::*}
+	else if {HypnotistTeam::*} contains victim:
+		remove victim from {HypnotistTeam::*}
+	else if {SpyTeam::*} contains victim:
+		remove victim from {SpyTeam::*}
+	else if {JesterTeam::*} contains victim:
+		remove victim from {JesterTeam::*}
 
 
-function startMatch():
+
+
+
+		function startMatch():
 	set {PrepTime} to true
 	broadcast "&e&lPear's TTT &8&l> &aRoles will be assigned in &7%{RoundStructure.PrepTime_Min}% &aminutes."
 	loop {RoundStructure.PrepTime_Min} times:

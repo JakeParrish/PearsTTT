@@ -10,3 +10,6 @@ Some rules to think about:
 
 
 Map will be randomly generated 
+
+TO DO:
+    - Check on deaths -> If all Innocent dead, Traitor win. If all Traitors die, Innocents win.
